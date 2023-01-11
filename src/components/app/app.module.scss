@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+.section_left, 
+.section_right {
+    flex-basis: 600px;
+}

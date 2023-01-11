@@ -1,0 +1,8 @@
+.ingredients_list {
+    display: grid;
+    padding: 0;
+    list-style-type: none;
+    grid-template-columns: auto auto;
+    column-gap: calc(var(--offset-base-size) * 6);
+    row-gap: calc(var(--offset-base-size) * 8);
+}

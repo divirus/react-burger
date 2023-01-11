@@ -1,0 +1,32 @@
+.header_item {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    border-radius: var(--common-border-radius-s);
+    text-decoration: none;
+    
+    &:hover {
+        .header_item_text {
+            color: var(--text-primary-color);
+        }
+
+        .header_item_icon {
+            display: inherit;
+
+            svg {
+                fill: var(--text-primary-color);
+            }
+        }
+  }
+}
+
+li:nth-of-type(n+2) .header_item {
+    margin-right: 0;
+}
+
+.active {
+
+    .header_item_text {
+        color: var(--text-primary-color);
+    }
+}
