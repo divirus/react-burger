@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types';
 import styles from './ingredients-category.module.scss';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import { BasicIngridientPropTypes } from '../../shared/prop-types/ingridients-prop-types';
+
+const mockQntValue = 0;
 
 function IngredientsCategory(props: {title: string, items:[]}) {
     return(
@@ -10,7 +13,7 @@ function IngredientsCategory(props: {title: string, items:[]}) {
             </h2>
             <ul className={styles.ingredients_list + ' ml-4 mt-6 mr-2 mb-10'}>
                 {props.items.map((item: any) => 
-                    <IngredientDetails name={item.name} price={item.price} image={item.image} value={item.__v} key={item._id}/>)
+                    <IngredientDetails name={item.name} price={item.price} image={item.image} value={mockQntValue} key={item._id}/>)
                 }
             </ul>
         </section>
@@ -19,10 +22,7 @@ function IngredientsCategory(props: {title: string, items:[]}) {
 
 IngredientsCategory.propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        image: PropTypes.string.isRequired,
-        __v: PropTypes.number.isRequired,
+        ...BasicIngridientPropTypes,
         _id: PropTypes.string.isRequired
     }).isRequired).isRequired
 };

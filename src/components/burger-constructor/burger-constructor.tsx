@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import styles from './burger-constructor.module.scss';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { BasicIngridientPropTypes } from '../../shared/prop-types/ingridients-prop-types';
 
 function BurgerConstructor(props: any) {
     return(
-        <>
+        <main>
             <ul className={styles.list + ' ml-4 mt-25 mb-10 pr-4'}>
                 <li className='pl-8' key="top_ingredient">
                     <ConstructorElement 
@@ -52,28 +53,22 @@ function BurgerConstructor(props: any) {
                     Оформить заказ
                 </Button>
             </div>
-        </>
+        </main>
     );
 }
 
 BurgerConstructor.propTypes = {
     topIngredient: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        image: PropTypes.string.isRequired        
+        ...BasicIngridientPropTypes,        
     }),
 
     middleIngredients: PropTypes.arrayOf(PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        image: PropTypes.string.isRequired,
+        ...BasicIngridientPropTypes,
         _id: PropTypes.string.isRequired 
     })),
 
     bottomIngredient: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        image: PropTypes.string.isRequired        
+        ...BasicIngridientPropTypes,        
     })
 };
 

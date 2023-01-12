@@ -10,7 +10,7 @@ const bottomIngredient = mockData[mockData.length-1];
 
 function App() {
     return (
-        <>
+        <main>
           <AppHeader />
           <div className={styles.container}>
             <section className={styles.section_left + ' mr-5'}>
@@ -24,7 +24,7 @@ function App() {
               />
             </section>
           </div>
-        </>
+        </main>
       );
 }
 

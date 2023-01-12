@@ -7,7 +7,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 function BurgerIngredientsList(props: any) {
     const [activeTab, setActiveTab] = React.useState('bun')
     return(
-        <>
+        <main>
             <h1 className="text text_type_main-large mt-10 mb-5">
                 Соберите бургер
             </h1>
@@ -27,7 +27,7 @@ function BurgerIngredientsList(props: any) {
                 <IngredientsCategory title="Соусы" items={props.items.filter((item: any) => item.type === 'sauce')} />
                 <IngredientsCategory title="Начинки" items={props.items.filter((item: any) => item.type === 'main')} />
             </div>
-        </>
+        </main>
     );
 }
 
