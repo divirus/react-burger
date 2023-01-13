@@ -1,0 +1,27 @@
+.tab_selector {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.ingredients_list_container {
+    overflow-y: auto;
+    height: calc(100vh - 250px);
+    scrollbar-color: #2F2F37 #8585AD;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+        width: calc(var(--offset-base-size) * 2);
+    }
+    &::-webkit-scrollbar-track {
+        background: #2F2F37;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #8585AD;
+    }
+}
+
+@-moz-document url-prefix() {
+    .scroll_container {
+        scrollbar-color: #8585AD #2F2F37;
+    }
+}

@@ -1,0 +1,41 @@
+.container {
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    background: var(--background);
+}
+
+nav {
+    box-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04), 
+    0px 16px 24px rgba(0, 0, 0, 0.04), 
+    0px 4px 8px rgba(0, 0, 0, 0.04), 
+    0px 0px 1px rgba(0, 0, 0, 0.04);
+}
+
+.logo {
+    composes: container;
+    flex-basis: 20%;
+}
+
+.buttons_list {
+    composes: container;
+    margin: 0;
+    padding: 0;
+    flex-basis: 1280px;
+}
+
+.buttons_list_left {
+    composes: container;
+    padding: 0;
+    flex-basis: 40%;
+    justify-content: flex-start;
+}
+
+.buttons_list_right {
+    composes: container;
+    flex-basis: 40%;
+    justify-content: flex-end;
+}
