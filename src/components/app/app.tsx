@@ -7,40 +7,29 @@ import BurgerIngredientsList from '../burger-ingredients-list/burger-ingredients
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
-
-const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
+import { getIngredientsData } from "../../utils/burger-api";
 
 function App() {
   const [ingredientsData, setIngredientsData] = useState<IIngredientsDataUseState>({
     items: [],
     loadingState: null, // 'loading' || 'error' || 'success' || null
   });
-  const [isOrderModalOpen, setIsOrderModalOpen] = useState<boolean>(false);
-  const [isIngredientModalOpen, setIsIngredientModalOpen] = useState<boolean>(false);
-  const [orderId, setOrderId] = useState<string>('123456');
-  const [selectedItem, setSelectedItem] = useState<IIngridientsData>();
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+  const [isIngredientModalOpen, setIsIngredientModalOpen] = useState(false);
+  const [orderId, setOrderId] = useState('123456');
+  const [selectedItem, setSelectedItem] = useState();
 
   useEffect(() => {
-    const getIngredientsData = () => {
       setIngredientsData({...ingredientsData, loadingState: 'loading'})
 
-      return fetch(API_URL)
-        .then(res => {
-          if (res.ok) {
-            return res.json();
-          }
-
-          throw Error(res.statusText);
-        })
-        .then(({data}) => {
-          setIngredientsData({ ...ingredientsData, items: data, loadingState: 'success' })
-        })
-        .catch((error) => {
-          console.log(error);
-          setIngredientsData({ ...ingredientsData, loadingState: 'error' })
-        })}
-
-      getIngredientsData();
+      getIngredientsData()
+      .then(({data}) => {
+        setIngredientsData({ ...ingredientsData, items: data, loadingState: 'success' })
+      })
+      .catch((error) => {
+        console.log(error);
+        setIngredientsData({ ...ingredientsData, loadingState: 'error' })
+      })
   }, []);
 
   const closeAllModals = () => {
@@ -52,7 +41,7 @@ function App() {
     setIsOrderModalOpen(true);
   };
 
-  const openIngredientModal = useCallback((clickedItem: IIngridientsData) => {
+  const openIngredientModal = useCallback((clickedItem: any) => {
     setSelectedItem(clickedItem);
     setIsIngredientModalOpen(true);
   }, []);
