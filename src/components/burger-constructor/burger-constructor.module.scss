@@ -16,12 +16,13 @@
 .draggable_list {
     composes: list;
 
-    margin-left: calc(var(--offset-base-size) * -4);
-    overflow-y: auto;
     position: relative;
+    overflow-y: auto;
+    margin-left: calc(var(--offset-base-size) * -4);
     left: calc(var(--offset-base-size) * 4);
     max-height: calc(100vh - 500px);
 
+    scroll-snap-type: y proximity;
     scrollbar-color: #2F2F37 #8585AD;
     scrollbar-width: thin;
     scroll-snap-type: y proximity;
@@ -45,6 +46,14 @@
     }
 }
 
+.draggable_item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    scroll-snap-align: start;
+    justify-content: flex-start;
+}
+
 .drag_icon {
     flex-shrink: 0;
     margin-right: calc(var(--offset-base-size) * 2);
@@ -60,4 +69,8 @@
         width: 33px;
         height: auto;
     }
+}
+
+.warningText {
+    text-align: center;
 }

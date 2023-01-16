@@ -1,30 +1,31 @@
-import PropTypes from 'prop-types';
 import styles from './ingredients-category.module.scss';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import { BasicIngridientPropTypes } from '../../shared/prop-types/ingridients-prop-types';
+import IngredientDetailsCard from '../ingredient-details-card/ingredient-details-card';
+import { IIngridientsData } from '../../shared/interfaces';
 
-const mockQntValue = 0;
-
-function IngredientsCategory(props: {title: string, items:[]}) {
+function IngredientsCategory(props: {id: number, title: string, items: IIngridientsData[], onIngredientClick: (clickedItem: IIngridientsData) => void}) {
     return(
-        <section>
+        <section id={`ingredients-block-${props.id}`}>
             <h2 className="text text_type_main-medium mt-10 mb-6">
                 {props.title}
             </h2>
-            <ul className={styles.ingredients_list + ' ml-4 mt-6 mr-2 mb-10'}>
-                {props.items.map((item: any) => 
-                    <IngredientDetails name={item.name} price={item.price} image={item.image} value={mockQntValue} key={item._id}/>)
-                }
-            </ul>
+            {
+                props.items.length > 0 ?
+                    <ul className={styles.ingredients_list + ' ml-4 mt-6 mr-2 mb-10'}>
+                        {props.items.map((ingredient: IIngridientsData) => 
+                            <IngredientDetailsCard
+                                ingredient={ingredient} 
+                                key={ingredient._id}
+                                onIngredientClick={props.onIngredientClick}
+                            />)
+                        }
+                    </ul>
+                :
+                    <h3 className='text text_type_main-default text_color_inactive pb-6'>
+                        Категория пуста
+                    </h3>
+            }
         </section>
     );
 }
-
-IngredientsCategory.propTypes = {
-    items: PropTypes.arrayOf(PropTypes.shape({
-        ...BasicIngridientPropTypes,
-        _id: PropTypes.string.isRequired
-    }).isRequired).isRequired
-};
 
 export default IngredientsCategory;

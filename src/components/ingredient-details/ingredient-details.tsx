@@ -1,27 +1,53 @@
-import PropTypes from 'prop-types';
+import { IIngridientsData } from '../../shared/interfaces';
 import styles from './ingredient-details.module.scss';
-import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { BasicIngridientPropTypes } from '../../shared/prop-types/ingridients-prop-types';
 
-function IngredientDetails(props: any) {
+const nutritionsList = [
+    {name: 'Калории, ккал', prop: 'calories'},
+    {name: 'Белки, г', prop: 'proteins'},
+    {name: 'Жиры, г', prop: 'fat'},
+    {name: 'Углеводы, ккал', prop: 'carbohydrates'},
+]
+
+function IngredientDetails(props: { ingredient: IIngridientsData | undefined }) {
+    const renderProp = (prop: string) => {
+        switch(prop) {
+            case 'calories':
+                return props.ingredient?.calories;
+            case 'proteins':
+                return props.ingredient?.proteins;
+            case 'fat':
+                return props.ingredient?.fat;
+            case 'carbohydrates':
+                return props.ingredient?.carbohydrates;
+        }
+    }
+
     return(
-        <li className={styles.ingredient_card}>
-            {props.value ? <Counter count={props.value}/> : null}
-            <img src={props.image} alt={props.name} title={props.name} className="ml-4 mr-4"/>
-                <div className={styles.ingredient_price + ' mt-1 mb-1 '}>
-                    <p className='pr-2 text text_type_digits-default'>{props.price}</p>
-                    <CurrencyIcon type='primary' />
-                </div>
-            <p className={styles.ingredient_name + ' text text_type_main-default'}>
-                {props.name}
-            </p>
-        </li>
+        <div className={styles.container}>
+             <img 
+                src={props.ingredient?.image_large}
+                alt={props.ingredient?.name}
+                title={props.ingredient?.name}
+            />           
+            <h4 className='text text_type_main-medium mt-4 mb-8'>
+                {props.ingredient?.name}
+            </h4>
+            <ul className={styles.nutrition_list}>
+                {
+                   nutritionsList.map((el: { name: string, prop: string }, index) => (
+                    <li className={styles.nutrition_list_item} key={index}>
+                        <p className="text text_type_main-default text_color_inactive">
+                            {el.name}
+                        </p>
+                        <p className="text text_type_digits-default text_color_inactive">
+                            {renderProp(el.prop)}
+                        </p>
+                    </li>
+                   )) 
+                }
+            </ul>
+        </div>
     );
 }
-
-IngredientDetails.propTypes = {
-    ...BasicIngridientPropTypes,
-    value: PropTypes.number.isRequired,
-};
 
 export default IngredientDetails;

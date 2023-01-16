@@ -1,40 +1,57 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styles from './burger-ingredients-list.module.scss';
 import IngredientsCategory from '../ingredients-category/ingredients-category';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { IIngridientsData } from '../../shared/interfaces';
+import { Link } from 'react-scroll';
 
-function BurgerIngredientsList(props: any) {
-    const [activeTab, setActiveTab] = React.useState('bun')
+function BurgerIngredientsList(props: { items: IIngridientsData[], onIngredientClick: (clickedItem: IIngridientsData) => void }) {
+    const [activeTab, setActiveTab] = React.useState<string>('bun')
+    const tabTypes = [
+        {type: 'bun', title: 'Булки'},
+        {type: 'sauce', title: 'Соусы'},
+        {type: 'main', title: 'Начинки'},
+    ];
+    
     return(
         <main>
             <h1 className="text text_type_main-large mt-10 mb-5">
                 Соберите бургер
             </h1>
             <div className={styles.tab_selector}>
-                <Tab value="bun" active={activeTab === 'bun'} onClick={() => setActiveTab("bun")}>
-                    Булки
-                </Tab>
-                <Tab value="sauce" active={activeTab === 'sauce'} onClick={() => setActiveTab("sauce")}>
-                    Соусы
-                </Tab>
-                <Tab value="main" active={activeTab === 'main'} onClick={() => setActiveTab("main")}>
-                    Начинки
-                </Tab>
+                {
+                    tabTypes.map((tab: { type: string, title: string }, i) => (
+                        <Link
+                            key={i}
+                            to={`ingredients-block-${++i}`}
+                            spy={true}
+                            smooth={true}
+                            duration={700}
+                            offset={-20}
+                            containerId="ingredients"
+                        >
+                            <Tab value={tab.type} active={activeTab === tab.type} onClick={setActiveTab}>
+                                {tab.title}
+                            </Tab>
+                        </Link>
+                    )) 
+                }
             </div>
-            <div className={styles.ingredients_list_container}>
-                <IngredientsCategory title="Булки" items={props.items.filter((item: any) => item.type === 'bun')} />
-                <IngredientsCategory title="Соусы" items={props.items.filter((item: any) => item.type === 'sauce')} />
-                <IngredientsCategory title="Начинки" items={props.items.filter((item: any) => item.type === 'main')} />
+            <div id="ingredients" className={styles.scroll_container}>
+            {
+                tabTypes.map((tab: { type: string, title: string }, i) => (
+                    <IngredientsCategory 
+                        key={i}
+                        id={++i}
+                        title={tab.title} 
+                        items={props.items.filter((item: IIngridientsData) => item.type === tab.type)} 
+                        onIngredientClick={props.onIngredientClick}
+                    />
+                ))
+            }
             </div>
         </main>
     );
 }
-
-BurgerIngredientsList.propTypes = {
-    items: PropTypes.arrayOf(PropTypes.shape({
-        type: PropTypes.string.isRequired
-    }).isRequired).isRequired
-};
 
 export default BurgerIngredientsList;

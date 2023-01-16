@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
+import { ReactNode } from 'react';
 import styles from './header-item.module.scss';
 
-function HeaderItem(props: any) {
+function HeaderItem(props: {active?: boolean, link: string, text: string, icon: ReactNode}) {
     return(
         <li>
             <a className={styles.header_item + ' pl-5 pr-5 pt-4 pb-4 mt-4 mb-4 mr-2 ' +
@@ -19,12 +19,5 @@ function HeaderItem(props: any) {
         </li>
     );
 }
-
-HeaderItem.propTypes = {
-    active: PropTypes.bool,
-    link: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    icon: PropTypes.element.isRequired
-};
 
 export default HeaderItem;
