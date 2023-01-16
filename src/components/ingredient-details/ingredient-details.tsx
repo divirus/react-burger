@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { IIngridientsData } from '../../shared/interfaces';
 import styles from './ingredient-details.module.scss';
 
