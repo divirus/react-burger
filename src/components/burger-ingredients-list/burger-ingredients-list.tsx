@@ -1,14 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styles from './burger-ingredients-list.module.scss';
 import IngredientsCategory from '../ingredients-category/ingredients-category';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { BasicIngridientPropTypes } from '../../shared/prop-types';
 import { IIngridientsData } from '../../shared/interfaces';
 import { Link } from 'react-scroll';
 
-function BurgerIngredientsList(props: { items: IIngridientsData[], onIngredientClick: any }) {
-    const [activeTab, setActiveTab] = React.useState('bun')
+function BurgerIngredientsList(props: { items: IIngridientsData[], onIngredientClick: (clickedItem: IIngridientsData) => void }) {
+    const [activeTab, setActiveTab] = React.useState<string>('bun')
     const tabTypes = [
         {type: 'bun', title: 'Булки'},
         {type: 'sauce', title: 'Соусы'},
@@ -46,7 +44,7 @@ function BurgerIngredientsList(props: { items: IIngridientsData[], onIngredientC
                         key={i}
                         id={++i}
                         title={tab.title} 
-                        items={props.items.filter((item: any) => item.type === tab.type)} 
+                        items={props.items.filter((item: IIngridientsData) => item.type === tab.type)} 
                         onIngredientClick={props.onIngredientClick}
                     />
                 ))
@@ -55,13 +53,5 @@ function BurgerIngredientsList(props: { items: IIngridientsData[], onIngredientC
         </main>
     );
 }
-
-BurgerIngredientsList.propTypes = {
-    items: PropTypes.arrayOf(PropTypes.shape({
-        ...BasicIngridientPropTypes,
-        type: PropTypes.string.isRequired
-    }).isRequired).isRequired,
-    onIngredientClick: PropTypes.func.isRequired,
-};
 
 export default BurgerIngredientsList;

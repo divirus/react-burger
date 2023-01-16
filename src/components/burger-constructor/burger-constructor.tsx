@@ -1,9 +1,8 @@
-import PropTypes from 'prop-types';
 import styles from './burger-constructor.module.scss';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { BasicIngridientPropTypes } from '../../shared/prop-types';
+import { IIngridientsData } from '../../shared/interfaces';
 
-function BurgerConstructor(props: any) {
+function BurgerConstructor(props: {bun: IIngridientsData, ingredients: IIngridientsData[], onOrderButtonClick: () => void }) {
     return(
         <main>
             <ul className={styles.list + ' ml-4 mt-25 mb-10 pr-4'}>
@@ -19,7 +18,7 @@ function BurgerConstructor(props: any) {
                 {
                     props.ingredients.length > 0 ?
                         <ul className={styles.draggable_list + ' pr-2'} key="ingredients">
-                            {props.ingredients.map((item: any, index: any) => (
+                            {props.ingredients.map((item: IIngridientsData, index: number) => (
                                 <li className={styles.draggable_item}
                                     key={item._id + '_' + index}>
                                     <span className={styles.drag_icon}>
@@ -51,7 +50,7 @@ function BurgerConstructor(props: any) {
             <div className={styles.order + ' mr-4 mb-10'}>
                 <p className="text text_type_digits-medium">
                     {
-                        (props.bun.price * 2) + props.ingredients.reduce((acc: any, p: any) => acc + p.price, 0)
+                        (props.bun.price * 2) + props.ingredients.reduce((acc: number, p: IIngridientsData) => acc + p.price, 0)
                     }
                 </p>
                 <span className='ml-2 mr-10'>
@@ -64,16 +63,5 @@ function BurgerConstructor(props: any) {
         </main>
     );
 }
-
-BurgerConstructor.propTypes = {
-    bun: PropTypes.shape({
-        ...BasicIngridientPropTypes,        
-    }),
-    ingredients: PropTypes.arrayOf(PropTypes.shape({
-        ...BasicIngridientPropTypes,
-        _id: PropTypes.string.isRequired 
-    })), 
-    onOrderButtonClick: PropTypes.func.isRequired
-};
 
 export default BurgerConstructor;

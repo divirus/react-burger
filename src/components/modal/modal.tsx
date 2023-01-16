@@ -1,15 +1,14 @@
 import { useCallback, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import styles from './modal.module.scss';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const modalRoot = document.getElementById('modal-root')!;
 
-function Modal(props: {children: any, header: string | null, closeModal: () => void}) {
+function Modal(props: {children: React.ReactNode, header: string | null, closeModal: () => void}) {
     
-    const handleEscKey = useCallback((e: any) => {
+    const handleEscKey = useCallback((e: KeyboardEvent) => {
         if (e.key === 'Escape') {
             props.closeModal();
             e.stopImmediatePropagation();
@@ -39,11 +38,5 @@ function Modal(props: {children: any, header: string | null, closeModal: () => v
         modalRoot
     );
 }
-
-Modal.propTypes = {
-    children: PropTypes.element.isRequired,
-    header: PropTypes.string,
-    closeModal: PropTypes.func.isRequired
-};
 
 export default Modal;

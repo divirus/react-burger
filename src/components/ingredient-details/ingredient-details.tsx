@@ -51,15 +51,4 @@ function IngredientDetails(props: { ingredient: IIngridientsData | undefined }) 
     );
 }
 
-IngredientDetails.propTypes = {
-    ingredient: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        image_large: PropTypes.string.isRequired,
-        calories: PropTypes.number.isRequired,
-        proteins: PropTypes.number.isRequired,
-        fat: PropTypes.number.isRequired,
-        carbohydrates: PropTypes.number.isRequired
-    })
-};
-
 export default IngredientDetails;

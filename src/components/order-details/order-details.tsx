@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types';
 import doneIcon from "../../images/doneIcon.svg";
 import styles from './order-details.module.scss';
 
-function OrderDetails(props: any) {
+function OrderDetails(props: {orderId: string}) {
     return(
         <div className={styles.container + ' mt-20 mb-15'}>
             <p className={styles.order_id + ' text text_type_digits-large'}>
@@ -25,9 +24,5 @@ function OrderDetails(props: any) {
         </div>
     );
 }
-
-OrderDetails.propTypes = {
-    orderId: PropTypes.string.isRequired
-};
 
 export default OrderDetails;

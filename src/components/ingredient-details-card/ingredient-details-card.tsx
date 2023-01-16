@@ -1,9 +1,12 @@
-import PropTypes from 'prop-types';
 import styles from './ingredient-details-card.module.scss';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { BasicIngridientPropTypes } from '../../shared/prop-types';
+import { IIngridientsData } from '../../shared/interfaces';
 
-function IngredientDetailsCard(props: any) {
+interface detailsCardProps extends IIngridientsData {
+    value?: number | undefined;
+  };
+
+function IngredientDetailsCard(props: {ingredient: detailsCardProps, key: string, onIngredientClick: (clickedItem: IIngridientsData) => void}) {
     const handleIngredientClick = () => {
         props.onIngredientClick(props.ingredient)
     }
@@ -22,13 +25,5 @@ function IngredientDetailsCard(props: any) {
         </li>
     );
 }
-
-IngredientDetailsCard.propTypes = {
-    ingredient: PropTypes.shape({
-        ...BasicIngridientPropTypes,
-        value: PropTypes.number,
-    }),
-    onIngredientClick: PropTypes.func
-};
 
 export default IngredientDetailsCard;

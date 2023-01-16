@@ -14,10 +14,10 @@ function App() {
     items: [],
     loadingState: null, // 'loading' || 'error' || 'success' || null
   });
-  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
-  const [isIngredientModalOpen, setIsIngredientModalOpen] = useState(false);
-  const [orderId, setOrderId] = useState('123456');
-  const [selectedItem, setSelectedItem] = useState();
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState<boolean>(false);
+  const [isIngredientModalOpen, setIsIngredientModalOpen] = useState<boolean>(false);
+  const [orderId, setOrderId] = useState<string>('123456');
+  const [selectedItem, setSelectedItem] = useState<IIngridientsData>();
 
   useEffect(() => {
       setIngredientsData({...ingredientsData, loadingState: 'loading'})
@@ -41,7 +41,7 @@ function App() {
     setIsOrderModalOpen(true);
   };
 
-  const openIngredientModal = useCallback((clickedItem: any) => {
+  const openIngredientModal = useCallback((clickedItem: IIngridientsData) => {
     setSelectedItem(clickedItem);
     setIsIngredientModalOpen(true);
   }, []);
