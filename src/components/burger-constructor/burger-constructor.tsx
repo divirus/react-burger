@@ -1,8 +1,24 @@
+import { useContext, useReducer, useEffect } from 'react';
 import styles from './burger-constructor.module.scss';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IIngridientsData } from '../../shared/interfaces';
+import { IBurgerContext, IIngridientsData } from '../../shared/interfaces';
+import { BurgerContext } from '../../utils/contexts';
 
-function BurgerConstructor(props: {bun: IIngridientsData, ingredients: IIngridientsData[], onOrderButtonClick: () => void }) {
+const initTotalPriceState = { totalPrice: 0 };
+
+function totalPriceReducer(totalPriceState: { totalPrice: number }, items: any) {
+    const sum = items.bun.price * 2 + items.ingredients.reduce((acc: number, p: IIngridientsData) => acc + p.price, 0)
+    return { totalPrice: sum }
+}
+
+function BurgerConstructor() {
+    const { orderItems, onOrderButtonClick } = useContext<IBurgerContext>(BurgerContext);
+    const [totalPriceState, totalPriceDispatch] = useReducer(totalPriceReducer, initTotalPriceState);
+
+    useEffect(() => {
+        totalPriceDispatch( orderItems );
+    }, [orderItems]);
+
     return(
         <main>
             <ul className={styles.list + ' ml-4 mt-25 mb-10 pr-4'}>
@@ -10,15 +26,15 @@ function BurgerConstructor(props: {bun: IIngridientsData, ingredients: IIngridie
                     <ConstructorElement 
                         type='top'
                         isLocked={true}
-                        text={props.bun.name + ' (верх)'}
-                        thumbnail={props.bun.image}
-                        price={props.bun.price}
+                        text={orderItems?.bun.name + ' (верх)'}
+                        thumbnail={orderItems.bun.image}
+                        price={orderItems.bun.price}
                     />
                 </li>
                 {
-                    props.ingredients.length > 0 ?
+                    orderItems.ingredients.length > 0 ?
                         <ul className={styles.draggable_list + ' pr-2'} key="ingredients">
-                            {props.ingredients.map((item: IIngridientsData, index: number) => (
+                            {orderItems.ingredients.map((item: IIngridientsData, index: number) => (
                                 <li className={styles.draggable_item}
                                     key={item._id + '_' + index}>
                                     <span className={styles.drag_icon}>
@@ -41,22 +57,20 @@ function BurgerConstructor(props: {bun: IIngridientsData, ingredients: IIngridie
                     <ConstructorElement 
                         isLocked={true}
                         type='bottom'
-                        text={props.bun.name + ' (низ)'}
-                        thumbnail={props.bun.image}
-                        price={props.bun.price}
+                        text={orderItems.bun.name + ' (низ)'}
+                        thumbnail={orderItems.bun.image}
+                        price={orderItems.bun.price}
                     />
                 </li>
             </ul>
             <div className={styles.order + ' mr-4 mb-10'}>
                 <p className="text text_type_digits-medium">
-                    {
-                        (props.bun.price * 2) + props.ingredients.reduce((acc: number, p: IIngridientsData) => acc + p.price, 0)
-                    }
+                    {totalPriceState.totalPrice}
                 </p>
                 <span className='ml-2 mr-10'>
                     <CurrencyIcon type="primary" />
                 </span>
-                <Button type="primary" size="medium" htmlType="button" onClick={props.onOrderButtonClick}>
+                <Button type="primary" size="medium" htmlType="button" onClick={onOrderButtonClick}>
                     Оформить заказ
                 </Button>
             </div>

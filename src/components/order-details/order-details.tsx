@@ -1,11 +1,12 @@
 import doneIcon from "../../images/doneIcon.svg";
 import styles from './order-details.module.scss';
 
-function OrderDetails(props: {orderId: string}) {
+function OrderDetails( props: { orderData: { id: number | undefined, name: string | undefined, success: boolean }}) {
     return(
         <div className={styles.container + ' mt-20 mb-15'}>
+            props.orderData.success &&
             <p className={styles.order_id + ' text text_type_digits-large'}>
-                {props.orderId}
+                {props.orderData.id}
             </p>
             <p className='text text_type_main-medium mt-8 mb-15'>
                 идентификатор заказа

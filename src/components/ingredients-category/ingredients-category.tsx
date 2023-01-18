@@ -2,7 +2,7 @@ import styles from './ingredients-category.module.scss';
 import IngredientDetailsCard from '../ingredient-details-card/ingredient-details-card';
 import { IIngridientsData } from '../../shared/interfaces';
 
-function IngredientsCategory(props: {id: number, title: string, items: IIngridientsData[], onIngredientClick: (clickedItem: IIngridientsData) => void}) {
+function IngredientsCategory(props: {id: number, title: string, items: IIngridientsData[]}) {
     return(
         <section id={`ingredients-block-${props.id}`}>
             <h2 className="text text_type_main-medium mt-10 mb-6">
@@ -15,7 +15,6 @@ function IngredientsCategory(props: {id: number, title: string, items: IIngridie
                             <IngredientDetailsCard
                                 ingredient={ingredient} 
                                 key={ingredient._id}
-                                onIngredientClick={props.onIngredientClick}
                             />)
                         }
                     </ul>
