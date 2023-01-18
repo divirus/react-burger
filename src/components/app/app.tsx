@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import styles from "./app.module.scss"
 import AppHeader from '../app-header/app-header';
 import { IIngredientsDataUseState, IIngridientsData, IOrderData, IOrderDataResponse } from "../../shared/interfaces";
@@ -33,8 +33,8 @@ function App() {
       })
   }, []);
 
-  const bun = ingredientsData.items.filter(item => item.type === 'bun')[0];
-  const ingredients = ingredientsData.items.filter(item => (item.type === 'sauce' || item.type === 'main')).slice(5, 10);
+  const bun = useMemo(() => ingredientsData.items.filter(item => item.type === 'bun')[0], []);
+  const ingredients = useMemo(() => ingredientsData.items.filter(item => (item.type === 'sauce' || item.type === 'main')).slice(5, 10), []);
   const orderItems = {
     bun,
     ingredients
