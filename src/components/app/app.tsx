@@ -33,8 +33,8 @@ function App() {
       })
   }, []);
 
-  const bun = useMemo(() => ingredientsData.items.filter(item => item.type === 'bun')[0], []);
-  const ingredients = useMemo(() => ingredientsData.items.filter(item => (item.type === 'sauce' || item.type === 'main')).slice(5, 10), []);
+  const bun = useMemo(() => ingredientsData.items.filter(item => item.type === 'bun')[0], [ingredientsData.items]);
+  const ingredients = useMemo(() => ingredientsData.items.filter(item => (item.type === 'sauce' || item.type === 'main')).slice(5, 10), [ingredientsData.items]);
   const orderItems = {
     bun,
     ingredients
