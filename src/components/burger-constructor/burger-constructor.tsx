@@ -34,19 +34,21 @@ function BurgerConstructor() {
                 {
                     orderItems.ingredients.length > 0 ?
                         <ul className={styles.draggable_list + ' pr-2'} key="ingredients">
-                            {orderItems.ingredients.map((item: IIngridientsData, index: number) => (
-                                <li className={styles.draggable_item}
-                                    key={item._id + '_' + index}>
-                                    <span className={styles.drag_icon}>
-                                        <DragIcon type='primary' />
-                                    </span>
-                                    <ConstructorElement 
-                                        text={item.name}
-                                        thumbnail={item.image}
-                                        price={item.price}
-                                    />
-                                </li>
-                            ))}
+                            {
+                                orderItems.ingredients.map((item: IIngridientsData, index: number) => (
+                                    <li className={styles.draggable_item}
+                                        key={item._id + '_' + index}>
+                                        <span className={styles.drag_icon}>
+                                            <DragIcon type='primary' />
+                                        </span>
+                                        <ConstructorElement 
+                                            text={item.name}
+                                            thumbnail={item.image}
+                                            price={item.price}
+                                        />
+                                    </li>
+                                ))
+                            }
                         </ul>
                     :  
                         <h3 className={styles.warningText + ' text text_type_main-default text_color_inactive pt-6 pb-6'}>

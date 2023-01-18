@@ -11,11 +11,12 @@ function IngredientsCategory(props: {id: number, title: string, items: IIngridie
             {
                 props.items.length > 0 ?
                     <ul className={styles.ingredients_list + ' ml-4 mt-6 mr-2 mb-10'}>
-                        {props.items.map((ingredient: IIngridientsData) => 
-                            <IngredientDetailsCard
-                                ingredient={ingredient} 
-                                key={ingredient._id}
-                            />)
+                        {
+                            props.items.map((ingredient: IIngridientsData) => 
+                                <IngredientDetailsCard
+                                    ingredient={ingredient} 
+                                    key={ingredient._id}
+                                />)
                         }
                     </ul>
                 :
