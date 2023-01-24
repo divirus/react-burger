@@ -1,14 +1,18 @@
 import styles from './ingredient-details-card.module.scss';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IIngridientsData } from '../../shared/interfaces';
+import { useContext } from 'react';
+import { BurgerContext } from '../../utils/contexts';
 
 interface detailsCardProps extends IIngridientsData {
     value?: number | undefined;
   };
 
-function IngredientDetailsCard(props: {ingredient: detailsCardProps, key: string, onIngredientClick: (clickedItem: IIngridientsData) => void}) {
+function IngredientDetailsCard(props: {ingredient: detailsCardProps, key: string }) {
+    const { onIngredientClick } = useContext(BurgerContext);
+
     const handleIngredientClick = () => {
-        props.onIngredientClick(props.ingredient)
+        onIngredientClick(props.ingredient)
     }
 
     return(

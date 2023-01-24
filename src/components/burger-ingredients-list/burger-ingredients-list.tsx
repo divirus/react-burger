@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from './burger-ingredients-list.module.scss';
 import IngredientsCategory from '../ingredients-category/ingredients-category';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IIngridientsData } from '../../shared/interfaces';
 import { Link } from 'react-scroll';
+import { BurgerContext } from '../../utils/contexts';
 
-function BurgerIngredientsList(props: { items: IIngridientsData[], onIngredientClick: (clickedItem: IIngridientsData) => void }) {
+function BurgerIngredientsList() {
     const [activeTab, setActiveTab] = React.useState<string>('bun')
+    const { items } = useContext(BurgerContext);
     const tabTypes = [
         {type: 'bun', title: 'Булки'},
         {type: 'sauce', title: 'Соусы'},
@@ -44,8 +46,7 @@ function BurgerIngredientsList(props: { items: IIngridientsData[], onIngredientC
                         key={i}
                         id={++i}
                         title={tab.title} 
-                        items={props.items.filter((item: IIngridientsData) => item.type === tab.type)} 
-                        onIngredientClick={props.onIngredientClick}
+                        items={items.filter((item: IIngridientsData) => item.type === tab.type)} 
                     />
                 ))
             }
