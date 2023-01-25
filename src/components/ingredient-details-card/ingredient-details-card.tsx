@@ -1,33 +1,59 @@
-import styles from './ingredient-details-card.module.scss';
-import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { memo } from 'react';
+import { useDrag } from 'react-dnd';
+import { itemsSlice } from '../../services/recipe/items';
+import { useDispatch } from 'react-redux';
+import { ingredientSlice } from '../../services/recipe/ingredient';
 import { IIngridientsData } from '../../shared/interfaces';
-import { useContext } from 'react';
-import { BurgerContext } from '../../utils/contexts';
+import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { burgerConstructorSlice } from '../../services/recipe/burger-constructor';
+import styles from './ingredient-details-card.module.scss';
 
 interface detailsCardProps extends IIngridientsData {
     value?: number | undefined;
   };
 
-function IngredientDetailsCard(props: {ingredient: detailsCardProps, key: string }) {
-    const { onIngredientClick } = useContext(BurgerContext);
+  const IngredientDetailsCard = memo((props: {ingredient: detailsCardProps, key: string }) => {
+    const dispatch: any = useDispatch();
+    const { openIngredientModal } = ingredientSlice.actions;
+    const { increaseQuantityValue } = itemsSlice.actions;
+    const { addIngredient } = burgerConstructorSlice.actions
 
     const handleIngredientClick = () => {
-        onIngredientClick(props.ingredient)
+        dispatch(openIngredientModal(props.ingredient))
     }
 
+    const [{opacity}, dragRef] = useDrag({
+        type: props.ingredient.type,
+        item: props.ingredient,
+        collect: monitor => ({
+          opacity: monitor.isDragging() ? 0.5 : 1
+        }),
+        end(item: any, monitor) {
+            if(monitor.didDrop() && item.type !== 'bun') {
+                dispatch(addIngredient(item));
+                dispatch(increaseQuantityValue(item._id));
+            }
+        }
+      });
+
     return(
-        <li className={styles.card} onClick={handleIngredientClick}>
-            {props.ingredient?.value ? <Counter count={props.ingredient?.value}/> : null}
+        <div className={styles.card} onClick={handleIngredientClick} ref={dragRef} style={{opacity}}>
+            {
+                props.ingredient?.value ? 
+                    <Counter count={props.ingredient?.value}/> 
+                : 
+                    null
+            }
             <img src={props.ingredient.image} alt={props.ingredient.name} title={props.ingredient.name} className="ml-4 mr-4"/>
-                <div className={styles.price + ' mt-1 mb-1 '}>
-                    <p className='pr-2 text text_type_digits-default'>{props.ingredient.price}</p>
-                    <CurrencyIcon type='primary' />
-                </div>
+            <div className={styles.price + ' mt-1 mb-1 '}>
+                <p className='pr-2 text text_type_digits-default'>{props.ingredient.price}</p>
+                <CurrencyIcon type='primary' />
+            </div>
             <p className={styles.name + ' text text_type_main-default'}>
                 {props.ingredient.name}
             </p>
-        </li>
+        </div>
     );
-}
+})
 
 export default IngredientDetailsCard;

@@ -42,3 +42,20 @@ export interface IBurgerContext {
     onOrderButtonClick: () => void,
     onIngredientClick: (clickedItem: IIngridientsData) => void 
 }
+
+export interface IItemsSliceState {
+    items?: [],
+    itemsPendingStatus: string;
+}
+
+export interface IOrderSliceState {
+    orderData?: {},
+    orderPendingStatus: string,
+    isOrderModalOpen: boolean,
+}
+
+export interface IBurgerConstructorSliceState {
+    bunItem: IIngridientsData,
+    ingredients: IIngridientsData[],
+    totalPrice: number
+}

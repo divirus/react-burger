@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styles from './burger-ingredients-list.module.scss';
 import IngredientsCategory from '../ingredients-category/ingredients-category';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IIngridientsData } from '../../shared/interfaces';
 import { Link } from 'react-scroll';
-import { BurgerContext } from '../../utils/contexts';
+import { useSelector } from 'react-redux';
 
 function BurgerIngredientsList() {
     const [activeTab, setActiveTab] = React.useState<string>('bun')
-    const { items } = useContext(BurgerContext);
+    const { items } = useSelector((state: any) => state.items);
     const tabTypes = [
         {type: 'bun', title: 'Булки'},
         {type: 'sauce', title: 'Соусы'},

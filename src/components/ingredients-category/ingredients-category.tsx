@@ -1,10 +1,11 @@
 import styles from './ingredients-category.module.scss';
 import IngredientDetailsCard from '../ingredient-details-card/ingredient-details-card';
 import { IIngridientsData } from '../../shared/interfaces';
+import { forwardRef } from 'react';
 
-function IngredientsCategory(props: {id: number, title: string, items: IIngridientsData[]}) {
+const IngredientsCategory = forwardRef((props: {id: number, title: string, items: IIngridientsData[]}, ref: any) => {
     return(
-        <section id={`ingredients-block-${props.id}`}>
+        <section id={`ingredients-block-${props.id}`} ref={ref}>
             <h2 className="text text_type_main-medium mt-10 mb-6">
                 {props.title}
             </h2>
@@ -26,6 +27,6 @@ function IngredientsCategory(props: {id: number, title: string, items: IIngridie
             }
         </section>
     );
-}
+})
 
 export default IngredientsCategory;
