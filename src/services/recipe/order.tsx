@@ -14,12 +14,6 @@ export const createOrder = (items: any) => {
     dispatch(orderSlice.actions.request());
 
     getOrdersData(items)
-    .then(res => {
-      if (!res.ok && res.status !== 400) {
-        throw Error(res.statusText);
-        }
-      return res.json();
-      })
     .then((data) => {
       if (data.success)
         dispatch(orderSlice.actions.success({
