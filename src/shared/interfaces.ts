@@ -44,7 +44,7 @@ export interface IBurgerContext {
 }
 
 export interface IItemsSliceState {
-    items?: [],
+    items: any,
     itemsPendingStatus: string;
 }
 
@@ -55,7 +55,7 @@ export interface IOrderSliceState {
 }
 
 export interface IBurgerConstructorSliceState {
-    bunItem: IIngridientsData,
+    bun: IIngridientsData,
     ingredients: IIngridientsData[],
     totalPrice: number
 }

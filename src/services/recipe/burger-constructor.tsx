@@ -1,7 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { IBurgerConstructorSliceState, IIngridientsData } from '../../shared/interfaces';
 
-export const burgerConstructorInitialState = {
-    bun: {},
+export const burgerConstructorInitialState: IBurgerConstructorSliceState = {
+    bun: {
+      _id: '',
+      name: '',
+      type: '',
+      proteins: 0,
+      fat: 0,
+      carbohydrates: 0,
+      calories: 0,
+      price: 0,
+      image: '',
+      image_mobile: '',
+      image_large: '',
+      __v: 0
+    },
     ingredients: [],
     totalPrice: 0
 }
@@ -13,7 +27,7 @@ export const burgerConstructorSlice = createSlice({
     setBun(state, action) {
       state.bun = action.payload;
     },
-    addIngredient(state: any, action: any) {
+    addIngredient(state: IBurgerConstructorSliceState, action: {payload: IIngridientsData}) {
       state.ingredients.push(action.payload);
     },
     moveIngredient(state, action) {
@@ -26,15 +40,15 @@ export const burgerConstructorSlice = createSlice({
     clearIngredients(state) {
       state.ingredients = [];
     },
-    calcTotalPrice(state: any) {
+    calcTotalPrice(state) {
         !!state.bun.name ? 
         (
-            state.totalPrice = state.bun.price * 2 + state.ingredients.reduce((acc: any, p: any) => acc + p.price, 0)
+            state.totalPrice = state.bun.price * 2 + state.ingredients.reduce((accum: any, current: any) => accum + current.price, 0)
         ) : 
         ( 
             state.ingredients.length ? 
             (
-                state.totalPrice = state.ingredients.reduce((acc: any, p: any) => acc + p.price, 0)
+                state.totalPrice = state.ingredients.reduce((accum: any, current: any) => accum + current.price, 0)
             ) : 
             (
                 state.totalPrice = 0

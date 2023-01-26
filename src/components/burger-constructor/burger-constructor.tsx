@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { Dispatch, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './burger-constructor.module.scss';
@@ -10,7 +10,7 @@ import { createOrder } from '../../services/recipe/order';
 import DraggableElement from '../draggable-element/draggable-element';
 
 function BurgerConstructor() {
-    const dispatch: any = useDispatch();
+    const dispatch: Dispatch<any> = useDispatch();
     const { increaseQuantityValue, decreaseQuantityValue } = itemsSlice.actions;
     const { setBun, calcTotalPrice } = burgerConstructorSlice.actions
     const { bun, ingredients, totalPrice } = useSelector((state: any) => state.burgerConstructor);
@@ -27,6 +27,7 @@ function BurgerConstructor() {
 
     const handleBunItemDrop = (newBun: any) => {
         dispatch(setBun(newBun));
+        // Since the buns are the same, we should have two of the same buns in the recipe
         dispatch(decreaseQuantityValue(bun._id));
         dispatch(decreaseQuantityValue(bun._id));
         dispatch(increaseQuantityValue(newBun._id));

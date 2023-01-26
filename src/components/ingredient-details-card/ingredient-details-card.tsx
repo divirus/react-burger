@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { Dispatch, memo } from 'react';
 import { useDrag } from 'react-dnd';
 import { itemsSlice } from '../../services/recipe/items';
 import { useDispatch } from 'react-redux';
@@ -13,7 +13,7 @@ interface detailsCardProps extends IIngridientsData {
   };
 
   const IngredientDetailsCard = memo((props: {ingredient: detailsCardProps, key: string }) => {
-    const dispatch: any = useDispatch();
+    const dispatch: Dispatch<any> = useDispatch();
     const { openIngredientModal } = ingredientSlice.actions;
     const { increaseQuantityValue } = itemsSlice.actions;
     const { addIngredient } = burgerConstructorSlice.actions
@@ -28,7 +28,7 @@ interface detailsCardProps extends IIngridientsData {
         collect: monitor => ({
           opacity: monitor.isDragging() ? 0.5 : 1
         }),
-        end(item: any, monitor) {
+        end(item: IIngridientsData, monitor) {
             if(monitor.didDrop() && item.type !== 'bun') {
                 dispatch(addIngredient(item));
                 dispatch(increaseQuantityValue(item._id));
