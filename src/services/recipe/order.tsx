@@ -1,16 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { Dispatch } from 'react';
+import { IOrderSliceState } from '../../shared/interfaces';
 import { getOrdersData  } from "../../utils/api";
 import { burgerConstructorSlice } from './burger-constructor';
 import { itemsSlice } from './items';
 
 export const orderInitialState = {
   orderData: {},
-  orderPendingStatus: null,
+  orderPendingStatus: '',
   isOrderModalOpen: false,
 }
 
-export const createOrder = (items: any) => {
-  return (dispatch: (params: any) => void) => {
+export const createOrder = (items: string[]) => {
+  return ((dispatch: Dispatch<any>) => {
     dispatch(orderSlice.actions.request());
 
     getOrdersData(items)
@@ -35,23 +37,23 @@ export const createOrder = (items: any) => {
       dispatch(burgerConstructorSlice.actions.clearIngredients());
       dispatch(itemsSlice.actions.clearValues());
     })
-  }
+  })
 }
 
 export const orderSlice = createSlice({
   name: 'order',
   initialState: orderInitialState,
   reducers: {
-    request(state: any) {
+    request(state) {
       state.orderPendingStatus = 'loading';
     },
-    failed(state: any) {
+    failed(state) {
       state.orderPendingStatus = 'error';
       state.orderData = {
         success: false
       }
     },
-    success(state: any, action) {
+    success(state, action) {
       state.orderPendingStatus = 'success';
       state.orderData = {
         name: action.payload.name,

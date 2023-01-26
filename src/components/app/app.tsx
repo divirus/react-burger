@@ -1,4 +1,4 @@
-import {  useEffect } from "react";
+import {  Dispatch, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./app.module.scss"
 import AppHeader from '../app-header/app-header';
@@ -12,15 +12,16 @@ import { getItems } from "../../services/recipe/items";
 import { orderSlice } from "../../services/recipe/order";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { IIngredietsSliceState, IItemsSliceState, IOrderSliceState } from "../../shared/interfaces";
 
 function App() {
-  const dispatch: any = useDispatch();
+  const dispatch: Dispatch<any> = useDispatch();
   const { closeOrderModal } = orderSlice.actions;
   const { closeIngredientModal } = ingredientSlice.actions;
 
-  const { itemsPendingStatus } = useSelector((state: any) => state.items);
-  const { orderData, isOrderModalOpen } = useSelector((state: any) => state.order);
-  const { selectedIngredient, isIngredientModalOpen } = useSelector((state: any) => state.ingredient);
+  const { itemsPendingStatus } = useSelector((state: IItemsSliceState) => state.items);
+  const { orderData, isOrderModalOpen } = useSelector((state: { order: IOrderSliceState }) => state.order);
+  const { selectedIngredient, isIngredientModalOpen } = useSelector((state: { ingredient: IIngredietsSliceState }) => state.ingredient);
 
   useEffect(() => {
     dispatch(getItems())

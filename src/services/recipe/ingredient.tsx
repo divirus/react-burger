@@ -7,11 +7,11 @@ export const ingredientSlice = createSlice({
     isIngredientModalOpen: false
   },
   reducers: {
-    openIngredientModal(state: any, action) {
+    openIngredientModal(state, action) {
       state.isIngredientModalOpen = true;
       state.selectedIngredient = action.payload;
     },
-    closeIngredientModal(state: any) {
+    closeIngredientModal(state) {
       state.isIngredientModalOpen = false;
       state.selectedIngredient = {};
     }

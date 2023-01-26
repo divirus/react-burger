@@ -43,12 +43,12 @@ export const burgerConstructorSlice = createSlice({
     calcTotalPrice(state) {
         !!state.bun.name ? 
         (
-            state.totalPrice = state.bun.price * 2 + state.ingredients.reduce((accum: any, current: any) => accum + current.price, 0)
+            state.totalPrice = state.bun.price * 2 + state.ingredients.reduce((accum: number, current: IIngridientsData) => accum + current.price, 0)
         ) : 
         ( 
             state.ingredients.length ? 
             (
-                state.totalPrice = state.ingredients.reduce((accum: any, current: any) => accum + current.price, 0)
+                state.totalPrice = state.ingredients.reduce((accum: number, current: IIngridientsData) => accum + current.price, 0)
             ) : 
             (
                 state.totalPrice = 0

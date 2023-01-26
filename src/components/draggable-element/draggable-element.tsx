@@ -1,14 +1,20 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, DetailedHTMLProps, LiHTMLAttributes } from 'react';
 import { useDispatch } from 'react-redux';
-import { useDrag, useDrop } from 'react-dnd';
+import { DragSourceMonitor, useDrag, useDrop } from 'react-dnd';
 import styles from './draggable-element.module.scss';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { burgerConstructorSlice } from '../../services/recipe/burger-constructor';
 import { itemsSlice } from '../../services/recipe/items';
+import { IIngridientsData } from '../../shared/interfaces';
 
-function DraggableElement({ item, index }: any) {
+type DraggableElementType = {
+  item: IIngridientsData,
+  index: number
+}
+
+function DraggableElement({ item, index }: DraggableElementType) {
   const dispatch = useDispatch();
-  const dndItemRef: any = useRef();
+  const dndItemRef = useRef<any>();
   const { decreaseQuantityValue } = itemsSlice.actions;
   const { moveIngredient, deleteIngredient } = burgerConstructorSlice.actions
   const [isItemHigher, setIsItemHigher] = useState(false);
@@ -33,17 +39,17 @@ function DraggableElement({ item, index }: any) {
           sourceId: monitor.getHandlerId(),
           isItemDragging: monitor.isDragging()
       }),
-      end(item, monitor: any) {
+      end(item, monitor: DragSourceMonitor) {
         if(monitor.didDrop()) {
           dispatch(moveIngredient({
             oldIndex: index,
-            newIndex: monitor.getDropResult().index
+            newIndex: monitor.getDropResult<any>().index
           }));
         }
       }
   });
 
-  const handleItemDelete = (itemId: any, index: any) => {   
+  const handleItemDelete = (itemId: string, index: number) => {   
     dispatch(deleteIngredient(index));
     dispatch(decreaseQuantityValue(itemId));
 };

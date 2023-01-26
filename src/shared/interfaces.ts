@@ -48,8 +48,13 @@ export interface IItemsSliceState {
     itemsPendingStatus: string;
 }
 
+export interface IIngredietsSliceState {
+    selectedIngredient: IIngridientsData,
+    isIngredientModalOpen: boolean
+}
+
 export interface IOrderSliceState {
-    orderData?: {},
+    orderData?: IOrderData,
     orderPendingStatus: string,
     isOrderModalOpen: boolean,
 }

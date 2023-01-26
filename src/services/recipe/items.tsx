@@ -3,7 +3,7 @@ import { Dispatch } from 'react';
 import { IIngridientsData, IItemsSliceState } from '../../shared/interfaces';
 import { getIngredientsData } from "../../utils/api";
 
-export const itemsInitialState = {
+export const itemsInitialState: IItemsSliceState = {
     items: [],
     itemsPendingStatus: '',
 }
@@ -39,19 +39,19 @@ export const itemsSlice = createSlice({
     },
     increaseQuantityValue(state: IItemsSliceState, action) {
       state.items = [...state.items].map(item =>
-        item._id === action.payload ? { ...item, __v: ++item.__v } : item
+        item._id === action.payload ? { ...item, value: item?.value ? ++item.value : 1 } : item
       );
     },
     decreaseQuantityValue(state: IItemsSliceState, action) {
       state.items = [...state.items].map(item =>
-        item._id === action.payload ? { ...item, __v: --item.__v } : item
+        item._id === action.payload ? { ...item, value: --item.value } : item
       );
     },
     clearValues(state: IItemsSliceState) {
       state.items = [...state.items].map(item => (
         {
           ...item,
-          __v: 0
+          value: 0
         }));
     }
   }

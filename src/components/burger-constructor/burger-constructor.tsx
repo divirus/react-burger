@@ -3,7 +3,7 @@ import { useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './burger-constructor.module.scss';
 import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IIngridientsData } from '../../shared/interfaces';
+import { IBurgerConstructorSliceState, IIngridientsData } from '../../shared/interfaces';
 import { burgerConstructorSlice } from '../../services/recipe/burger-constructor';
 import { itemsSlice } from '../../services/recipe/items';
 import { createOrder } from '../../services/recipe/order';
@@ -13,11 +13,11 @@ function BurgerConstructor() {
     const dispatch: Dispatch<any> = useDispatch();
     const { increaseQuantityValue, decreaseQuantityValue } = itemsSlice.actions;
     const { setBun, calcTotalPrice } = burgerConstructorSlice.actions
-    const { bun, ingredients, totalPrice } = useSelector((state: any) => state.burgerConstructor);
+    const { bun, ingredients, totalPrice } = useSelector((state: {burgerConstructor: IBurgerConstructorSliceState}) => state.burgerConstructor);
 
     const onOrderButtonClick = () => {
         const items = [bun._id];
-        ingredients.map((item: any) => items.push(item._id));
+        ingredients.map((item: IIngridientsData) => items.push(item._id));
         dispatch(createOrder(items));
     };
 
@@ -25,7 +25,7 @@ function BurgerConstructor() {
         dispatch(calcTotalPrice());
     }, [dispatch, bun, ingredients, calcTotalPrice]);
 
-    const handleBunItemDrop = (newBun: any) => {
+    const handleBunItemDrop = (newBun: IIngridientsData) => {
         dispatch(setBun(newBun));
         // Since the buns are the same, we should have two of the same buns in the recipe
         dispatch(decreaseQuantityValue(bun._id));
@@ -36,14 +36,14 @@ function BurgerConstructor() {
 
     const [, dropTopBunTarget] = useDrop({
         accept: 'bun',
-        drop(newBun) {
+        drop(newBun: IIngridientsData) {
             handleBunItemDrop(newBun);
         }
     });
     
     const [, dropBottomBunTarget] = useDrop({
         accept: 'bun',
-        drop(newBun) {
+        drop(newBun: IIngridientsData) {
             handleBunItemDrop(newBun);
         }
     });
