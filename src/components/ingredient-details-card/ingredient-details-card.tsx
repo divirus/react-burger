@@ -3,12 +3,13 @@ import { useDrag } from 'react-dnd';
 import { itemsSlice } from '../../services/recipe/items';
 import { useDispatch } from 'react-redux';
 import { ingredientSlice } from '../../services/recipe/ingredient';
-import { IIngridientsData } from '../../shared/interfaces';
+import { IIngridientsDataWithKey } from '../../shared/interfaces';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { burgerConstructorSlice } from '../../services/recipe/burger-constructor';
+import {v4} from 'uuid';
 import styles from './ingredient-details-card.module.scss';
 
-interface detailsCardProps extends IIngridientsData {
+export interface detailsCardProps extends IIngridientsDataWithKey {
     value?: number | undefined;
   };
 
@@ -28,9 +29,10 @@ interface detailsCardProps extends IIngridientsData {
         collect: monitor => ({
           opacity: monitor.isDragging() ? 0.5 : 1
         }),
-        end(item: IIngridientsData, monitor) {
+        end(item: IIngridientsDataWithKey, monitor) {
             if(monitor.didDrop() && item.type !== 'bun') {
-                dispatch(addIngredient(item));
+                const uuidq = v4();
+                dispatch(addIngredient({...item, key: uuidq}));
                 dispatch(increaseQuantityValue(item._id));
             }
         }

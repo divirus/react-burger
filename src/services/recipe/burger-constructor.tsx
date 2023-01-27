@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { IBurgerConstructorSliceState, IIngridientsData } from '../../shared/interfaces';
+import { IBurgerConstructorSliceState, IIngridientsData, IIngridientsDataWithKey } from '../../shared/interfaces';
 
 export const burgerConstructorInitialState: IBurgerConstructorSliceState = {
     bun: {
@@ -27,7 +27,7 @@ export const burgerConstructorSlice = createSlice({
     setBun(state, action) {
       state.bun = action.payload;
     },
-    addIngredient(state: IBurgerConstructorSliceState, action: {payload: IIngridientsData}) {
+    addIngredient(state: IBurgerConstructorSliceState, action: {payload: IIngridientsDataWithKey}) {
       state.ingredients.push(action.payload);
     },
     moveIngredient(state, action) {

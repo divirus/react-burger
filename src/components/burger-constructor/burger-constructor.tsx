@@ -3,7 +3,7 @@ import { useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './burger-constructor.module.scss';
 import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IBurgerConstructorSliceState, IIngridientsData } from '../../shared/interfaces';
+import { IBurgerConstructorSliceState, IIngridientsData, IIngridientsDataWithKey } from '../../shared/interfaces';
 import { burgerConstructorSlice } from '../../services/recipe/burger-constructor';
 import { itemsSlice } from '../../services/recipe/items';
 import { createOrder } from '../../services/recipe/order';
@@ -18,6 +18,7 @@ function BurgerConstructor() {
     const onOrderButtonClick = () => {
         const items = [bun._id];
         ingredients.map((item: IIngridientsData) => items.push(item._id));
+        items.push(bun._id);
         dispatch(createOrder(items));
     };
 
@@ -52,10 +53,6 @@ function BurgerConstructor() {
         accept: ['sauce', 'main']
     });
 
-    const generateItemHash = () => (
-        Math.floor(Math.random() * 10000)
-    );
-
     return(
         <main>
             <ul className={styles.list + ' ml-4 mt-25 mb-10 pr-4'}>
@@ -79,11 +76,11 @@ function BurgerConstructor() {
                         ingredients?.length > 0 ?
                             <ul className={styles.draggable_list + ' pr-2'} key="ingredients">
                                 {
-                                    ingredients.map((item: IIngridientsData, index: number) => (
+                                    ingredients.map((item: IIngridientsDataWithKey, index: number) => (
                                         <DraggableElement 
                                             item={item}
                                             index={index}
-                                            key={item._id+generateItemHash()}
+                                            key={item.key}
                                         />
                                     ))
                                 }

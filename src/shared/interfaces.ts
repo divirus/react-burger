@@ -13,6 +13,10 @@ export interface IIngridientsData{
     __v: number;
 }
 
+export interface IIngridientsDataWithKey extends IIngridientsData {
+    key?: string;
+}
+
 export interface IIngredientsDataUseState {
     items: IIngridientsData[];
     loadingState: string | null;
@@ -60,7 +64,7 @@ export interface IOrderSliceState {
 }
 
 export interface IBurgerConstructorSliceState {
-    bun: IIngridientsData,
-    ingredients: IIngridientsData[],
+    bun: IIngridientsDataWithKey,
+    ingredients: IIngridientsDataWithKey[],
     totalPrice: number
 }

@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { Dispatch } from 'react';
-import { IOrderSliceState } from '../../shared/interfaces';
 import { getOrdersData  } from "../../utils/api";
 import { burgerConstructorSlice } from './burger-constructor';
 import { itemsSlice } from './items';
@@ -50,6 +49,8 @@ export const orderSlice = createSlice({
     failed(state) {
       state.orderPendingStatus = 'error';
       state.orderData = {
+        id: null,
+        name: null,
         success: false
       }
     },

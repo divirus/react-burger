@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, DetailedHTMLProps, LiHTMLAttributes } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { DragSourceMonitor, useDrag, useDrop } from 'react-dnd';
 import styles from './draggable-element.module.scss';
