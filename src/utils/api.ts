@@ -1,5 +1,5 @@
 
-import { checkResponse, request } from "./check-response";
+import { request } from "./check-response";
 
 const BASE_URL = 'https://norma.nomoreparties.space/api/'
 const INGRIDIENTS_API_URL = 'ingredients';

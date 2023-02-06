@@ -1,11 +1,12 @@
 import doneIcon from "../../images/doneIcon.svg";
+import { IOrderData } from "../../shared/interfaces";
 import styles from './order-details.module.scss';
 
-function OrderDetails( props: { orderData: { id: number | undefined, name: string | undefined, success: boolean }}) {
+function OrderDetails( props: { orderData: IOrderData | undefined}) {
     return(
         <div className={styles.container + ' mt-20 mb-15'}>
             {
-                props.orderData.success &&
+                props.orderData?.success &&
                 <>
                     <p className={styles.order_id + ' text text_type_digits-large'}>
                         {props.orderData.id}

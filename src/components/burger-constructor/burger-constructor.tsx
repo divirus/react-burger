@@ -1,79 +1,124 @@
-import { useContext, useReducer, useEffect } from 'react';
+import { Dispatch, useEffect } from 'react';
+import { useDrop } from 'react-dnd';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './burger-constructor.module.scss';
-import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IBurgerContext, IIngridientsData } from '../../shared/interfaces';
-import { BurgerContext } from '../../utils/contexts';
-
-const initTotalPriceState = { totalPrice: 0 };
-
-function totalPriceReducer(totalPriceState: { totalPrice: number }, items: any) {
-    const sum = items.bun.price * 2 + items.ingredients.reduce((acc: number, p: IIngridientsData) => acc + p.price, 0)
-    return { totalPrice: sum }
-}
+import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { IBurgerConstructorSliceState, IIngridientsData, IIngridientsDataWithKey } from '../../shared/interfaces';
+import { burgerConstructorSlice } from '../../services/recipe/burger-constructor';
+import { itemsSlice } from '../../services/recipe/items';
+import { createOrder } from '../../services/recipe/order';
+import DraggableElement from '../draggable-element/draggable-element';
 
 function BurgerConstructor() {
-    const { orderItems, onOrderButtonClick } = useContext<IBurgerContext>(BurgerContext);
-    const [totalPriceState, totalPriceDispatch] = useReducer(totalPriceReducer, initTotalPriceState);
+    const dispatch: Dispatch<any> = useDispatch();
+    const { increaseQuantityValue, decreaseQuantityValue } = itemsSlice.actions;
+    const { setBun, calcTotalPrice } = burgerConstructorSlice.actions
+    const { bun, ingredients, totalPrice } = useSelector((state: {burgerConstructor: IBurgerConstructorSliceState}) => state.burgerConstructor);
+
+    const onOrderButtonClick = () => {
+        const items = [bun._id];
+        ingredients.map((item: IIngridientsData) => items.push(item._id));
+        items.push(bun._id);
+        dispatch(createOrder(items));
+    };
 
     useEffect(() => {
-        totalPriceDispatch( orderItems );
-    }, [orderItems]);
+        dispatch(calcTotalPrice());
+    }, [dispatch, bun, ingredients, calcTotalPrice]);
+
+    const handleBunItemDrop = (newBun: IIngridientsData) => {
+        dispatch(setBun(newBun));
+        // Since the buns are the same, we should have two of the same buns in the recipe
+        dispatch(decreaseQuantityValue(bun._id));
+        dispatch(decreaseQuantityValue(bun._id));
+        dispatch(increaseQuantityValue(newBun._id));
+        dispatch(increaseQuantityValue(newBun._id));
+    };
+
+    const [, dropTopBunTarget] = useDrop({
+        accept: 'bun',
+        drop(newBun: IIngridientsData) {
+            handleBunItemDrop(newBun);
+        }
+    });
+    
+    const [, dropBottomBunTarget] = useDrop({
+        accept: 'bun',
+        drop(newBun: IIngridientsData) {
+            handleBunItemDrop(newBun);
+        }
+    });
+    
+    const [, dropIngredientTarget] = useDrop({
+        accept: ['sauce', 'main']
+    });
 
     return(
         <main>
             <ul className={styles.list + ' ml-4 mt-25 mb-10 pr-4'}>
-                <li className='pl-8' key="top_bun">
-                    <ConstructorElement 
-                        type='top'
-                        isLocked={true}
-                        text={orderItems?.bun.name + ' (верх)'}
-                        thumbnail={orderItems.bun.image}
-                        price={orderItems.bun.price}
-                    />
+                <li className='pl-8' key="top_bun" ref={dropTopBunTarget}>
+                    { !!bun?.name ?
+                        <ConstructorElement 
+                            type='top'
+                            isLocked={true}
+                            text={bun.name + ' (верх)'}
+                            thumbnail={bun.image}
+                            price={bun.price}
+                        />
+                    :
+                        <div className={ styles.emptyBun + ' constructor-element constructor-element_pos_top'}>
+                            &nbsp;
+                        </div>
+                    }
                 </li>
-                {
-                    orderItems.ingredients.length > 0 ?
-                        <ul className={styles.draggable_list + ' pr-2'} key="ingredients">
-                            {
-                                orderItems.ingredients.map((item: IIngridientsData, index: number) => (
-                                    <li className={styles.draggable_item}
-                                        key={item._id + '_' + index}>
-                                        <span className={styles.drag_icon}>
-                                            <DragIcon type='primary' />
-                                        </span>
-                                        <ConstructorElement 
-                                            text={item.name}
-                                            thumbnail={item.image}
-                                            price={item.price}
+                <li ref={dropIngredientTarget}>
+                    {
+                        ingredients?.length > 0 ?
+                            <ul className={styles.draggable_list + ' pr-2'} key="ingredients">
+                                {
+                                    ingredients.map((item: IIngridientsDataWithKey, index: number) => (
+                                        <DraggableElement 
+                                            item={item}
+                                            index={index}
+                                            key={item.key}
                                         />
-                                    </li>
-                                ))
-                            }
-                        </ul>
-                    :  
-                        <h3 className={styles.warningText + ' text text_type_main-default text_color_inactive pt-6 pb-6'}>
-                            Добавьте ингредиенты
-                        </h3>
-                }
-                <li className='pl-8' key="bottom_bun">
-                    <ConstructorElement 
-                        isLocked={true}
-                        type='bottom'
-                        text={orderItems.bun.name + ' (низ)'}
-                        thumbnail={orderItems.bun.image}
-                        price={orderItems.bun.price}
-                    />
+                                    ))
+                                }
+                            </ul>
+                        :  
+                            <h3 className={styles.warningText + ' text text_type_main-default text_color_inactive pt-6 pb-6'}>
+                                {
+                                    totalPrice === 0 ? ('Добавьте булку и ингредиенты') : ('Добавьте ингредиенты')
+                                }
+                            </h3>
+                    }
+                </li>
+                <li className='pl-8' key="bottom_bun" ref={dropBottomBunTarget}>
+                    {
+                        !!bun?.name ?
+                            <ConstructorElement 
+                                isLocked={true}
+                                type='bottom'
+                                text={bun.name + ' (низ)'}
+                                thumbnail={bun.image}
+                                price={bun.price}
+                            />
+                        :
+                            <div className={styles.emptyBun + ' constructor-element constructor-element_pos_bottom'}>
+                                &nbsp;
+                            </div>
+                    }
                 </li>
             </ul>
-            <div className={styles.order + ' mr-4 mb-10'}>
-                <p className="text text_type_digits-medium">
-                    {totalPriceState.totalPrice}
+            <div className={`${styles.order} mr-4 mb-10 ${!bun.name ? styles.disabled : null}`}>
+                <p className='text text_type_digits-medium'>
+                    {totalPrice}
                 </p>
                 <span className='ml-2 mr-10'>
-                    <CurrencyIcon type="primary" />
+                    <CurrencyIcon type='primary' />
                 </span>
                 <Button type="primary" size="medium" htmlType="button" onClick={onOrderButtonClick}>
-                    Оформить заказ
+                        Оформить заказ
                 </Button>
             </div>
         </main>

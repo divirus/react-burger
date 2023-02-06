@@ -13,6 +13,10 @@ export interface IIngridientsData{
     __v: number;
 }
 
+export interface IIngridientsDataWithKey extends IIngridientsData {
+    key?: string;
+}
+
 export interface IIngredientsDataUseState {
     items: IIngridientsData[];
     loadingState: string | null;
@@ -41,4 +45,26 @@ export interface IBurgerContext {
     }
     onOrderButtonClick: () => void,
     onIngredientClick: (clickedItem: IIngridientsData) => void 
+}
+
+export interface IItemsSliceState {
+    items: any,
+    itemsPendingStatus: string;
+}
+
+export interface IIngredietsSliceState {
+    selectedIngredient: IIngridientsData,
+    isIngredientModalOpen: boolean
+}
+
+export interface IOrderSliceState {
+    orderData?: IOrderData,
+    orderPendingStatus: string,
+    isOrderModalOpen: boolean,
+}
+
+export interface IBurgerConstructorSliceState {
+    bun: IIngridientsDataWithKey,
+    ingredients: IIngridientsDataWithKey[],
+    totalPrice: number
 }
