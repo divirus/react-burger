@@ -6,6 +6,7 @@ import Sidebar from '../../components/login-sidebar/login-sidebar';
 import Loader from '../../components/loader/loader';
 import { Input, EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getUser, setUser, userSlice } from '../../services/user';
+import { IUserSliceState } from '../../shared/interfaces';
 
 export const ProfilePage = () => {
   const dispatch: Dispatch<any> = useDispatch();
@@ -16,7 +17,7 @@ export const ProfilePage = () => {
     userSuccess,
     userFailed
   } = useSelector(
-    (state: any) => state.user
+    (state: {user:IUserSliceState}) => state.user
   );
 
   const { resetStatus } = userSlice.actions
@@ -53,7 +54,7 @@ export const ProfilePage = () => {
   const nameInputRef = useRef<any>(null)
   const passwordInputRef = useRef<any>(null)
 
-  const onNameChange = (e: any) => {
+  const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > 0) {
       setNameInputEmpty(false);
     }
@@ -61,7 +62,7 @@ export const ProfilePage = () => {
     setFormChanged(true);
   };
 
-  const onPasswordChange = (e: any) => {
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > 0) {
       setPasswordInputEmpty(false);
     }
@@ -69,7 +70,7 @@ export const ProfilePage = () => {
     setFormChanged(true);
   };
 
-  const onEmailChange = (e: any) => {
+  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmailValue(e.target.value);
     setFormChanged(true);
   };
@@ -84,21 +85,21 @@ export const ProfilePage = () => {
     setPasswordInputDisabled(false);
   }
 
-  const onNameInputBlur = (e: any) => {
+  const onNameInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     if (e.target.value.length === 0) {
       setNameInputEmpty(true);
     }
     setNameInputDisabled(true);
   }
 
-  const onPasswordInputBlur = (e: any) => {
+  const onPasswordInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     if (e.target.value.length === 0) {
       setPasswordInputEmpty(true);
     }
     setPasswordInputDisabled(true);
   }
 
-  const onSubmitChanges = (e: any) => {
+  const onSubmitChanges = (e: React.ChangeEvent<any>) => {
     e.preventDefault();
 
     if (!userRequest) {
@@ -111,7 +112,7 @@ export const ProfilePage = () => {
     setFormChanged(false);
   }
 
-  const onCancelChanges = (e: any) => {
+  const onCancelChanges = (e: React.ChangeEvent<any>) => {
     e.preventDefault();
     setNameValue(user.name);
     setEmailValue(user.email);

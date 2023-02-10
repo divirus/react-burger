@@ -6,6 +6,7 @@ import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burg
 import { register, userSlice } from '../../services/user';
 
 import { useNavigate, useLocation } from 'react-router-dom';
+import { IUserSliceState } from '../../shared/interfaces';
 
 export const RegisterPage = () => {
   const dispatch: Dispatch<any> = useDispatch();
@@ -15,7 +16,7 @@ export const RegisterPage = () => {
     userSuccess,
     userFailed
   } = useSelector(
-    (state: any) => state.user
+    (state: {user: IUserSliceState}) => state.user
   );
   const { resetStatus } = userSlice.actions;
 
@@ -41,21 +42,21 @@ export const RegisterPage = () => {
   const location = useLocation();
   const emailRegExp: RegExp = useMemo(() => /.+@.+\.[A-Za-z]+$/, []);
 
-  const onNameChange = (e: any) => {
+  const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > 0) {
       setNameEmpty(false);
     }
     setNameValue(e.target.value);
   };
 
-  const onEmailChange = (e: any) => {
+  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (emailRegExp.test(e.target.value)) {
       setEmailValid(true);
     }
     setEmailValue(e.target.value);
   };
   
-  const onPasswordChange = (e: any) => {
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length !== 0) {
       setPasswordEmpty(false);
     }
@@ -102,7 +103,7 @@ export const RegisterPage = () => {
     navigate(from, {replace: true});
   }, [navigate, location.state])
 
-  const onRegisterClick = useCallback((e: any) => {
+  const onRegisterClick = useCallback((e: Event) => {
     e.preventDefault();
     const isFormCorrect = validateForm();
     if(!isFormCorrect) {

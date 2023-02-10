@@ -6,6 +6,7 @@ import Loader from '../../components/loader/loader';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { resetPassword, userSlice } from '../../services/user';
 import { useNavigate } from 'react-router-dom';
+import { IUserSliceState } from '../../shared/interfaces';
 
 export const ResetPasswordPage = () => {
   const dispatch: Dispatch<any> = useDispatch();
@@ -15,7 +16,7 @@ export const ResetPasswordPage = () => {
     userSuccess,
     userFailed
   } = useSelector(
-    (state: any) => state.user
+    (state: {user: IUserSliceState}) => state.user
   );
   const { resetStatus } = userSlice.actions;
 
@@ -35,14 +36,14 @@ export const ResetPasswordPage = () => {
   const [isCodeEmpty, setCodeEmpty] = useState(false);
   const codeInputRef = useRef(null);
 
-  const onCodeChange = (e: any) => {
+  const onCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > 0) {
       setCodeEmpty(false);
     }
     setCodeValue(e.target.value);
   };
 
-  const onPasswordChange = (e: any) => {
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length !== 0) {
       setPasswordEmpty(false);
     }
@@ -80,7 +81,7 @@ export const ResetPasswordPage = () => {
     navigate('/login', {replace: true});
   }, [navigate])
 
-  const onResetPasswordClick = useCallback((e: any) => {
+  const onResetPasswordClick = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const isFormCorrect = validateForm();
     if(!isFormCorrect) {

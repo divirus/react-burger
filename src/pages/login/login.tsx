@@ -5,6 +5,7 @@ import Loader from '../../components/loader/loader';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { login, userSlice } from '../../services/user';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { IUserSliceState } from '../../shared/interfaces';
 
 export const LoginPage = () => {
   const dispatch: Dispatch<any> = useDispatch();
@@ -14,7 +15,7 @@ export const LoginPage = () => {
     userSuccess,
     userFailed
   } = useSelector(
-    (state: any) => state.user
+    (state: {user: IUserSliceState}) => state.user
   );
   const { resetStatus } = userSlice.actions;
   const navigate = useNavigate();
@@ -36,14 +37,14 @@ export const LoginPage = () => {
   const emailInputRef = useRef<any>(null);
   const emailRegExp: RegExp = useMemo(() => /.+@.+\.[A-Za-z]+$/, []);
 
-  const onEmailChange = (e: any) => {
+  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (emailRegExp.test(e.target.value)) {
       setEmailValid(true);
     }
     setEmailValue(e.target.value);
   };
   
-  const onPasswordChange = (e: any) => {
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length !== 0) {
       setPasswordEmpty(false);
     }
@@ -82,9 +83,10 @@ export const LoginPage = () => {
     navigate(from, {replace: true});
   }, [navigate, location.state])
 
-  const onLoginClick = useCallback((e: any) => {
+  const onLoginClick = useCallback((e: Event) => {
     e.preventDefault();
     const isFormCorrect = validateForm();
+
     if(!isFormCorrect) {
       return;
     } else {

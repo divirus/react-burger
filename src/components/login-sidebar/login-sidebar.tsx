@@ -4,12 +4,14 @@ import LoginSidebarLink from '../login-sidebar-link/login-sidebar-link';
 import { logout, userSlice } from '../../services/user';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect, Dispatch } from 'react';
+import { IUserSliceState } from "../../shared/interfaces";
 
 function LoginSidebar() {
   const dispatch: Dispatch<any> = useDispatch();
 
-  const { userRequest } = useSelector((state: any) => state.user);
+  const { userRequest } = useSelector((state: {user: IUserSliceState}) => state.user);
   const { resetStatus } = userSlice.actions;
+  const isOrderPage = false;
 
   useEffect(() => {
     dispatch(resetStatus());
@@ -57,7 +59,7 @@ function LoginSidebar() {
         <LoginSidebarLink
           text={'История заказов'}
           onClick={()=>{}}
-          active={()=>{}}
+          active={isOrderPage}
         /> 
         <LoginSidebarLink
           text={'Выход'}

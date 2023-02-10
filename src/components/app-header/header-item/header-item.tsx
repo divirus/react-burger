@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import styles from './header-item.module.scss';
 
-function HeaderItem(props: {active?: boolean, text: string, icon: ReactNode, onClick: any}) {
+function HeaderItem(props: {active?: boolean, text: string, icon: ReactNode, onClick: () => void}) {
     return(
         <li>
             <button className={`${styles.header_item} pl-5 pr-5 pt-4 pb-4 mt-4 mb-4 ${props.active ? styles.header_item_active : ''}`}

@@ -17,6 +17,7 @@ import { ProtectedRoute } from '../protected-routes/protected-route';
 import { ProtectedResetRoute } from '../protected-routes/protected-reset-route';
 import { ProtectedGuestRoute } from '../protected-routes/protected-guest-route';
 import AppHeader from '../app-header/app-header';
+import { IItemsSliceState } from '../../shared/interfaces';
 
 function App() {
   const dispatch: Dispatch<any> = useDispatch();
@@ -24,7 +25,7 @@ function App() {
   let location = useLocation();
   let background = location.state && location.state.background;
 
-  const { itemsSuccess } = useSelector((state: any) => state.items);
+  const { itemsSuccess } = useSelector((state: IItemsSliceState) => state.items);
 
   useEffect(() => {
     if (!itemsSuccess) {

@@ -10,6 +10,7 @@ import {
     USER_API_URL 
 } from "../utils/api";
 import { getCookie, setCookie, deleteCookie } from '../utils/cookie';
+import { IUser } from '../shared/interfaces';
 
 export const getUser = () => {
   return (dispatch: any) => {
@@ -100,7 +101,7 @@ export const getUser = () => {
   }
 }
 
-export const setUser = (user: any) => {
+export const setUser = (user: IUser) => {
   return (dispatch: any) => {
     dispatch(userSlice.actions.request());
     fetch(USER_API_URL, {
@@ -188,7 +189,7 @@ export const setUser = (user: any) => {
   }
 }
 
-export const register = (user: any, redirectCallback: any) => {
+export const register = (user: IUser, redirectCallback: ()=>void) => {
   return (dispatch: any) => {
     dispatch(userSlice.actions.request());
     fetch(REGISTER_API_URL, {
@@ -231,7 +232,7 @@ export const register = (user: any, redirectCallback: any) => {
   }
 }
 
-export const login = (user: any, redirectCallback: any) => {
+export const login = (user: Partial<IUser>, redirectCallback: ()=>void) => {
   return (dispatch: any) => {
     dispatch(userSlice.actions.request());
     fetch(LOGIN_API_URL, {
@@ -273,7 +274,7 @@ export const login = (user: any, redirectCallback: any) => {
   }
 }
 
-export const forgotPassword = (email: any, redirectCallback: any) => {
+export const forgotPassword = (email: string, redirectCallback: ()=>void) => {
   return (dispatch: any) => {
     dispatch(userSlice.actions.request());
     fetch(FORGOT_PASSWORD_API_URL, {
@@ -306,7 +307,7 @@ export const forgotPassword = (email: any, redirectCallback: any) => {
   }
 }
 
-export const resetPassword = (code: any, password: any, redirectCallback: any) => {
+export const resetPassword = (code: string, password: string, redirectCallback: ()=>void) => {
   return (dispatch: any) => {
     dispatch(userSlice.actions.request());
     fetch(RESET_PASSWORD_API_URL, {
@@ -340,7 +341,7 @@ export const resetPassword = (code: any, password: any, redirectCallback: any) =
   }
 }
 
-export const logout = (redirectCallback: any) => {
+export const logout = (redirectCallback: ()=>void) => {
   const refreshToken = getCookie('refreshToken');
 
   return (dispatch: any) => {

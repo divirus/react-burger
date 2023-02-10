@@ -2,15 +2,10 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import IngredientDetails from '../../components/ingredient-details/ingredient-details';
 import Loader from '../../components/loader/loader';
+import { IIngridientsData, IItemsSliceState } from '../../shared/interfaces';
 
 export const IngredientPage = () => {
-  const {
-    items,
-    itemsPendingStatus
-  } = useSelector(
-    (state: any) => state.items
-  );
-
+  const { items, itemsPendingStatus } = useSelector((state: IItemsSliceState) => state.items);
   const { id } = useParams();
 
   return (
@@ -32,7 +27,7 @@ export const IngredientPage = () => {
             Детали ингредиента
           </p>
           <IngredientDetails
-            ingredient={items.find((item: any) => item._id === id)}
+            ingredient={items.find((item: IIngridientsData) => item._id === id)}
           />
         </div>
       )}

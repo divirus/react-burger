@@ -5,6 +5,7 @@ import Loader from '../../components/loader/loader';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { forgotPassword, userSlice } from '../../services/user';
 import { useNavigate } from 'react-router-dom';
+import { IUserSliceState } from '../../shared/interfaces';
 
 export const ForgotPasswordPage = () => {
   const dispatch: Dispatch<any> = useDispatch();
@@ -14,7 +15,7 @@ export const ForgotPasswordPage = () => {
     userSuccess,
     userFailed
   } = useSelector(
-    (state: any) => state.user
+    (state: {user: IUserSliceState}) => state.user
   );
   const { resetStatus } = userSlice.actions;
   const navigate = useNavigate();  
@@ -32,7 +33,7 @@ export const ForgotPasswordPage = () => {
   const emailInputRef = useRef<any>(null);
   const emailRegExp: RegExp = useMemo(() => /.+@.+\.[A-Za-z]+$/, []);
 
-  const onEmailChange = (e: any) => {
+  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (emailRegExp.test(e.target.value)) {
       setEmailValid(true);
     }
@@ -64,7 +65,7 @@ export const ForgotPasswordPage = () => {
     })
   }, [navigate])
 
-  const onResetPasswordClick = useCallback((e: any) => {
+  const onResetPasswordClick = useCallback((e: Event) => {
     e.preventDefault();
     const isFormCorrect = validateForm();
     if(!isFormCorrect) {

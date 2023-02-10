@@ -5,24 +5,18 @@ import Modal from '../../components/modal/modal';
 import IngredientDetails from '../../components/ingredient-details/ingredient-details';
 import Loader from '../../components/loader/loader';
 import { itemsSlice } from '../../services/recipe/items';
+import { IIngridientsData, IItemsSliceState } from '../../shared/interfaces';
 
 export const IngredientModalPage = () => {
   const dispatch: Dispatch<any> = useDispatch();
-  
-  const {
-    items,
-    itemsPendingStatus
-  } = useSelector(
-    (state: any) => state.items
-  );
-
+  const { items, itemsPendingStatus } = useSelector((state: {items: IItemsSliceState}) => state.items);
   const { request } = itemsSlice.actions;
 
   let navigate = useNavigate();
   const location = useLocation();
 
   const { id } = useParams();
-  const currentItem = items.find((item: any) => item._id === id);
+  const currentItem = items.find((item: IIngridientsData) => item._id === id);
 
   const replaceState = useCallback(() => {
     dispatch(request())

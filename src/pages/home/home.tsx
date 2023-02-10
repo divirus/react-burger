@@ -9,25 +9,18 @@ import { orderSlice } from '../../services/recipe/order';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import { Dispatch } from 'react';
+import { IItemsSliceState, IOrderSliceState } from '../../shared/interfaces';
 
 export const HomePage = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const { closeOrderModal } = orderSlice.actions;
-
   const { itemsPendingStatus } = useSelector(
-    (state: any) => state.items
+    (state: IItemsSliceState) => state.items
   );
-
-  const {
-    orderData,
-    isOrderModalOpen
-  } = useSelector(
-    (state: any) => state.order
-  );
-
-    const closeModal = () => {
-      dispatch(closeOrderModal());
-    };
+  const { orderData, isOrderModalOpen } = useSelector((state: {order:IOrderSliceState}) => state.order);
+  const closeModal = () => {
+    dispatch(closeOrderModal());
+  };
 
   return (
     <>

@@ -16,7 +16,7 @@ export const getItems = () => {
     .then((response: {data: IIngridientsData[]}) => {
         dispatch(itemsSlice.actions.success(response.data));
     })
-    .catch((error: any) => {
+    .catch((error: Error) => {
         console.log(error);
         dispatch(itemsSlice.actions.failed());
     })
