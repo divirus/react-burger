@@ -9,7 +9,7 @@ export const itemsInitialState: IItemsSliceState = {
 }
 
 export const getItems = () => {
-  return ((dispatch: Dispatch<any>) => {
+  return ((dispatch : Dispatch<any>) => {
     dispatch(itemsSlice.actions.request());
 
     getIngredientsData()

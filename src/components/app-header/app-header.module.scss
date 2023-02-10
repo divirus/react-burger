@@ -16,7 +16,11 @@ nav {
 }
 
 .logo {
-    composes: container;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
     flex-basis: 20%;
 }
 

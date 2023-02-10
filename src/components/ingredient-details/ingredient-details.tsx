@@ -8,7 +8,7 @@ const nutritionsList = [
     {name: 'Углеводы, ккал', prop: 'carbohydrates'},
 ]
 
-function IngredientDetails(props: { ingredient: IIngridientsData | undefined }) {
+export const IngredientDetails = (props: { ingredient: IIngridientsData | undefined }) => {
     const renderProp = (prop: string) => {
         switch(prop) {
             case 'calories':

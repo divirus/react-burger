@@ -16,13 +16,13 @@ export const createOrder = (items: string[]) => {
 
     getOrdersData(items)
     .then((data) => {
-      if (data.success)
+      if (data.success) {
         dispatch(orderSlice.actions.success({
           name: data.name,
           number: data.order.number,
           success: data.success
         }))
-      else {
+      } else {
         dispatch(orderSlice.actions.failed())
         throw Error(data.message);
       }
