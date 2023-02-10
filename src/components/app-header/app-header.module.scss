@@ -16,11 +16,7 @@ nav {
 }
 
 .logo {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: center;
+    composes: container;
     flex-basis: 20%;
 }
 
