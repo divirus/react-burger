@@ -12,9 +12,8 @@ export const IngredientModalPage = () => {
   const { items, itemsPendingStatus } = useSelector((state: {items: IItemsSliceState}) => state.items);
   const { request } = itemsSlice.actions;
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
-
   const { id } = useParams();
   const currentItem = items.find((item: IIngridientsData) => item._id === id);
 

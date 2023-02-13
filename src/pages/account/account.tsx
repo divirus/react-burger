@@ -143,7 +143,7 @@ export const ProfilePage = () => {
             userSuccess && 
             !userFailed && 
             !userRequest && (
-              <Form>
+              <Form onSubmit={onSubmitChanges}>
                 <Input
                   type={'text'}
                   placeholder={'Имя'}
@@ -193,8 +193,7 @@ export const ProfilePage = () => {
                     <Button 
                       type="primary"
                       size="medium"
-                      htmlType='button'
-                      onClick={onSubmitChanges}
+                      htmlType='submit'
                     >
                       Сохранить
                     </Button>

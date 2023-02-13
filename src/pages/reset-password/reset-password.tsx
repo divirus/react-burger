@@ -81,7 +81,7 @@ export const ResetPasswordPage = () => {
     navigate('/login', {replace: true});
   }, [navigate])
 
-  const onResetPasswordClick = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const onResetPasswordSubmit = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const isFormCorrect = validateForm();
     if(!isFormCorrect) {
@@ -133,7 +133,7 @@ export const ResetPasswordPage = () => {
           <Form
             title='Восстановление пароля'
             actionName='Сохранить'
-            onClick={onResetPasswordClick}
+            onSubmit={onResetPasswordSubmit}
           >
             <div className={isPasswordEmpty ? 'password_error' : ''}>
               <PasswordInput

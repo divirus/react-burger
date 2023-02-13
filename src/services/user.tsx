@@ -11,23 +11,18 @@ import {
 } from "../utils/api";
 import { getCookie, setCookie, deleteCookie } from '../utils/cookie';
 import { IUser } from '../shared/interfaces';
+import { request } from '../utils/check-response';
 
 export const getUser = () => {
-  return (dispatch: any) => {
+  return async (dispatch: any) => {
     dispatch(userSlice.actions.request());
-    fetch(USER_API_URL, {
+    await request(USER_API_URL, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Authorization: getCookie('accessToken')
       }
     } as RequestInit)
-    .then(res => {
-      if (!res.ok && res.status >= 500) {
-        throw Error(res.statusText);
-        }
-      return res.json();
-      })
     .then((data) => {
       if (data.success === true) {
         dispatch(userSlice.actions.setName(data.user.name));
@@ -49,19 +44,13 @@ export const getUser = () => {
           if (refresh_data.success === true) {
             setCookie('accessToken', refresh_data.accessToken, { path: '/' });
             setCookie('refreshToken', refresh_data.refreshToken, { path: '/' });
-            fetch(USER_API_URL, {
+            request(USER_API_URL, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
                 Authorization: getCookie('accessToken'),
               }
             } as RequestInit)
-            .then(res => {
-              if (!res.ok && res.status >= 500) {
-                throw Error(res.statusText);
-                }
-              return res.json();
-              })
             .then((data) => {
               if (data.success) {
                 dispatch(userSlice.actions.setName(data.user.name));
@@ -102,9 +91,9 @@ export const getUser = () => {
 }
 
 export const setUser = (user: IUser) => {
-  return (dispatch: any) => {
+  return async (dispatch: any) => {
     dispatch(userSlice.actions.request());
-    fetch(USER_API_URL, {
+    await request(USER_API_URL, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -116,12 +105,6 @@ export const setUser = (user: IUser) => {
         "name": user.name,
       })
     } as RequestInit)
-    .then(res => {
-      if (!res.ok && res.status >= 500) {
-        throw Error(res.statusText);
-        }
-      return res.json();
-      })
     .then((data) => {
       if (data.success === true) {
         dispatch(userSlice.actions.setName(data.user.name));
@@ -139,7 +122,7 @@ export const setUser = (user: IUser) => {
           if (refresh_data.success === true) {
             setCookie('accessToken', refresh_data.accessToken, { path: '/' });
             setCookie('refreshToken', refresh_data.refreshToken, { path: '/' });
-            fetch(USER_API_URL, {
+            request(USER_API_URL, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -151,12 +134,6 @@ export const setUser = (user: IUser) => {
                 "name": user.name,
               })
             } as RequestInit)
-            .then(res => {
-              if (!res.ok && res.status >= 500) {
-                throw Error(res.statusText);
-                }
-              return res.json();
-              })
             .then((data) => {
               if (data.success) {
                 dispatch(userSlice.actions.setName(data.user.name));
@@ -190,9 +167,9 @@ export const setUser = (user: IUser) => {
 }
 
 export const register = (user: IUser, redirectCallback: ()=>void) => {
-  return (dispatch: any) => {
+  return async (dispatch: any) => {
     dispatch(userSlice.actions.request());
-    fetch(REGISTER_API_URL, {
+    await request(REGISTER_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -203,12 +180,6 @@ export const register = (user: IUser, redirectCallback: ()=>void) => {
         "name": user.name,
       })
     } as RequestInit)
-    .then(res => {
-      if (!res.ok && res.status >= 500) {
-        throw Error(res.statusText);
-        }
-      return res.json();
-      })
     .then((data) => {
       if (data.success) {
         dispatch(userSlice.actions.setEmail(data.user.email));
@@ -233,9 +204,9 @@ export const register = (user: IUser, redirectCallback: ()=>void) => {
 }
 
 export const login = (user: Partial<IUser>, redirectCallback: ()=>void) => {
-  return (dispatch: any) => {
+  return async (dispatch: any) => {
     dispatch(userSlice.actions.request());
-    fetch(LOGIN_API_URL, {
+    await request(LOGIN_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -245,12 +216,6 @@ export const login = (user: Partial<IUser>, redirectCallback: ()=>void) => {
         "password": user.password
       })
     } as RequestInit)
-    .then(res => {
-      if (!res.ok && res.status >= 500) {
-        throw Error(res.statusText);
-        }
-      return res.json();
-      })
     .then((data) => {
       if (data.success) {
         dispatch(userSlice.actions.setEmail(data.user.email));
@@ -275,9 +240,9 @@ export const login = (user: Partial<IUser>, redirectCallback: ()=>void) => {
 }
 
 export const forgotPassword = (email: string, redirectCallback: ()=>void) => {
-  return (dispatch: any) => {
+  return async (dispatch: any) => {
     dispatch(userSlice.actions.request());
-    fetch(FORGOT_PASSWORD_API_URL, {
+    await request(FORGOT_PASSWORD_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -286,12 +251,6 @@ export const forgotPassword = (email: string, redirectCallback: ()=>void) => {
         "email": email
       })
     } as RequestInit)
-    .then(res => {
-      if (!res.ok && res.status >= 500) {
-        throw Error(res.statusText);
-        }
-      return res.json();
-      })
     .then((data) => {
       if (data.success) {
         dispatch(userSlice.actions.success(data));
@@ -308,9 +267,9 @@ export const forgotPassword = (email: string, redirectCallback: ()=>void) => {
 }
 
 export const resetPassword = (code: string, password: string, redirectCallback: ()=>void) => {
-  return (dispatch: any) => {
+  return async (dispatch: any) => {
     dispatch(userSlice.actions.request());
-    fetch(RESET_PASSWORD_API_URL, {
+    await request(RESET_PASSWORD_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -320,12 +279,6 @@ export const resetPassword = (code: string, password: string, redirectCallback: 
         "token": code
       })
     } as RequestInit)
-    .then(res => {
-      if (!res.ok && res.status >= 500) {
-        throw Error(res.statusText);
-        }
-      return res.json();
-      })
     .then((data) => {
       if (data.success) {
         dispatch(userSlice.actions.success(data));
@@ -344,9 +297,9 @@ export const resetPassword = (code: string, password: string, redirectCallback: 
 export const logout = (redirectCallback: ()=>void) => {
   const refreshToken = getCookie('refreshToken');
 
-  return (dispatch: any) => {
+  return async (dispatch: any) => {
     dispatch(userSlice.actions.request());
-    fetch(LOGOUT_API_URL, {
+    await request(LOGOUT_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -355,12 +308,6 @@ export const logout = (redirectCallback: ()=>void) => {
         "token": refreshToken
       })
     } as RequestInit)
-    .then(res => {
-      if (!res.ok && res.status >= 500) {
-        throw Error(res.statusText);
-        }
-      return res.json();
-      })
     .then((data) => {
       if (data.success) {
         deleteCookie('accessToken');

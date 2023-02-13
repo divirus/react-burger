@@ -65,7 +65,7 @@ export const ForgotPasswordPage = () => {
     })
   }, [navigate])
 
-  const onResetPasswordClick = useCallback((e: Event) => {
+  const onResetPasswordSubmit = useCallback((e: Event) => {
     e.preventDefault();
     const isFormCorrect = validateForm();
     if(!isFormCorrect) {
@@ -112,7 +112,7 @@ export const ForgotPasswordPage = () => {
           <Form
             title='Восстановление пароля'
             actionName='Восстановить'
-            onClick={onResetPasswordClick}
+            onSubmit={onResetPasswordSubmit}
           >
             <Input
               type={'email'}

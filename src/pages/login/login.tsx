@@ -83,7 +83,7 @@ export const LoginPage = () => {
     navigate(from, {replace: true});
   }, [navigate, location.state])
 
-  const onLoginClick = useCallback((e: Event) => {
+  const onLoginSubmit = useCallback((e: Event) => {
     e.preventDefault();
     const isFormCorrect = validateForm();
 
@@ -138,7 +138,7 @@ export const LoginPage = () => {
           <Form
             title='Вход'
             actionName='Войти'
-            onClick={onLoginClick}
+            onSubmit={onLoginSubmit}
           >
             <Input
               type={'email'}

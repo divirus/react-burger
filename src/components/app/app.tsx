@@ -21,10 +21,8 @@ import { IItemsSliceState } from '../../shared/interfaces';
 
 function App() {
   const dispatch: Dispatch<any> = useDispatch();
-
-  let location = useLocation();
-  let background = location.state && location.state.background;
-
+  const location = useLocation();
+  const background = location.state && location.state.background;
   const { itemsSuccess } = useSelector((state: IItemsSliceState) => state.items);
 
   useEffect(() => {

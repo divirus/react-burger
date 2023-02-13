@@ -103,7 +103,7 @@ export const RegisterPage = () => {
     navigate(from, {replace: true});
   }, [navigate, location.state])
 
-  const onRegisterClick = useCallback((e: Event) => {
+  const onRegisterSubmit = useCallback((e: Event) => {
     e.preventDefault();
     const isFormCorrect = validateForm();
     if(!isFormCorrect) {
@@ -154,7 +154,7 @@ export const RegisterPage = () => {
           <Form
             title='Регистрация'
             actionName='Зарегистрироваться'
-            onClick={onRegisterClick}
+            onSubmit={onRegisterSubmit}
           >
             <Input
               type={'text'}
