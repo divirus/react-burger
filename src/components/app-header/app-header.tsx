@@ -32,6 +32,10 @@ function AppHeader() {
     const onProfileClick = () => {
         navigate('/profile', { replace: true })
     };
+
+    const onLogoClick = () => {
+        navigate('/', { replace: true })
+    }
     
     return(
         <header>
@@ -48,7 +52,7 @@ function AppHeader() {
                             />
                         <HeaderItem icon={<ListIcon type="secondary" />} text="Лента заказов" onClick={()=>{}} />
                     </ul>
-                    <li className={styles.logo}>
+                    <li className={styles.logo} onClick={onLogoClick}>
                         <Logo />
                     </li>
                     <span className={styles.buttons_list_right}>

@@ -18,6 +18,7 @@ nav {
 .logo {
     composes: container;
     flex-basis: 20%;
+    cursor: pointer;
 }
 
 .buttons_list {
