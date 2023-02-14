@@ -5,8 +5,40 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IIngridientsData, IItemsSliceState } from '../../shared/interfaces';
 import { Link } from 'react-scroll';
 import { useSelector } from 'react-redux';
+import { useInView } from 'react-intersection-observer';
 
 function BurgerIngredientsList() {
+    const [refBun, bunInView] = useInView({
+        threshold: 0.1
+    });
+    const [refSauce, sauceInView] = useInView({
+        threshold: 0.1
+    });
+    const [refMain, mainInView] = useInView({
+        threshold: 0.1
+    });
+
+    const refType = (type: string) => {
+        switch(type) {
+            case 'bun':
+                return refBun;
+            case 'sauce':
+                return refSauce;
+            case 'main':
+                return refMain;
+        }
+    }
+
+    const onScroll = () => {
+        if (bunInView) {
+            setActiveTab('bun')
+        } else if (sauceInView) {
+            setActiveTab('sauce')
+        } else if (mainInView) {
+            setActiveTab('main')  
+        }
+      };
+    
     const [activeTab, setActiveTab] = React.useState<string>('bun')
     const { items } = useSelector((state: IItemsSliceState) => state.items);
     const tabTypes = [
@@ -32,21 +64,22 @@ function BurgerIngredientsList() {
                             offset={-20}
                             containerId="ingredients"
                         >
-                            <Tab value={tab.type} active={activeTab === tab.type} onClick={setActiveTab}>
+                            <Tab value={tab.type} active={activeTab === tab.type } onClick={setActiveTab}>
                                 {tab.title}
                             </Tab>
                         </Link>
                     )) 
                 }
             </div>
-            <div id="ingredients" className={styles.scroll_container}>
+            <div id="ingredients" className={styles.scroll_container} onScroll={onScroll}>
             {
                 tabTypes.map((tab: { type: string, title: string }, i) => (
                     <IngredientsCategory 
                         key={i}
                         id={++i}
                         title={tab.title} 
-                        items={items?.filter((item: IIngridientsData) => item.type === tab.type)} 
+                        items={items?.filter((item: IIngridientsData) => item.type === tab.type)}
+                        viewRef={refType(tab.type)} 
                     />
                 ))
             }

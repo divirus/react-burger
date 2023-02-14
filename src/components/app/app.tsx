@@ -54,9 +54,11 @@ function App() {
         <Route path="/ingredients/:id" element={<IngredientPage />} />
         <Route path="*" element={<NotFound404 />} />
       </Routes>
-      <Routes>
-        { background && <Route path="/ingredients/:id" element={<IngredientModalPage />} /> }
-      </Routes>
+      { background &&
+        <Routes>
+          <Route path="/ingredients/:id" element={<IngredientModalPage />} /> 
+        </Routes>
+      }
     </>
   );
 }

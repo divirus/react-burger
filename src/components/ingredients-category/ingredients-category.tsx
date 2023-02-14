@@ -3,9 +3,9 @@ import IngredientDetailsCard from '../ingredient-details-card/ingredient-details
 import { IIngridientsData } from '../../shared/interfaces';
 import { forwardRef } from 'react';
 
-const IngredientsCategory = forwardRef((props: {id: number, title: string, items: IIngridientsData[]}, ref: any) => {
+const IngredientsCategory = forwardRef((props: {id: number, title: string, items: IIngridientsData[], viewRef: any}, ref: any) => {
     return(
-        <section id={`ingredients-block-${props.id}`} ref={ref}>
+        <section id={`ingredients-block-${props.id}`} ref={props.viewRef}>
             <h2 className="text text_type_main-medium mt-10 mb-6">
                 {props.title}
             </h2>
