@@ -2,11 +2,11 @@ import { Dispatch, memo } from 'react';
 import { useDrag } from 'react-dnd';
 import { itemsSlice } from '../../services/recipe/items';
 import { useDispatch } from 'react-redux';
-import { ingredientSlice } from '../../services/recipe/ingredient';
 import { IIngridientsDataWithKey } from '../../shared/interfaces';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { burgerConstructorSlice } from '../../services/recipe/burger-constructor';
-import {v4} from 'uuid';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { v4 } from 'uuid';
 import styles from './ingredient-details-card.module.scss';
 
 export interface detailsCardProps extends IIngridientsDataWithKey {
@@ -15,12 +15,16 @@ export interface detailsCardProps extends IIngridientsDataWithKey {
 
   const IngredientDetailsCard = memo((props: {ingredient: detailsCardProps, key: string }) => {
     const dispatch: Dispatch<any> = useDispatch();
-    const { openIngredientModal } = ingredientSlice.actions;
     const { increaseQuantityValue } = itemsSlice.actions;
     const { addIngredient } = burgerConstructorSlice.actions
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const handleIngredientClick = () => {
-        dispatch(openIngredientModal(props.ingredient))
+        navigate(`/ingredients/${props.ingredient._id}`, { 
+            replace: true,
+            state: { background: location }
+        })
     }
 
     const [{opacity}, dragRef] = useDrag({

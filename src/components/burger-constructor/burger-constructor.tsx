@@ -3,23 +3,29 @@ import { useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './burger-constructor.module.scss';
 import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IBurgerConstructorSliceState, IIngridientsData, IIngridientsDataWithKey } from '../../shared/interfaces';
+import { IBurgerConstructorSliceState, IIngridientsData, IIngridientsDataWithKey, IUserSliceState } from '../../shared/interfaces';
 import { burgerConstructorSlice } from '../../services/recipe/burger-constructor';
 import { itemsSlice } from '../../services/recipe/items';
 import { createOrder } from '../../services/recipe/order';
 import DraggableElement from '../draggable-element/draggable-element';
+import { useNavigate } from 'react-router-dom';
 
 function BurgerConstructor() {
     const dispatch: Dispatch<any> = useDispatch();
     const { increaseQuantityValue, decreaseQuantityValue } = itemsSlice.actions;
     const { setBun, calcTotalPrice } = burgerConstructorSlice.actions
     const { bun, ingredients, totalPrice } = useSelector((state: {burgerConstructor: IBurgerConstructorSliceState}) => state.burgerConstructor);
+    const { isAuthorized } = useSelector((state: {user: IUserSliceState}) => state.user);
+    const navigate = useNavigate();
 
     const onOrderButtonClick = () => {
-        const items = [bun._id];
-        ingredients.map((item: IIngridientsData) => items.push(item._id));
-        items.push(bun._id);
-        dispatch(createOrder(items));
+        if (isAuthorized) {
+            const items = [bun._id];
+            ingredients.map(item => items.push(item._id));
+            dispatch(createOrder(items));
+        } else {
+            navigate('/login', { replace: true })
+        }
     };
 
     useEffect(() => {

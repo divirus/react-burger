@@ -4,6 +4,9 @@
     flex-wrap: nowrap;
     border-radius: var(--common-border-radius-s);
     text-decoration: none;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
     
     &:hover {
         .header_item_text {

@@ -1,0 +1,31 @@
+.profile_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    column-gap: calc(var(--offset-base-size) * 15);
+  }
+  
+  .form_container {
+    flex-basis: 860px;
+    display: flex;
+    align-self: flex-start;
+  }
+  
+  .buttons_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    justify-content: space-around;
+  }
+  
+  .profile_container :global .input_type_email label {
+    visibility: hidden;
+  }
+  
+  .profile_container :global .input_type_email label::before {
+    content: "Логин";
+    visibility: visible;
+  }

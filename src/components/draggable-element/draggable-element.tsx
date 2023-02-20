@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, Dispatch } from 'react';
 import { useDispatch } from 'react-redux';
 import { DragSourceMonitor, useDrag, useDrop } from 'react-dnd';
 import styles from './draggable-element.module.scss';
@@ -13,7 +13,7 @@ type DraggableElementType = {
 }
 
 function DraggableElement({ item, index }: DraggableElementType) {
-  const dispatch = useDispatch();
+  const dispatch: Dispatch<any> = useDispatch();
   const dndItemRef = useRef<any>();
   const { decreaseQuantityValue } = itemsSlice.actions;
   const { moveIngredient, deleteIngredient } = burgerConstructorSlice.actions
@@ -59,7 +59,7 @@ useEffect(() => {
     setIsItemHigher(offset.y < 0);
     setIsItemLower(offset.y > 0);    
   }
-}, [offset]);
+}, [offset, setIsItemHigher, setIsItemLower]);
 
 dragItemSource(dropItemTarget(dndItemRef))
 

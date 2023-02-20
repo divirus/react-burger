@@ -9,14 +9,14 @@ export const itemsInitialState: IItemsSliceState = {
 }
 
 export const getItems = () => {
-  return ((dispatch: Dispatch<any>) => {
+  return ((dispatch : Dispatch<any>) => {
     dispatch(itemsSlice.actions.request());
 
     getIngredientsData()
     .then((response: {data: IIngridientsData[]}) => {
         dispatch(itemsSlice.actions.success(response.data));
     })
-    .catch((error: any) => {
+    .catch((error: Error) => {
         console.log(error);
         dispatch(itemsSlice.actions.failed());
     })

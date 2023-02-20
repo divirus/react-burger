@@ -47,6 +47,20 @@ export interface IBurgerContext {
     onIngredientClick: (clickedItem: IIngridientsData) => void 
 }
 
+export interface IUser {
+    password: string,
+    email: string,
+    name: string,
+}
+
+export interface IUserSliceState {
+    user: IUser,
+    userRequest: boolean,
+    userFailed: boolean,
+    userSuccess: boolean,
+    isAuthorized: boolean
+}
+
 export interface IItemsSliceState {
     items: any,
     itemsPendingStatus: string;

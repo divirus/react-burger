@@ -1,78 +1,65 @@
-import {  Dispatch, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styles from "./app.module.scss"
+import { Dispatch, useEffect } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { getItems } from '../../services/recipe/items';
+import {
+  HomePage,
+  LoginPage,
+  RegisterPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
+  ProfilePage,
+  IngredientPage,
+  NotFound404,
+  IngredientModalPage
+} from '../../pages';
+import { ProtectedRoute } from '../protected-routes/protected-route';
+import { ProtectedResetRoute } from '../protected-routes/protected-reset-route';
+import { ProtectedGuestRoute } from '../protected-routes/protected-guest-route';
 import AppHeader from '../app-header/app-header';
-import Modal from "../modal/modal";
-import BurgerIngredientsList from '../burger-ingredients-list/burger-ingredients-list';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import OrderDetails from "../order-details/order-details";
-import { ingredientSlice } from "../../services/recipe/ingredient";
-import { getItems } from "../../services/recipe/items";
-import { orderSlice } from "../../services/recipe/order";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { IIngredietsSliceState, IItemsSliceState, IOrderSliceState } from "../../shared/interfaces";
+import { IItemsSliceState } from '../../shared/interfaces';
 
 function App() {
   const dispatch: Dispatch<any> = useDispatch();
-  const { closeOrderModal } = orderSlice.actions;
-  const { closeIngredientModal } = ingredientSlice.actions;
-
-  const { itemsPendingStatus } = useSelector((state: IItemsSliceState) => state.items);
-  const { orderData, isOrderModalOpen } = useSelector((state: { order: IOrderSliceState }) => state.order);
-  const { selectedIngredient, isIngredientModalOpen } = useSelector((state: { ingredient: IIngredietsSliceState }) => state.ingredient);
+  const location = useLocation();
+  const background = location.state && location.state.background;
+  const { itemsSuccess } = useSelector((state: IItemsSliceState) => state.items);
 
   useEffect(() => {
-    dispatch(getItems())
-  }, [dispatch]);
+    if (!itemsSuccess) {
+      dispatch(getItems());
+    }
+  }, [dispatch, itemsSuccess]);
 
-  const closeAllModals = () => {
-    dispatch(closeOrderModal());
-    dispatch(closeIngredientModal());
-  };
-    
   return (
-    <main>
+    <>
       <AppHeader />
-        {
-          itemsPendingStatus === 'error' &&
-          <h2 className={styles.message + ' text text_type_main-large text_color_inactive'}>
-            Ошибка загрузки
-          </h2>
-        }
-        {
-          itemsPendingStatus === 'loading' &&
-          <h2 className={styles.message + ' text text_type_main-large text_color_inactive'}>
-            Загрузка...
-          </h2>
-        }
-        {
-          itemsPendingStatus === 'success' && 
-          <div className={styles.container}>
-            <DndProvider backend={HTML5Backend}>
-              <section className={styles.section_left + ' mr-5'}>
-                <BurgerIngredientsList />
-              </section>
-              <section className={styles.section_right + ' ml-5'}>
-                <BurgerConstructor />
-              </section>
-            </DndProvider>
-          </div>
-        }
-        {
-          isOrderModalOpen &&
-          <Modal header={null} closeModal={closeAllModals}>
-            <OrderDetails orderData={orderData} />
-          </Modal>
-        }
-        {
-          isIngredientModalOpen && 
-          <Modal header='Детали ингредиента' closeModal={closeAllModals}>
-            <IngredientDetails ingredient={selectedIngredient} />
-          </Modal> 
-        }
-    </main>
+      <Routes location={background || location}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={
+          <ProtectedGuestRoute element={<LoginPage /> } />
+        } />
+        <Route path="/register" element={
+          <ProtectedGuestRoute element={<RegisterPage />} />
+        } />
+        <Route path="/forgot-password" element={
+          <ProtectedGuestRoute element={<ForgotPasswordPage />} />
+        } />
+        <Route path="/reset-password" element={
+          <ProtectedResetRoute element={<ResetPasswordPage />} />
+        } />
+        <Route path="/profile" element={
+          <ProtectedRoute element={<ProfilePage />} />
+        } />
+        <Route path="/ingredients/:id" element={<IngredientPage />} />
+        <Route path="*" element={<NotFound404 />} />
+      </Routes>
+      { background &&
+        <Routes>
+          <Route path="/ingredients/:id" element={<IngredientModalPage />} /> 
+        </Routes>
+      }
+    </>
   );
 }
 

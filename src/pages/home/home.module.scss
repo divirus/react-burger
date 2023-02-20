@@ -1,0 +1,9 @@
+.container_left, .container_right {
+    flex-basis: 600px;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
