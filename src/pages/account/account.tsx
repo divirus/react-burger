@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect, Dispatch, useCallback } from 'react';
+import { useState, useRef, useEffect, Dispatch, useCallback, SyntheticEvent } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import styles from './account.module.scss';
-import Form from '../../components/form/form';
+import { Form } from '../../components/form/form';
 import Sidebar from '../../components/login-sidebar/login-sidebar';
 import Loader from '../../components/loader/loader';
 import { Input, EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -99,7 +99,7 @@ export const ProfilePage = () => {
     setPasswordInputDisabled(true);
   }
 
-  const onSubmitChanges = (e: React.ChangeEvent<any>) => {
+  const onSubmitChanges = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!userRequest) {
@@ -112,8 +112,9 @@ export const ProfilePage = () => {
     setFormChanged(false);
   }
 
-  const onCancelChanges = (e: React.ChangeEvent<any>) => {
+  const onCancelChanges = (e: SyntheticEvent<Element, Event>) => {
     e.preventDefault();
+
     setNameValue(user.name);
     setEmailValue(user.email);
     setPasswordValue(user.password);

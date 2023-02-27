@@ -1,10 +1,10 @@
 import { Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { userSlice } from '../../services/user';
-import { Dispatch, useEffect } from 'react';
+import { Dispatch, ReactElement, useEffect } from 'react';
 import { IUserSliceState } from '../../shared/interfaces';
 
-export const ProtectedGuestRoute = ({element}: any) => {
+export const ProtectedGuestRoute = (props: {element: ReactElement}) => {
   const dispatch: Dispatch<any> = useDispatch();
   const { isAuthorized } = useSelector((state: {user: IUserSliceState}) => state.user);
   const { checkAuthorization } = userSlice.actions;
@@ -13,5 +13,5 @@ export const ProtectedGuestRoute = ({element}: any) => {
     dispatch(checkAuthorization())
   }, [dispatch, checkAuthorization]);
 
-  return isAuthorized ? <Navigate replace to="/profile" /> : element;
+  return isAuthorized ? <Navigate replace to="/profile" /> : props.element;
 }

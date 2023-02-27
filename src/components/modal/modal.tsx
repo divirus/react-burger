@@ -23,7 +23,7 @@ function Modal(props: {children: React.ReactNode, header: string | null, closeMo
     }, [handleEscKey]); 
 
     return ReactDOM.createPortal(
-        <main>
+        <>
             <ModalOverlay closeModal={props.closeModal} />
             <div className={styles.container + ' pl-10 pt-10 pr-10 pb-15'}>
                 <h3 className={styles.header + ' text text_type_main-large'}>
@@ -34,7 +34,7 @@ function Modal(props: {children: React.ReactNode, header: string | null, closeMo
                 </span>
                 {props.children}
             </div>
-        </main>, 
+        </>, 
         modalRoot
     );
 }

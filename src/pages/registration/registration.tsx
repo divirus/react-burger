@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect, Dispatch, useMemo } from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import Form from '../../components/form/form';
+import { Form } from '../../components/form/form';
 import Loader from '../../components/loader/loader';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { register, userSlice } from '../../services/user';
@@ -103,8 +103,9 @@ export const RegisterPage = () => {
     navigate(from, {replace: true});
   }, [navigate, location.state])
 
-  const onRegisterSubmit = useCallback((e: Event) => {
+  const onRegisterSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const isFormCorrect = validateForm();
     if(!isFormCorrect) {
       return;

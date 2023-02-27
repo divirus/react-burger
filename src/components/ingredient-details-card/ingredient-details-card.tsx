@@ -2,18 +2,14 @@ import { Dispatch, memo } from 'react';
 import { useDrag } from 'react-dnd';
 import { itemsSlice } from '../../services/recipe/items';
 import { useDispatch } from 'react-redux';
-import { IIngridientsDataWithKey } from '../../shared/interfaces';
+import { IDetailsCardProps, IIngridientsDataWithKey } from '../../shared/interfaces';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { burgerConstructorSlice } from '../../services/recipe/burger-constructor';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { v4 } from 'uuid';
 import styles from './ingredient-details-card.module.scss';
 
-export interface detailsCardProps extends IIngridientsDataWithKey {
-    value?: number | undefined;
-  };
-
-  const IngredientDetailsCard = memo((props: {ingredient: detailsCardProps, key: string }) => {
+  const IngredientDetailsCard = memo((props: {ingredient: IDetailsCardProps, key: string }) => {
     const dispatch: Dispatch<any> = useDispatch();
     const { increaseQuantityValue } = itemsSlice.actions;
     const { addIngredient } = burgerConstructorSlice.actions

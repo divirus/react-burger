@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, Dispatch } from '@reduxjs/toolkit'
 import { mockUserData } from '../utils/user-mock';
 import { 
     LOGIN_API_URL, 
@@ -14,7 +14,7 @@ import { IUser } from '../shared/interfaces';
 import { request } from '../utils/check-response';
 
 export const getUser = () => {
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch) => {
     dispatch(userSlice.actions.request());
     await request(USER_API_URL, {
       method: 'GET',
@@ -91,7 +91,7 @@ export const getUser = () => {
 }
 
 export const setUser = (user: IUser) => {
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch) => {
     dispatch(userSlice.actions.request());
     await request(USER_API_URL, {
       method: 'PATCH',
@@ -167,7 +167,7 @@ export const setUser = (user: IUser) => {
 }
 
 export const register = (user: IUser, redirectCallback: ()=>void) => {
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch) => {
     dispatch(userSlice.actions.request());
     await request(REGISTER_API_URL, {
       method: 'POST',
@@ -204,7 +204,7 @@ export const register = (user: IUser, redirectCallback: ()=>void) => {
 }
 
 export const login = (user: Partial<IUser>, redirectCallback: ()=>void) => {
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch) => {
     dispatch(userSlice.actions.request());
     await request(LOGIN_API_URL, {
       method: 'POST',
@@ -240,7 +240,7 @@ export const login = (user: Partial<IUser>, redirectCallback: ()=>void) => {
 }
 
 export const forgotPassword = (email: string, redirectCallback: ()=>void) => {
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch) => {
     dispatch(userSlice.actions.request());
     await request(FORGOT_PASSWORD_API_URL, {
       method: 'POST',
@@ -267,7 +267,7 @@ export const forgotPassword = (email: string, redirectCallback: ()=>void) => {
 }
 
 export const resetPassword = (code: string, password: string, redirectCallback: ()=>void) => {
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch) => {
     dispatch(userSlice.actions.request());
     await request(RESET_PASSWORD_API_URL, {
       method: 'POST',
@@ -297,7 +297,7 @@ export const resetPassword = (code: string, password: string, redirectCallback: 
 export const logout = (redirectCallback: ()=>void) => {
   const refreshToken = getCookie('refreshToken');
 
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch) => {
     dispatch(userSlice.actions.request());
     await request(LOGOUT_API_URL, {
       method: 'POST',

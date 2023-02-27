@@ -23,13 +23,13 @@ function App() {
   const dispatch: Dispatch<any> = useDispatch();
   const location = useLocation();
   const background = location.state && location.state.background;
-  const { itemsSuccess } = useSelector((state: IItemsSliceState) => state.items);
+  const { itemsPendingStatus } = useSelector((state: { items: IItemsSliceState }) => state.items);
 
   useEffect(() => {
-    if (!itemsSuccess) {
+    if (itemsPendingStatus !== 'success') {
       dispatch(getItems());
     }
-  }, [dispatch, itemsSuccess]);
+  }, [dispatch, itemsPendingStatus]);
 
   return (
     <>

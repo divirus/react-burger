@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect, Dispatch, useMemo } from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import Form from '../../components/form/form';
+import { Form } from '../../components/form/form';
 import Loader from '../../components/loader/loader';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { login, userSlice } from '../../services/user';
@@ -83,7 +83,7 @@ export const LoginPage = () => {
     navigate(from, {replace: true});
   }, [navigate, location.state])
 
-  const onLoginSubmit = useCallback((e: Event) => {
+  const onLoginSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const isFormCorrect = validateForm();
 

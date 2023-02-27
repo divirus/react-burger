@@ -9,7 +9,7 @@ import { IIngridientsData, IItemsSliceState } from '../../shared/interfaces';
 
 export const IngredientModalPage = () => {
   const dispatch: Dispatch<any> = useDispatch();
-  const { items, itemsPendingStatus } = useSelector((state: {items: IItemsSliceState}) => state.items);
+  const { items, itemsPendingStatus } = useSelector((state: { items: IItemsSliceState }) => state.items);
   const { request } = itemsSlice.actions;
 
   const navigate = useNavigate();

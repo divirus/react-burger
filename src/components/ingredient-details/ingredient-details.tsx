@@ -34,7 +34,7 @@ export const IngredientDetails = (props: { ingredient: IIngridientsData | undefi
             </h4>
             <ul className={styles.nutrition_list}>
                 {
-                   nutritionsList.map((el: { name: string, prop: string }, index) => (
+                   nutritionsList.map((el, index) => (
                     <li className={styles.nutrition_list_item} key={index}>
                         <p className="text text_type_main-default text_color_inactive">
                             {el.name}
