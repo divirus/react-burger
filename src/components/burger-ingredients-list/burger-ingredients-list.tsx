@@ -40,7 +40,7 @@ function BurgerIngredientsList() {
       };
     
     const [activeTab, setActiveTab] = React.useState<string>('bun')
-    const { items } = useSelector((state: IItemsSliceState) => state.items);
+    const { items } = useSelector((state: { items: IItemsSliceState }) => state.items);
     const tabTypes = [
         {type: 'bun', title: 'Булки'},
         {type: 'sauce', title: 'Соусы'},
@@ -54,7 +54,7 @@ function BurgerIngredientsList() {
             </h1>
             <div className={styles.tab_selector}>
                 {
-                    tabTypes.map((tab: { type: string, title: string }, i) => (
+                    tabTypes.map((tab, i) => (
                         <Link
                             key={i}
                             to={`ingredients-block-${++i}`}
@@ -73,13 +73,13 @@ function BurgerIngredientsList() {
             </div>
             <div id="ingredients" className={styles.scroll_container} onScroll={onScroll}>
             {
-                tabTypes.map((tab: { type: string, title: string }, i) => (
+                tabTypes.map((tab, i) => (
                     <IngredientsCategory 
                         key={i}
                         id={++i}
                         title={tab.title} 
                         items={items?.filter((item: IIngridientsData) => item.type === tab.type)}
-                        viewRef={refType(tab.type)} 
+                        viewRef={refType(tab.type) as unknown as React.RefObject<HTMLElement>} 
                     />
                 ))
             }

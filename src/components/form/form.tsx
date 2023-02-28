@@ -1,7 +1,9 @@
 import styles from './form.module.scss';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-function Form(props: any) {
+type TOnSubmitEvent = (e: React.FormEvent<HTMLFormElement>) => void;
+
+export const Form = (props: {title?: string, actionName?: string, children?: React.ReactNode, onSubmit: TOnSubmitEvent}) => {
   return(
     <form className={styles.form_container} autoComplete="on" onSubmit={props.onSubmit}>
       {props.title &&
@@ -19,5 +21,3 @@ function Form(props: any) {
     </form>
   );
 }
-
-export default Form;

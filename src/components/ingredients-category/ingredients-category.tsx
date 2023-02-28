@@ -1,9 +1,9 @@
 import styles from './ingredients-category.module.scss';
 import IngredientDetailsCard from '../ingredient-details-card/ingredient-details-card';
 import { IIngridientsData } from '../../shared/interfaces';
-import { forwardRef } from 'react';
+import { forwardRef, RefObject } from 'react';
 
-const IngredientsCategory = forwardRef((props: {id: number, title: string, items: IIngridientsData[], viewRef: any}, ref: any) => {
+const IngredientsCategory = forwardRef((props: {id: number, title: string, items: IIngridientsData[], viewRef: RefObject<HTMLElement>}, ref: unknown) => {
     return(
         <section id={`ingredients-block-${props.id}`} ref={props.viewRef}>
             <h2 className="text text_type_main-medium mt-10 mb-6">

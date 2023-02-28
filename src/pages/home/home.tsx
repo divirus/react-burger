@@ -14,9 +14,7 @@ import { IItemsSliceState, IOrderSliceState } from '../../shared/interfaces';
 export const HomePage = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const { closeOrderModal } = orderSlice.actions;
-  const { itemsPendingStatus } = useSelector(
-    (state: IItemsSliceState) => state.items
-  );
+  const { itemsPendingStatus } = useSelector((state: { items: IItemsSliceState }) => state.items);
   const { orderData, isOrderModalOpen } = useSelector((state: {order:IOrderSliceState}) => state.order);
   const closeModal = () => {
     dispatch(closeOrderModal());

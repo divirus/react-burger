@@ -31,7 +31,7 @@ export const itemsSlice = createSlice({
       state.itemsPendingStatus = 'loading';
     },
     failed(state) {
-        state.itemsPendingStatus = 'error';
+      state.itemsPendingStatus = 'error';
     },
     success(state, action) {
       state.itemsPendingStatus = 'success';
@@ -44,7 +44,7 @@ export const itemsSlice = createSlice({
     },
     decreaseQuantityValue(state: IItemsSliceState, action) {
       state.items = [...state.items].map(item =>
-        item._id === action.payload ? { ...item, value: --item.value } : item
+        item.value && item._id === action.payload ? { ...item, value: --item.value } : item
       );
     },
     clearValues(state: IItemsSliceState) {

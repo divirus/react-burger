@@ -1,3 +1,8 @@
+type TCookieProps = { 
+  path?: string;
+  expires?: unknown;
+}
+
 export function getCookie(name: string) {
   const matches = document.cookie.match(
     new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()[]\\\/\+^])/g, '\\$1') + '=([^;]*)')
@@ -5,7 +10,7 @@ export function getCookie(name: string) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export function setCookie(name: string, value: any, props: any) {
+export function setCookie(name: string, value: string | null, props: TCookieProps) {
   props = props || {};
   let exp = props.expires;
 
@@ -13,18 +18,16 @@ export function setCookie(name: string, value: any, props: any) {
     const d = new Date();
     d.setTime(d.getTime() + exp * 1000);
     exp = props.expires = d;
-  }
-
-  if (exp && exp.toUTCString) {
+  } else if (exp instanceof Date && exp && exp.toUTCString) {
     props.expires = exp.toUTCString();
   }
 
-  value = encodeURIComponent(value);
+  if (value) value = encodeURIComponent(value);
   let updatedCookie = name + '=' + value;
 
   for (const propName in props) {
     updatedCookie += '; ' + propName;
-    const propValue = props[propName];
+    const propValue = props[propName as keyof typeof props];
     if (propValue !== true) {
       updatedCookie += '=' + propValue;
     }

@@ -5,7 +5,7 @@ import Loader from '../../components/loader/loader';
 import { IIngridientsData, IItemsSliceState } from '../../shared/interfaces';
 
 export const IngredientPage = () => {
-  const { items, itemsPendingStatus } = useSelector((state: IItemsSliceState) => state.items);
+  const { items, itemsPendingStatus } = useSelector((state: { items: IItemsSliceState}) => state.items);
   const { id } = useParams();
 
   return (

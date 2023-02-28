@@ -17,6 +17,10 @@ export interface IIngridientsDataWithKey extends IIngridientsData {
     key?: string;
 }
 
+export interface IDetailsCardProps extends IIngridientsDataWithKey {
+    value?: number;
+  };
+
 export interface IIngredientsDataUseState {
     items: IIngridientsData[];
     loadingState: string | null;
@@ -62,8 +66,8 @@ export interface IUserSliceState {
 }
 
 export interface IItemsSliceState {
-    items: any,
-    itemsPendingStatus: string;
+    items: IDetailsCardProps[],
+    itemsPendingStatus: string
 }
 
 export interface IIngredietsSliceState {
