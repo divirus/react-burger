@@ -26,6 +26,23 @@ export interface IIngredientsDataUseState {
     loadingState: string | null;
 };
 
+export interface IOrder {
+    _id?: string,
+    createdAt?: string,
+    updatedAt?: string,
+    number?: number,
+    name?: string,
+    status?: string,
+    ingredients?: Array<IIngridientsData>
+  }
+
+export interface INewOrder {
+    id?: number,
+    name?: string,
+    number?: number,
+    success?: boolean
+}
+
 export interface IOrderData {
     id: number;
     name: string;
@@ -85,4 +102,18 @@ export interface IBurgerConstructorSliceState {
     bun: IIngridientsDataWithKey,
     ingredients: IIngridientsDataWithKey[],
     totalPrice: number
+}
+
+export interface IRefreshTokenResponse {
+    ok: boolean,
+    status: number,
+    statusText: string | undefined,
+    json: any
+}
+
+export interface IRefreshTokenData {
+    success: boolean,
+    accessToken: string,
+    refreshToken: string,
+    message: string | undefined
 }

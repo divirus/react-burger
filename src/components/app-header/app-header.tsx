@@ -7,8 +7,9 @@ import { useState, useEffect } from 'react';
 function AppHeader() {
     const navigate = useNavigate();
 
-    const [isHomePage, setHomePage] = useState(false);
-    const [isProfilePage, setProfilePage] = useState(false);
+    const [isHomePage, setHomePage] = useState<boolean>(false);
+    const [isFeedPage, setFeedPage] = useState<boolean>(false);
+    const [isProfilePage, setProfilePage] = useState<boolean>(false);
 
     const location = useLocation();
     const currentUrl = location.pathname;
@@ -17,9 +18,19 @@ function AppHeader() {
         switch (currentUrl.split('/')[1]) {
             case '':
                 setHomePage(true);
+                setFeedPage(false);
+                setProfilePage(false);
                 break;
-            case 'profile':
+            case '/feed':
+                setFeedPage(true);
+                setHomePage(false);
+                setProfilePage(false);
+                break;
+            case '/profile':
+            case '/profile/orders':
                 setProfilePage(true);
+                setHomePage(false);
+                setFeedPage(false);
                 break;
             default:
                 break;
@@ -28,6 +39,9 @@ function AppHeader() {
 
     const onConstructorClick = () => {
         navigate('/', { replace: true })
+    };
+    const onFeedClick = () => {
+        navigate('/feed', { replace: true })
     };
     const onProfileClick = () => {
         navigate('/profile', { replace: true })
@@ -42,15 +56,22 @@ function AppHeader() {
             <nav className={styles.container}>
                 <ul className={styles.buttons_list}>
                     <ul className={styles.buttons_list_left}>
-                            <HeaderItem
-                                icon={
-                                    <BurgerIcon type={isHomePage ? "primary" : "secondary"} />
-                                }
-                                text="Конструктор"
-                                onClick={onConstructorClick}
-                                active={isHomePage}
+                        <HeaderItem
+                            icon={
+                                <BurgerIcon type={isHomePage ? "primary" : "secondary"} />
+                            }
+                            text="Конструктор"
+                            onClick={onConstructorClick}
+                            active={isHomePage}
+                        />
+                        <HeaderItem 
+                            icon={
+                                <ListIcon type="secondary" />
+                            } 
+                            text="Лента заказов" 
+                            onClick={onFeedClick}
+                            active={isFeedPage} 
                             />
-                        <HeaderItem icon={<ListIcon type="secondary" />} text="Лента заказов" onClick={()=>{}} />
                     </ul>
                     <li className={styles.logo} onClick={onLogoClick}>
                         <Logo />

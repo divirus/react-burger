@@ -1,0 +1,13 @@
+.orders_list {
+    composes: flex_column from global;
+    composes: pr-2 from global;
+    max-height: calc(100vh - 187px);
+    composes: scroll from global;
+    scroll-snap-type: y proximity;
+  }
+  
+  .orders_list::-webkit-scrollbar {
+    position: relative;
+    left: 20px;
+  }
+  

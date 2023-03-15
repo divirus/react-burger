@@ -15,7 +15,7 @@ export const HomePage = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const { closeOrderModal } = orderSlice.actions;
   const { itemsPendingStatus } = useSelector((state: { items: IItemsSliceState }) => state.items);
-  const { orderData, isOrderModalOpen } = useSelector((state: {order:IOrderSliceState}) => state.order);
+  const { isOrderModalOpen } = useSelector((state: {order:IOrderSliceState}) => state.order);
   const closeModal = () => {
     dispatch(closeOrderModal());
   };
@@ -51,7 +51,7 @@ export const HomePage = () => {
               header={null}
               closeModal={closeModal}
             >
-                <OrderDetails orderData={orderData} />
+                <OrderDetails />
             </Modal>
         )}
     </>

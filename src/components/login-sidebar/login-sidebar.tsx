@@ -1,48 +1,64 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import styles from './login-sidebar.module.scss';
+// importing components from project
 import LoginSidebarLink from '../login-sidebar-link/login-sidebar-link';
+// import slices and their functions
 import { logout, userSlice } from '../../services/user';
+
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useState, useEffect, Dispatch } from 'react';
-import { IUserSliceState } from "../../shared/interfaces";
+import { useState, useEffect } from 'react';
+import { useAppDispatch } from "../../services/hooks";
 
 function LoginSidebar() {
-  const dispatch: Dispatch<any> = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { userRequest } = useSelector((state: {user: IUserSliceState}) => state.user);
+  const { userRequest } = useSelector((state: any) => state.user);
   const { resetStatus } = userSlice.actions;
-  const isOrderPage = false;
-
+  
+  // reset status and errors on page load
   useEffect(() => {
     dispatch(resetStatus());
   }, [dispatch, resetStatus])
-
+  
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [isProfilePage, setProfilePage] = useState(false);
-  const location = useLocation();
-  const currentUrl = location.pathname;
+  const [isHistoryPage, setHistoryPage] = useState(false);
 
+  const currentUrl = location.pathname;
+    
   useEffect(() => {
     switch (currentUrl) {
         case '/profile':
           setProfilePage(true);
           break;
+        case '/profile/orders':
+          setHistoryPage(true);
+          break;
         default:
           break;
     }
-  }, [currentUrl, setProfilePage]);
+  }, [currentUrl]);
 
   const onProfileClick = () => {
-    navigate('/profile', { replace: true })
-
+    navigate('/profile', { 
+        replace: true
+    })
   };
-
+  const onHistoryClick = () => {
+    navigate('/profile/orders', { 
+        replace: true
+    })
+  };
   const redirectOnSuccess = () => {
-    navigate('/login', { replace: true })
+    navigate('/login', { 
+      replace: true
+  })
   }
 
   const onLogoutClick = () => {
+    // won't call API if user data is already in process
     if (!userRequest) {
       dispatch(logout(redirectOnSuccess));
     }
@@ -58,8 +74,8 @@ function LoginSidebar() {
         />
         <LoginSidebarLink
           text={'История заказов'}
-          onClick={()=>{}}
-          active={isOrderPage}
+          onClick={onHistoryClick}
+          active={isHistoryPage}
         /> 
         <LoginSidebarLink
           text={'Выход'}

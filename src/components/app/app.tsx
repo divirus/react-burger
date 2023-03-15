@@ -8,10 +8,14 @@ import {
   RegisterPage,
   ForgotPasswordPage,
   ResetPasswordPage,
-  ProfilePage,
   IngredientPage,
   NotFound404,
-  IngredientModalPage
+  IngredientModalPage,
+  HistoryPage,
+  OrderPage,
+  FeedPage,
+  OrderModalPage,
+  ProfilePage
 } from '../../pages';
 import { ProtectedRoute } from '../protected-routes/protected-route';
 import { ProtectedResetRoute } from '../protected-routes/protected-reset-route';
@@ -51,12 +55,34 @@ function App() {
         <Route path="/profile" element={
           <ProtectedRoute element={<ProfilePage />} />
         } />
+        <Route path="/profile/orders" element={
+          <ProtectedRoute element={<HistoryPage />} />
+        } />
+        <Route path="/profile/orders/:id" element={
+          <ProtectedRoute element={<OrderPage />} />
+        } />
         <Route path="/ingredients/:id" element={<IngredientPage />} />
+        <Route path="/feed" element={<FeedPage />} />
+        <Route path="/feed/:id" element={<OrderPage />} />
         <Route path="*" element={<NotFound404 />} />
       </Routes>
-      { background &&
+      { background && background.pathname === '/' &&
         <Routes>
           <Route path="/ingredients/:id" element={<IngredientModalPage />} /> 
+        </Routes>
+      }
+      { background && background.pathname === '/profile/orders' &&
+        <Routes>
+          <Route path="/profile/orders/:id" element={
+            <ProtectedRoute element={<OrderModalPage />} />
+          } /> 
+        </Routes>
+      }
+      { background && background.pathname === '/feed' &&
+        <Routes>
+          <Route path="/feed/:id" element={
+            <ProtectedRoute element={<OrderModalPage />} />
+          } /> 
         </Routes>
       }
     </>
