@@ -1,5 +1,5 @@
 import styles from './order-details.module.scss';
-// import orderAcceptedImage from '../../images/order-accepted.gif'
+import logo from '../../images/doneIcon.svg';
 import { useSelector } from "react-redux";
 import Loader from '../loader/loader';
 
@@ -47,10 +47,8 @@ function OrderDetails() {
                     <p className='text text_type_main-medium mt-8 mb-15'>
                         идентификатор заказа
                     </p>
-                    <img 
-                        // gif image will be played only once (not in loop)
-                        // random parameter at the end of gif url makes it play every time modal is open 
-                        // src={orderAcceptedImage + '?v=' + Math.floor(Math.random()*100)}
+                    <img
+                        src={logo}
                         alt="Заказ принят"
                         title="Заказ принят"
                         height="120"

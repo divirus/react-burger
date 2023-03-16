@@ -349,8 +349,6 @@ export const startHistory = () => {
       url: USER_ORDERS_WS_URL,
       token: (getCookie('accessToken') || '').replace('Bearer ', '')
     }));
-    // saving user orders in feedSlice
-    dispatch(wsSlice.actions.wsSetDataDispatch(feedSlice.actions.setOrdersData));
     dispatch(feedSlice.actions.request());
   }
 }

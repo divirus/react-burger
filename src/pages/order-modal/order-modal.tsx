@@ -1,11 +1,9 @@
 import { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-// importing components from project
 import Modal from '../../components/modal/modal';
 import Loader from '../../components/loader/loader';
 import OrderDetailedView from '../../components/order-detailed-view/order-detailed-view';
-// import slices and their functions
 import { feedSlice } from '../../services/feed';
 import { itemsSlice } from '../../services/recipe/items';
 import { IOrder } from '../../shared/interfaces';
@@ -14,9 +12,7 @@ export const OrderModalPage = () => {
   const dispatch = useDispatch();
   
   const {
-    itemsRequest,
-    itemsSuccess,
-    itemsFailed
+    itemsPendingStatus
   } = useSelector(
     (state: any) => state.items
   );
@@ -53,23 +49,19 @@ export const OrderModalPage = () => {
   const currentOrder = orders.find((order: IOrder) => order._id === currentOrderId);
 
   const replaceState = useCallback(() => {
-    // hiding the content on page before the reload starts
     dispatch(request())
-    // remove the background element to show ingredient page instead of a modal
     navigate(location, { 
       replace: true,
       state: { background: undefined }
     })
   }, [navigate, dispatch, location, request]);
 
-  // return to parent page if modal is closed
   const closeModal = () => {
     navigate(location.state.background.pathname, { 
       replace: true
     })
   }
 
-  // handle state cleaning in case of page refresh
   useEffect(() => {
     window.addEventListener("beforeunload", replaceState);
     return () => {
@@ -80,26 +72,25 @@ export const OrderModalPage = () => {
   return(
     <>
       {
-        (itemsRequest || feedRequest) && 
-        (!itemsFailed || !feedFailed) && 
-        (!itemsSuccess || !feedSuccess) && (
+        (itemsPendingStatus === 'loading' || feedRequest) && 
+        (!feedFailed) && 
+        (!feedSuccess) && (
           <Loader />
       )}
       {
-        (itemsFailed || feedFailed) && 
-        (!itemsRequest || !feedRequest) && 
-        (!itemsSuccess || !feedSuccess) && (
+        (itemsPendingStatus === 'error' || feedFailed) && 
+        (!feedRequest) && 
+        (!feedSuccess) && (
           <h2 className='fullscreen_message text text_type_main-large text_color_inactive'>
             Ошибка загрузки
           </h2>
       )}
       {
-        (itemsSuccess && feedSuccess) && 
-        (!itemsFailed || !feedFailed) && 
-        (!itemsRequest || !feedRequest) && (
+        (itemsPendingStatus === 'success' && feedSuccess) && 
+        (!feedFailed) && 
+        (!feedRequest) && (
           <Modal
-            header={`#${currentOrder.number.toString().padStart(6, 0)}`}
-            // isOrderModal={true}
+            header={`#${currentOrder.number.toString().padStart(6, '0')}`}
             closeModal={closeModal} >
             <OrderDetailedView
               order={currentOrder}

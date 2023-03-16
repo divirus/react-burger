@@ -1,21 +1,17 @@
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useSelector } from "react-redux";
 import styles from './feed.module.scss';
-// importing components from project
 import OrdersList from '../../components/orders-list/orders-list';
 import FeedPanel from '../../components/feed-panel/feed-panel';
 import Loader from '../../components/loader/loader';
-// import slices and their functions
 import { feedSlice, startFeed, stopFeed } from '../../services/feed';
 import { useAppDispatch } from '../../services/hooks';
 
-export const FeedPage = () => {
+export const FeedPage: FC = () => {
   const dispatch = useAppDispatch();
 
   const {
-    itemsRequest,
-    itemsSuccess,
-    itemsFailed
+    itemsPendingStatus
   } = useSelector(
     (state: any) => state.items
   );
@@ -35,13 +31,10 @@ export const FeedPage = () => {
     (state: any) => state.ws
   );
 
-  // we need to have feed from websocket in store to render orders data
   useEffect(() => {
-    // open new websocket when the page is opened
     dispatch(startFeed());
 
     return () => {
-      // close the websocket when the page is closed
       dispatch(stopFeed());
     };  
   }, [dispatch]);
@@ -56,27 +49,26 @@ export const FeedPage = () => {
   return(
     <>
       {
-        (itemsRequest || feedRequest) && 
-        (!itemsFailed || !feedFailed) && 
-        (!itemsSuccess || !feedSuccess) && (
+        (itemsPendingStatus === 'loading' || feedRequest) && 
+        (!feedFailed) && 
+        (!feedSuccess) && (
           <Loader />
       )}
       {
-        (itemsFailed || feedFailed) && 
-        (!itemsRequest || !feedRequest) && 
-        (!itemsSuccess || !feedSuccess) && (
+        (itemsPendingStatus === 'error' || feedFailed) && 
+        (!feedRequest) && 
+        (!feedSuccess) && (
           <h2 className='fullscreen_message text text_type_main-large text_color_inactive'>
             Ошибка загрузки
           </h2>
       )}
       {
-        (itemsSuccess && feedSuccess) && 
-        (!itemsFailed || !feedFailed) && 
-        (!itemsRequest || !feedRequest) && (
+        (itemsPendingStatus === 'success' && feedSuccess) && 
+        (!feedFailed) && 
+        (!feedRequest) && (
           <>
             <h1 className={
-              styles.feed_title +
-              ' mt-10 mb-5 text text_type_main-large text_color_default'
+              styles.feed_title + ' mt-10 mb-5 text text_type_main-large text_color_default'
             }>
                 Лента заказов
             </h1>

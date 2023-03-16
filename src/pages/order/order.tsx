@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 import { useParams, useLocation  } from 'react-router-dom';
-// importing components from project
 import Loader from '../../components/loader/loader';
 import OrderDetailedView from '../../components/order-detailed-view/order-detailed-view';
-// import slices and their functions
 import { feedSlice, startFeed, stopFeed } from '../../services/feed';
 import { useAppDispatch } from '../../services/hooks';
 import { startHistory, stopHistory } from '../../services/user';
@@ -12,15 +10,11 @@ import { IOrder } from '../../shared/interfaces';
 
 export const OrderPage = () => {
   const dispatch = useAppDispatch();
-  // for user profile page we should open different websocket with auth token
-  // useRouteMatch for some reason returning always null here
   const location = useLocation();
   const isFeedPage = location.pathname.split('/')[1] === 'feed';
   
   const {
-    itemsRequest,
-    itemsSuccess,
-    itemsFailed
+    itemsPendingStatus
   } = useSelector(
     (state: any) => state.items
   );
@@ -40,17 +34,14 @@ export const OrderPage = () => {
     (state: any) => state.ws
   );
 
-    const [currentOrder, setCurrentOrder] = useState({});
+  const [currentOrder, setCurrentOrder] = useState({});
 
-  // we need to have feed from websocket in store to render orders data
   useEffect(() => {
-    // open new websocket when the page is opened
     if(isFeedPage)
       dispatch(startFeed());
     else
       dispatch(startHistory());
     return () => {
-      // close the websocket when the page is closed
       if(isFeedPage)
         dispatch(stopFeed());
       else
@@ -74,24 +65,24 @@ export const OrderPage = () => {
   return(
     <>
       {
-        (itemsRequest || feedRequest) && 
-        (!itemsFailed || !feedFailed) && 
-        (!itemsSuccess || !feedSuccess) && (
+        (itemsPendingStatus === 'loading' || feedRequest) && 
+        (!feedFailed) && 
+        (!feedSuccess) && (
           <Loader />
       )}
       {
-        (itemsFailed || feedFailed) && 
-        (!itemsRequest || !feedRequest) && 
-        (!itemsSuccess || !feedSuccess) && (
+        (itemsPendingStatus === 'error' || feedFailed) && 
+        (!feedRequest) && 
+        (!feedSuccess) && (
           <h2 className='fullscreen_message text text_type_main-large text_color_inactive'>
             Ошибка загрузки
           </h2>
       )}
       {
-        (itemsSuccess && feedSuccess ) &&
-        (Object.keys(currentOrder).length !== 0) &&
-        (!itemsFailed || !feedFailed) && 
-        (!itemsRequest || !feedRequest) && (
+        (itemsPendingStatus === 'success' && feedSuccess ) &&
+        (Object.keys(currentOrder).length > 0) &&
+        (!feedFailed) && 
+        (!feedRequest) && (
           <div className='fullscreen_message'>
             <OrderDetailedView
               order={currentOrder}

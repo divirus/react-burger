@@ -17,7 +17,6 @@ export const stopFeed = () => {
   }
 }
 
-// for some reason in profile page orders came up sorted backwards in time
 const sortOrdersByDate = (orders: Array<IOrder>): Array<IOrder> => {
   orders.sort(function(a: IOrder, b: IOrder): number {
     if (!!a.updatedAt && !!b.updatedAt) {

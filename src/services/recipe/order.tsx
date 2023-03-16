@@ -10,18 +10,9 @@ import { refreshToken } from '../user';
 export const createOrder = (items: Array<string>) => {
   return (dispatch = useAppDispatch()) => {
     dispatch(orderSlice.actions.request());
-
-    // show modal right from request start to show loader
     dispatch(orderSlice.actions.openOrderModal());
     
-    // get new order ID from API:
     getOrdersData(items)
-      .then(res => {
-        if (!res.ok && res.status >= 500) {
-          throw Error(res.statusText);
-          }
-        return res.json();
-        })
       .then((data) => {
         if (data.success) {
           dispatch(orderSlice.actions.success({
@@ -29,9 +20,7 @@ export const createOrder = (items: Array<string>) => {
             number: data.order.number,
             success: data.success
           }))
-        }
-        // if accessToken has gone stale we're need to refresh it first
-        else if (data.message && data.message === 'jwt expired') {
+        } else if (data.message && data.message === 'jwt expired') {
           dispatch(orderSlice.actions.request());
           refreshToken()
           .then((refresh_res: IRefreshTokenResponse) => {
@@ -46,12 +35,6 @@ export const createOrder = (items: Array<string>) => {
               setCookie('refreshToken', refresh_data.refreshToken, { path: '/' });
               dispatch(orderSlice.actions.request());
               getOrdersData(items)
-              .then(res => {
-                if (!res.ok && res.status >= 500) {
-                  throw Error(res.statusText);
-                  }
-                return res.json();
-                })
               .then((data) => {
                 if (data.success) {
                   dispatch(orderSlice.actions.success({
@@ -87,7 +70,6 @@ export const createOrder = (items: Array<string>) => {
         console.log(error);
       })
      .finally(() => {
-        // clearing ordered ingredients from BurgerConstructor
         dispatch(burgerConstructorSlice.actions.setBun({}));
         dispatch(burgerConstructorSlice.actions.clearIngredients());
         dispatch(itemsSlice.actions.clearValues());
