@@ -2,6 +2,7 @@ import styles from './order-details.module.scss';
 import logo from '../../images/doneIcon.svg';
 import { useSelector } from "react-redux";
 import Loader from '../loader/loader';
+import { IState } from '../../shared/interfaces';
 
 function OrderDetails() {
     const {
@@ -10,7 +11,7 @@ function OrderDetails() {
         orderSuccess,
         orderFailed
       } = useSelector(
-        (state: any) => state.order
+        (state: IState) => state.order
       );
 
     return(
@@ -42,7 +43,7 @@ function OrderDetails() {
                 !orderRequest && (
                 <>
                     <p className={styles.order_id + ' text text_type_digits-large'}>
-                        {orderData.id}
+                        {orderData?.id}
                     </p>
                     <p className='text text_type_main-medium mt-8 mb-15'>
                         идентификатор заказа

@@ -6,7 +6,7 @@ import OrderDetailedView from '../../components/order-detailed-view/order-detail
 import { feedSlice, startFeed, stopFeed } from '../../services/feed';
 import { useAppDispatch } from '../../services/hooks';
 import { startHistory, stopHistory } from '../../services/user';
-import { IOrder } from '../../shared/interfaces';
+import { IState } from '../../shared/interfaces';
 
 export const OrderPage = () => {
   const dispatch = useAppDispatch();
@@ -16,7 +16,7 @@ export const OrderPage = () => {
   const {
     itemsPendingStatus
   } = useSelector(
-    (state: any) => state.items
+    (state: IState) => state.items
   );
   const {
     orders,
@@ -24,14 +24,14 @@ export const OrderPage = () => {
     feedSuccess,
     feedFailed
   } = useSelector(
-    (state: any) => state.feed
+    (state: IState) => state.feed
   );
 
   const {
     wsConnected,
     wsError
   } = useSelector(
-    (state: any) => state.ws
+    (state: IState) => state.ws
   );
 
   const [currentOrder, setCurrentOrder] = useState({});
@@ -52,8 +52,8 @@ export const OrderPage = () => {
   const currentOrderId = useParams().id;
 
   useEffect(() => {
-    if (orders.length > 0 && wsConnected) {
-      setCurrentOrder(orders.find((order: IOrder) => order._id === currentOrderId))
+    if (!!orders && orders.length > 0 && wsConnected) {
+      setCurrentOrder(orders.find((order) => order._id === currentOrderId) || {})
       dispatch(feedSlice.actions.success());
     }
     else if (wsError)

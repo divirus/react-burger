@@ -7,6 +7,7 @@ import Loader from '../../components/loader/loader';
 import { feedSlice } from '../../services/feed';
 import { getUser, userSlice, startHistory, stopHistory } from '../../services/user';
 import { useAppDispatch } from '../../services/hooks';
+import { IState } from '../../shared/interfaces';
 
 export const HistoryPage = () => {
   const dispatch = useAppDispatch();
@@ -14,14 +15,14 @@ export const HistoryPage = () => {
   const {
     itemsPendingStatus
   } = useSelector(
-    (state: any) => state.items
+    (state: IState) => state.items
   );
   const {
     userRequest,
     userSuccess,
     userFailed
   } = useSelector(
-    (state: any) => state.user
+    (state: IState) => state.user
   );
   const {
     orders,
@@ -29,18 +30,19 @@ export const HistoryPage = () => {
     feedSuccess,
     feedFailed
   } = useSelector(
-    (state: any) => state.feed
+    (state: IState) => state.feed
   );
-  const {
-    resetStatus
-  } = userSlice.actions;
 
   const {
     wsConnected,
     wsError
   } = useSelector(
-    (state: any) => state.ws
+    (state: IState) => state.ws
   );
+
+  const {
+    resetStatus
+  } = userSlice.actions;
 
   useEffect(() => {
     dispatch(resetStatus());

@@ -24,7 +24,7 @@ import styles from './ingredient-details-card.module.scss';
     }
 
     const [{opacity}, dragRef] = useDrag({
-        type: props.ingredient.type,
+        type: props.ingredient.type || '',
         item: props.ingredient,
         collect: monitor => ({
           opacity: monitor.isDragging() ? 0.5 : 1

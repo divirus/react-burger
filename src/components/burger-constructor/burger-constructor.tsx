@@ -20,9 +20,12 @@ function BurgerConstructor() {
 
     const onOrderButtonClick = () => {
         if (isAuthorized) {
-            const items = [bun._id];
-            ingredients.map(item => items.push(item._id));
-            dispatch(createOrder(items));
+            if (!!bun._id) {
+                const items = [bun._id];
+
+                ingredients.map(item => item && item._id && items.push(item._id));
+                dispatch(createOrder(items));
+            }
         } else {
             navigate('/login', { replace: true })
         }
@@ -68,8 +71,8 @@ function BurgerConstructor() {
                             type='top'
                             isLocked={true}
                             text={bun.name + ' (верх)'}
-                            thumbnail={bun.image}
-                            price={bun.price}
+                            thumbnail={bun.image || ''}
+                            price={bun.price || 0}
                         />
                     :
                         <div className={ styles.emptyBun + ' constructor-element constructor-element_pos_top'}>
@@ -106,8 +109,8 @@ function BurgerConstructor() {
                                 isLocked={true}
                                 type='bottom'
                                 text={bun.name + ' (низ)'}
-                                thumbnail={bun.image}
-                                price={bun.price}
+                                thumbnail={bun.image || ''}
+                                price={bun.price || 0}
                             />
                         :
                             <div className={styles.emptyBun + ' constructor-element constructor-element_pos_bottom'}>

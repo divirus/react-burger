@@ -1,13 +1,11 @@
 import { useSelector } from "react-redux";
 import styles from './feed-panel.module.scss';
 import { useCallback } from 'react';
-import { IOrder } from "../../shared/interfaces";
+import { IOrder, IState } from "../../shared/interfaces";
 
 const FeedPanel = () => {
 
-  const { orders, ordersTotal, ordersTotalToday } = useSelector((state: any) => state.feed);
-
-  // showing max 20 last completed or pending orders in list
+  const { orders, ordersTotal, ordersTotalToday } = useSelector((state: IState) => state.feed);
   const maxDisplayedOrders = 20;
 
   const renderCompletedOrders = useCallback(() => {
@@ -20,7 +18,6 @@ const FeedPanel = () => {
           className='text text_type_digits-default'
           key={order._id}
         >
-          {/* display order number in 6-digit format filled with zeros */}
           {order.number && order.number.toString().padStart(6, '0')}
         </li>
       ))
@@ -37,7 +34,6 @@ const FeedPanel = () => {
           className='text text_type_digits-default'
           key={order._id}
         >
-          {/* display order number in 6-digit format filled with zeros */}
           {order.number && order.number.toString().padStart(6, '0')}
         </li>
       ))
@@ -68,7 +64,6 @@ const FeedPanel = () => {
         Выполнено за всё время:
       </p>
       <p className='text text_type_digits-large'>
-        {/* using space as a thousands separator */}
         {ordersTotal.toLocaleString()}
       </p>
       <p className='mt-15 text text_type_main-medium'>

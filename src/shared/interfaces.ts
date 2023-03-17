@@ -1,16 +1,16 @@
 export interface IIngridientsData{
-    _id: string;
-    name: string;
-    type: string;
-    proteins: number;
-    fat: number;
-    carbohydrates: number;
-    calories: number;
-    price: number;
-    image: string;
-    image_mobile: string;
-    image_large: string;
-    __v: number;
+    _id?: string;
+    name?: string;
+    type?: string;
+    proteins?: number;
+    fat?: number;
+    carbohydrates?: number;
+    calories?: number;
+    price?: number;
+    image?: string;
+    image_mobile?: string;
+    image_large?: string;
+    __v?: number;
 }
 
 export interface IIngridientsDataWithKey extends IIngridientsData {
@@ -35,6 +35,11 @@ export interface IOrder {
     status?: string,
     ingredients?: Array<IIngridientsData>
   }
+
+export interface IOrderDetailedView {
+    order: IOrder,
+    isOrderModal?: boolean
+}
 
 export interface INewOrder {
     id?: number,
@@ -94,7 +99,9 @@ export interface IIngredietsSliceState {
 
 export interface IOrderSliceState {
     orderData?: IOrderData,
-    orderPendingStatus: string,
+    orderRequest: boolean,
+    orderSuccess: boolean,
+    orderFailed: boolean,
     isOrderModalOpen: boolean,
 }
 
@@ -117,3 +124,25 @@ export interface IRefreshTokenData {
     refreshToken: string,
     message: string | undefined
 }
+
+export interface IFeedSliceState {
+    orders: Array<IOrder>,
+    feedRequest: boolean,
+    feedFailed: boolean,
+    feedSuccess: boolean,
+    ordersTotal: number,
+    ordersTotalToday: number
+  }
+
+  export interface IWsState {
+    wsConnected: boolean,
+    wsError: boolean,
+  }
+
+  export interface IState {
+    user: IUserSliceState,
+    order: IOrderSliceState,
+    feed: IFeedSliceState,
+    items: IItemsSliceState,
+    ws: IWsState
+  }

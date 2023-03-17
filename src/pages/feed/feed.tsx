@@ -6,6 +6,7 @@ import FeedPanel from '../../components/feed-panel/feed-panel';
 import Loader from '../../components/loader/loader';
 import { feedSlice, startFeed, stopFeed } from '../../services/feed';
 import { useAppDispatch } from '../../services/hooks';
+import { IState } from '../../shared/interfaces';
 
 export const FeedPage: FC = () => {
   const dispatch = useAppDispatch();
@@ -13,7 +14,7 @@ export const FeedPage: FC = () => {
   const {
     itemsPendingStatus
   } = useSelector(
-    (state: any) => state.items
+    (state: IState) => state.items
   );
   const {
     orders,
@@ -21,14 +22,14 @@ export const FeedPage: FC = () => {
     feedSuccess,
     feedFailed
   } = useSelector(
-    (state: any) => state.feed
+    (state: IState) => state.feed
   );
 
   const {
     wsConnected,
     wsError
   } = useSelector(
-    (state: any) => state.ws
+    (state: IState) => state.ws
   );
 
   useEffect(() => {

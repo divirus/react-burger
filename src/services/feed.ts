@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IOrder } from '../shared/interfaces'
+import { IFeedSliceState, IOrder } from '../shared/interfaces'
 import { useAppDispatch } from '../services/hooks'
 import { wsSlice } from './websocket';
 import { ALL_ORDERS_WS_URL } from '../utils/api';
@@ -29,16 +29,7 @@ const sortOrdersByDate = (orders: Array<IOrder>): Array<IOrder> => {
   return orders;
 }
 
-interface feedState {
-  orders: Array<IOrder>,
-  feedRequest: boolean,
-  feedFailed: boolean,
-  feedSuccess: boolean,
-  ordersTotal: number,
-  ordersTotalToday: number
-}
-
-const initialState: feedState = {
+const initialState: IFeedSliceState = {
   orders: [],
   feedRequest: false,
   feedFailed: false,

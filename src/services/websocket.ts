@@ -1,11 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IWsState } from '../shared/interfaces';
 
-interface wsState {
-  wsConnected: boolean,
-  wsError: boolean,
-}
-
-const initialState: wsState = {
+const initialState: IWsState = {
   wsConnected: false,
   wsError: false,
 }

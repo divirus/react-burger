@@ -22,7 +22,6 @@
     row-gap: calc(var(--offset-base-size) * 2);
     align-items: flex-start;
     flex-wrap: wrap;
-    /* max 10 items in column, each with 6*4px height and 2*4px gap */
     max-height: calc(var(--offset-base-size) * 80);
   }
   
@@ -40,7 +39,6 @@
     width: 100%;
   }
   
-  /* as in Figma */
   .order_info svg,
   .ingredient_wrapper svg { 
     width: 22px;

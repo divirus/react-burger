@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, FC } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import Modal from '../../components/modal/modal';
@@ -6,15 +6,15 @@ import Loader from '../../components/loader/loader';
 import OrderDetailedView from '../../components/order-detailed-view/order-detailed-view';
 import { feedSlice } from '../../services/feed';
 import { itemsSlice } from '../../services/recipe/items';
-import { IOrder } from '../../shared/interfaces';
+import { IOrder, IState } from '../../shared/interfaces';
 
-export const OrderModalPage = () => {
+export const OrderModalPage: FC = () => {
   const dispatch = useDispatch();
   
   const {
     itemsPendingStatus
   } = useSelector(
-    (state: any) => state.items
+    (state: IState) => state.items
   );
   const {
     orders,
@@ -22,14 +22,14 @@ export const OrderModalPage = () => {
     feedSuccess,
     feedFailed
   } = useSelector(
-    (state: any) => state.feed
+    (state: IState) => state.feed
   );
 
   const {
     wsConnected,
     wsError
   } = useSelector(
-    (state: any) => state.ws
+    (state: IState) => state.ws
   );
 
   const { request } = itemsSlice.actions;
@@ -45,8 +45,8 @@ export const OrderModalPage = () => {
       dispatch(feedSlice.actions.request());
   }, [wsConnected, wsError, dispatch]);
 
-  const currentOrderId = useParams().id;
-  const currentOrder = orders.find((order: IOrder) => order._id === currentOrderId);
+  const currentOrderId: string = useParams<{ id: string }>().id || '';
+  const currentOrder: IOrder = orders.find(order => order._id === currentOrderId) || {};
 
   const replaceState = useCallback(() => {
     dispatch(request())
@@ -90,7 +90,7 @@ export const OrderModalPage = () => {
         (!feedFailed) && 
         (!feedRequest) && (
           <Modal
-            header={`#${currentOrder.number.toString().padStart(6, '0')}`}
+            header={`#${currentOrder?.number?.toString().padStart(6, '0')}`}
             closeModal={closeModal} >
             <OrderDetailedView
               order={currentOrder}

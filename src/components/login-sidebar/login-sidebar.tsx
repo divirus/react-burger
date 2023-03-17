@@ -1,21 +1,19 @@
 import { useSelector } from "react-redux";
 import styles from './login-sidebar.module.scss';
-// importing components from project
 import LoginSidebarLink from '../login-sidebar-link/login-sidebar-link';
-// import slices and their functions
 import { logout, userSlice } from '../../services/user';
 
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useAppDispatch } from "../../services/hooks";
+import { IState } from "../../shared/interfaces";
 
 function LoginSidebar() {
   const dispatch = useAppDispatch();
 
-  const { userRequest } = useSelector((state: any) => state.user);
+  const { userRequest } = useSelector((state: IState) => state.user);
   const { resetStatus } = userSlice.actions;
   
-  // reset status and errors on page load
   useEffect(() => {
     dispatch(resetStatus());
   }, [dispatch, resetStatus])
@@ -58,7 +56,6 @@ function LoginSidebar() {
   }
 
   const onLogoutClick = () => {
-    // won't call API if user data is already in process
     if (!userRequest) {
       dispatch(logout(redirectOnSuccess));
     }

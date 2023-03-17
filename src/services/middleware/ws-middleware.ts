@@ -32,8 +32,6 @@ export const wsMiddleware = () => {
       }
       
       if (type === wsConnectionStop.type) {
-        // user has moved to another page
-        // 1001 code fires an InvalidAccessError
         socket && socket.close(1000, 'CLOSE_NORMAL');
       }
 
@@ -51,7 +49,6 @@ export const wsMiddleware = () => {
           const parsedData = JSON.parse(data);
           const { success, ...restParsedData } = parsedData;
 
-          // if accessToken has gone stale we're need to refresh it first
           if (restParsedData.message && restParsedData.message === 'Invalid or missing token') {
             socket && socket.close(1000, 'CLOSE_NORMAL');
             refreshToken()

@@ -80,11 +80,11 @@ dragItemSource(dropItemTarget(dndItemRef))
                 <DragIcon type='primary' />
             </span>
             <ConstructorElement 
-                text={item.name}
-                thumbnail={item.image}
-                price={item.price}
+                text={item.name || ''}
+                thumbnail={item.image || ''}
+                price={item.price || 0}
                 handleClose={() => 
-                    handleItemDelete(item._id, index)
+                  item?._id && handleItemDelete(item?._id, index)
                 }
             />
         </li>
