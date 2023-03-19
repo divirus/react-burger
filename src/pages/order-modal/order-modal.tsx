@@ -1,5 +1,5 @@
 import { useEffect, useCallback, FC } from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import Modal from '../../components/modal/modal';
 import Loader from '../../components/loader/loader';
@@ -7,9 +7,10 @@ import OrderDetailedView from '../../components/order-detailed-view/order-detail
 import { feedSlice } from '../../services/feed';
 import { itemsSlice } from '../../services/recipe/items';
 import { IOrder, IState } from '../../shared/interfaces';
+import { useAppDispatch } from '../../services/hooks';
 
 export const OrderModalPage: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   
   const {
     itemsPendingStatus

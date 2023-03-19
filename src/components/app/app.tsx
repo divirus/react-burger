@@ -1,5 +1,5 @@
-import { Dispatch, useEffect } from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from 'react';
+import { useSelector } from "react-redux";
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { getItems } from '../../services/recipe/items';
 import {
@@ -22,9 +22,10 @@ import { ProtectedResetRoute } from '../protected-routes/protected-reset-route';
 import { ProtectedGuestRoute } from '../protected-routes/protected-guest-route';
 import AppHeader from '../app-header/app-header';
 import { IItemsSliceState } from '../../shared/interfaces';
+import { useAppDispatch } from '../../services/hooks';
 
 function App() {
-  const dispatch: Dispatch<any> = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const background = location.state && location.state.background;
   const { itemsPendingStatus } = useSelector((state: { items: IItemsSliceState }) => state.items);
@@ -80,9 +81,7 @@ function App() {
       }
       { background && background.pathname === '/feed' &&
         <Routes>
-          <Route path="/feed/:id" element={
-            <ProtectedRoute element={<OrderModalPage />} />
-          } /> 
+          <Route path="/feed/:id" element={<OrderModalPage />} /> 
         </Routes>
       }
     </>

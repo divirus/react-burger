@@ -1,11 +1,11 @@
-import { useRef, useEffect, useState, Dispatch } from 'react';
-import { useDispatch } from 'react-redux';
+import { useRef, useEffect, useState } from 'react';
 import { DragSourceMonitor, useDrag, useDrop } from 'react-dnd';
 import styles from './draggable-element.module.scss';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { burgerConstructorSlice } from '../../services/recipe/burger-constructor';
 import { itemsSlice } from '../../services/recipe/items';
 import { IIngridientsData } from '../../shared/interfaces';
+import { useAppDispatch } from '../../services/hooks';
 
 type DraggableElementType = {
   item: IIngridientsData,
@@ -13,7 +13,7 @@ type DraggableElementType = {
 }
 
 function DraggableElement({ item, index }: DraggableElementType) {
-  const dispatch: Dispatch<any> = useDispatch();
+  const dispatch = useAppDispatch();
   const dndItemRef = useRef<any>();
   const { decreaseQuantityValue } = itemsSlice.actions;
   const { moveIngredient, deleteIngredient } = burgerConstructorSlice.actions

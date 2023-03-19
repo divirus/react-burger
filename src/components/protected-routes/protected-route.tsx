@@ -1,11 +1,12 @@
 import { Navigate, useLocation} from 'react-router-dom';
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { userSlice } from '../../services/user';
-import { Dispatch, ReactElement, useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { IUserSliceState } from '../../shared/interfaces';
+import { useAppDispatch } from '../../services/hooks';
 
 export const ProtectedRoute = (props: {element: ReactElement}) => {
-  const dispatch: Dispatch<any> = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const { isAuthorized } = useSelector((state: {user: IUserSliceState}) => state.user);
   const { checkAuthorization } = userSlice.actions;

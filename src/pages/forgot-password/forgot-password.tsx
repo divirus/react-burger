@@ -1,14 +1,15 @@
-import { useState, useRef, useCallback, useEffect, Dispatch, useMemo } from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
+import { useSelector } from "react-redux";
 import { Form } from '../../components/form/form';
 import Loader from '../../components/loader/loader';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { forgotPassword, userSlice } from '../../services/user';
 import { useNavigate } from 'react-router-dom';
 import { IUserSliceState } from '../../shared/interfaces';
+import { useAppDispatch } from '../../services/hooks';
 
 export const ForgotPasswordPage = () => {
-  const dispatch: Dispatch<any> = useDispatch();
+  const dispatch = useAppDispatch();
 
   const {
     userRequest,

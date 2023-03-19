@@ -1,14 +1,15 @@
-import { useState, useRef, useEffect, Dispatch, useCallback, SyntheticEvent } from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import { useState, useRef, useEffect, useCallback, SyntheticEvent } from 'react';
+import { useSelector } from "react-redux";
 import styles from './account.module.scss';
 import { Form } from '../../components/form/form';
 import LoginSidebar from '../../components/login-sidebar/login-sidebar';
 import { Input, EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getUser, setUser, userSlice } from '../../services/user';
 import { IUserSliceState } from '../../shared/interfaces';
+import { useAppDispatch } from '../../services/hooks';
 
 export const ProfilePage = () => {
-  const dispatch: Dispatch<any> = useDispatch();
+  const dispatch = useAppDispatch();
 
   const {
     user,
