@@ -16,7 +16,7 @@ const IngredientsCategory = forwardRef((props: {id: number, title: string, items
                             props.items.map((ingredient: IIngridientsData) => 
                                 <IngredientDetailsCard
                                     ingredient={ingredient} 
-                                    key={ingredient._id}
+                                    key={ingredient._id || ''}
                                 />)
                         }
                     </ul>

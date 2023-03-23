@@ -7,11 +7,14 @@ import {
     RESET_PASSWORD_API_URL, 
     LOGOUT_API_URL, 
     TOKEN_API_URL, 
-    USER_API_URL 
+    USER_API_URL, 
+    USER_ORDERS_WS_URL
 } from "../utils/api";
 import { getCookie, setCookie, deleteCookie } from '../utils/cookie';
 import { IUser } from '../shared/interfaces';
 import { request } from '../utils/check-response';
+import { wsSlice } from './websocket';
+import { feedSlice } from './feed';
 
 export const getUser = () => {
   return async (dispatch: Dispatch) => {
@@ -340,6 +343,22 @@ export const refreshToken = () => {
   } as RequestInit)
 }
 
+export const startHistory = () => {
+  return (dispatch: Dispatch) => {
+    dispatch(wsSlice.actions.wsConnectionStart({
+      url: USER_ORDERS_WS_URL,
+      token: (getCookie('accessToken') || '').replace('Bearer ', '')
+    }));
+    dispatch(feedSlice.actions.request());
+  }
+}
+
+export const stopHistory = () => {
+  return (dispatch: Dispatch) => {
+    dispatch(wsSlice.actions.wsConnectionStop());
+  }
+}
+
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -404,8 +423,12 @@ export const userSlice = createSlice({
       state.isAuthorized = action.payload;
     },
     checkAuthorization(state) {
-      state.isAuthorized = ((getCookie('accessToken') !== undefined) &&
-        (getCookie('refreshToken') !== undefined));
+      state.isAuthorized = (
+        (getCookie('accessToken') !== null) &&
+        (getCookie('refreshToken') !== null) &&
+        (getCookie('accessToken') !== undefined) &&
+        (getCookie('refreshToken') !== undefined)
+      );
     }
   }
 }) 

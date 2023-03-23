@@ -1,16 +1,16 @@
-import { Dispatch, memo } from 'react';
+import { memo } from 'react';
 import { useDrag } from 'react-dnd';
 import { itemsSlice } from '../../services/recipe/items';
-import { useDispatch } from 'react-redux';
 import { IDetailsCardProps, IIngridientsDataWithKey } from '../../shared/interfaces';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { burgerConstructorSlice } from '../../services/recipe/burger-constructor';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { v4 } from 'uuid';
 import styles from './ingredient-details-card.module.scss';
+import { useAppDispatch } from '../../services/hooks';
 
   const IngredientDetailsCard = memo((props: {ingredient: IDetailsCardProps, key: string }) => {
-    const dispatch: Dispatch<any> = useDispatch();
+    const dispatch = useAppDispatch();
     const { increaseQuantityValue } = itemsSlice.actions;
     const { addIngredient } = burgerConstructorSlice.actions
     const location = useLocation();
@@ -24,7 +24,7 @@ import styles from './ingredient-details-card.module.scss';
     }
 
     const [{opacity}, dragRef] = useDrag({
-        type: props.ingredient.type,
+        type: props.ingredient.type || '',
         item: props.ingredient,
         collect: monitor => ({
           opacity: monitor.isDragging() ? 0.5 : 1

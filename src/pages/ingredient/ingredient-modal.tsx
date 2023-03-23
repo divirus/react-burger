@@ -1,14 +1,15 @@
-import { useEffect, useCallback, Dispatch } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import Modal from '../../components/modal/modal';
 import IngredientDetails from '../../components/ingredient-details/ingredient-details';
 import Loader from '../../components/loader/loader';
 import { itemsSlice } from '../../services/recipe/items';
 import { IIngridientsData, IItemsSliceState } from '../../shared/interfaces';
+import { useAppDispatch } from '../../services/hooks';
 
 export const IngredientModalPage = () => {
-  const dispatch: Dispatch<any> = useDispatch();
+  const dispatch = useAppDispatch();
   const { items, itemsPendingStatus } = useSelector((state: { items: IItemsSliceState }) => state.items);
   const { request } = itemsSlice.actions;
 

@@ -1,5 +1,5 @@
-import { Dispatch, useEffect } from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from 'react';
+import { useSelector } from "react-redux";
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { getItems } from '../../services/recipe/items';
 import {
@@ -8,19 +8,24 @@ import {
   RegisterPage,
   ForgotPasswordPage,
   ResetPasswordPage,
-  ProfilePage,
   IngredientPage,
   NotFound404,
-  IngredientModalPage
+  IngredientModalPage,
+  HistoryPage,
+  OrderPage,
+  FeedPage,
+  OrderModalPage,
+  ProfilePage
 } from '../../pages';
 import { ProtectedRoute } from '../protected-routes/protected-route';
 import { ProtectedResetRoute } from '../protected-routes/protected-reset-route';
 import { ProtectedGuestRoute } from '../protected-routes/protected-guest-route';
 import AppHeader from '../app-header/app-header';
 import { IItemsSliceState } from '../../shared/interfaces';
+import { useAppDispatch } from '../../services/hooks';
 
 function App() {
-  const dispatch: Dispatch<any> = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const background = location.state && location.state.background;
   const { itemsPendingStatus } = useSelector((state: { items: IItemsSliceState }) => state.items);
@@ -51,12 +56,32 @@ function App() {
         <Route path="/profile" element={
           <ProtectedRoute element={<ProfilePage />} />
         } />
+        <Route path="/profile/orders" element={
+          <ProtectedRoute element={<HistoryPage />} />
+        } />
+        <Route path="/profile/orders/:id" element={
+          <ProtectedRoute element={<OrderPage />} />
+        } />
         <Route path="/ingredients/:id" element={<IngredientPage />} />
+        <Route path="/feed" element={<FeedPage />} />
+        <Route path="/feed/:id" element={<OrderPage />} />
         <Route path="*" element={<NotFound404 />} />
       </Routes>
-      { background &&
+      { background && background.pathname === '/' &&
         <Routes>
           <Route path="/ingredients/:id" element={<IngredientModalPage />} /> 
+        </Routes>
+      }
+      { background && background.pathname === '/profile/orders' &&
+        <Routes>
+          <Route path="/profile/orders/:id" element={
+            <ProtectedRoute element={<OrderModalPage />} />
+          } /> 
+        </Routes>
+      }
+      { background && background.pathname === '/feed' &&
+        <Routes>
+          <Route path="/feed/:id" element={<OrderModalPage />} /> 
         </Routes>
       }
     </>

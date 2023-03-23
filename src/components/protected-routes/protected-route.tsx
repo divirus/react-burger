@@ -1,18 +1,21 @@
 import { Navigate, useLocation} from 'react-router-dom';
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { userSlice } from '../../services/user';
-import { Dispatch, ReactElement, useEffect } from 'react';
-import { IUserSliceState } from '../../shared/interfaces';
+import { ReactElement, useEffect } from 'react';
+import { IState } from '../../shared/interfaces';
+import { useAppDispatch } from '../../services/hooks';
+import { getCookie } from '../../utils/cookie';
 
 export const ProtectedRoute = (props: {element: ReactElement}) => {
-  const dispatch: Dispatch<any> = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
-  const { isAuthorized } = useSelector((state: {user: IUserSliceState}) => state.user);
+  const { isAuthorized } = useSelector((state: IState) => state.user);
   const { checkAuthorization } = userSlice.actions;
+  const accessToken = getCookie('accessToken') !== undefined && getCookie !== null;
 
   useEffect(() => {
     dispatch(checkAuthorization())
   }, [dispatch, checkAuthorization]);
 
-  return isAuthorized ? props.element : <Navigate replace to='/login' state={{ from: location}} />;
+  return isAuthorized || accessToken ? props.element : <Navigate replace to='/login' state={{ from: location}} />;
 }

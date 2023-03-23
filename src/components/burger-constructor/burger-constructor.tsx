@@ -1,6 +1,6 @@
-import { Dispatch, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDrop } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styles from './burger-constructor.module.scss';
 import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IBurgerConstructorSliceState, IIngridientsData, IIngridientsDataWithKey, IUserSliceState } from '../../shared/interfaces';
@@ -9,9 +9,10 @@ import { itemsSlice } from '../../services/recipe/items';
 import { createOrder } from '../../services/recipe/order';
 import DraggableElement from '../draggable-element/draggable-element';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../services/hooks';
 
 function BurgerConstructor() {
-    const dispatch: Dispatch<any> = useDispatch();
+    const dispatch = useAppDispatch();
     const { increaseQuantityValue, decreaseQuantityValue } = itemsSlice.actions;
     const { setBun, calcTotalPrice } = burgerConstructorSlice.actions
     const { bun, ingredients, totalPrice } = useSelector((state: {burgerConstructor: IBurgerConstructorSliceState}) => state.burgerConstructor);
@@ -20,9 +21,12 @@ function BurgerConstructor() {
 
     const onOrderButtonClick = () => {
         if (isAuthorized) {
-            const items = [bun._id];
-            ingredients.map(item => items.push(item._id));
-            dispatch(createOrder(items));
+            if (!!bun._id) {
+                const items = [bun._id];
+
+                ingredients.map(item => item && item._id && items.push(item._id));
+                dispatch(createOrder(items));
+            }
         } else {
             navigate('/login', { replace: true })
         }
@@ -68,8 +72,8 @@ function BurgerConstructor() {
                             type='top'
                             isLocked={true}
                             text={bun.name + ' (верх)'}
-                            thumbnail={bun.image}
-                            price={bun.price}
+                            thumbnail={bun.image || ''}
+                            price={bun.price || 0}
                         />
                     :
                         <div className={ styles.emptyBun + ' constructor-element constructor-element_pos_top'}>
@@ -106,8 +110,8 @@ function BurgerConstructor() {
                                 isLocked={true}
                                 type='bottom'
                                 text={bun.name + ' (низ)'}
-                                thumbnail={bun.image}
-                                price={bun.price}
+                                thumbnail={bun.image || ''}
+                                price={bun.price || 0}
                             />
                         :
                             <div className={styles.emptyBun + ' constructor-element constructor-element_pos_bottom'}>

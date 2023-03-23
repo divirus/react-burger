@@ -1,19 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
 import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
-import rootReducer from './services/recipe';
 import { BrowserRouter } from 'react-router-dom';
+import { store } from './services/store';
 import './index.module.scss';
-
-const store = configureStore({
-  reducer: rootReducer,
-  middleware: [thunk],
-  devTools: process.env.NODE_ENV !== 'production',
-}); 
     
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 

@@ -1,15 +1,16 @@
 import styles from './reset-password.module.scss';
-import { useSelector, useDispatch } from "react-redux";
-import { useState, useRef, useCallback, useEffect, Dispatch } from 'react';
+import { useSelector } from "react-redux";
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { Form } from '../../components/form/form';
 import Loader from '../../components/loader/loader';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { resetPassword, userSlice } from '../../services/user';
 import { useNavigate } from 'react-router-dom';
 import { IUserSliceState } from '../../shared/interfaces';
+import { useAppDispatch } from '../../services/hooks';
 
 export const ResetPasswordPage = () => {
-  const dispatch: Dispatch<any> = useDispatch();
+  const dispatch = useAppDispatch();
 
   const {
     userRequest,
