@@ -2,6 +2,7 @@
   "name": "react-burger",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./", 
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.1",
     "@testing-library/jest-dom": "^5.16.5",
@@ -33,7 +34,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "cypress:open": "./node_modules/.bin/cypress open"
+    "cypress:open": "./node_modules/.bin/cypress open",
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "eslintConfig": {
     "extends": [
@@ -57,6 +59,7 @@
     "@types/react-scroll": "^1.8.6",
     "cypress": "^12.9.0",
     "fetch-mock": "^9.11.0",
+    "gh-pages": "^5.0.0",
     "jest": "^29.5.0",
     "react-test-renderer": "^18.2.0",
     "redux-mock-store": "^1.5.4",
