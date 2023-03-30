@@ -5,7 +5,7 @@ import Modal from '../../components/modal/modal';
 import IngredientDetails from '../../components/ingredient-details/ingredient-details';
 import Loader from '../../components/loader/loader';
 import { itemsSlice } from '../../services/recipe/items';
-import { IIngridientsData, IItemsSliceState } from '../../shared/interfaces';
+import { IIngredientsData, IItemsSliceState } from '../../shared/interfaces';
 import { useAppDispatch } from '../../services/hooks';
 
 export const IngredientModalPage = () => {
@@ -16,7 +16,7 @@ export const IngredientModalPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { id } = useParams();
-  const currentItem = items.find((item: IIngridientsData) => item._id === id);
+  const currentItem = items.find((item: IIngredientsData) => item._id === id);
 
   const replaceState = useCallback(() => {
     dispatch(request())

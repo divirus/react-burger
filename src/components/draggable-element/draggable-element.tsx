@@ -4,11 +4,11 @@ import styles from './draggable-element.module.scss';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { burgerConstructorSlice } from '../../services/recipe/burger-constructor';
 import { itemsSlice } from '../../services/recipe/items';
-import { IIngridientsData } from '../../shared/interfaces';
+import { IIngredientsData } from '../../shared/interfaces';
 import { useAppDispatch } from '../../services/hooks';
 
 type DraggableElementType = {
-  item: IIngridientsData,
+  item: IIngredientsData,
   index: number
 }
 

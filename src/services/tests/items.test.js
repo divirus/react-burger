@@ -2,27 +2,24 @@ import { itemsSlice } from "../recipe/items";
 
 const testItem = {
   _id: '1',
-  name: "Test ingridient 1",
-  __v: 0
+  name: "Test ingredient 1",
+  value: 0
 };
 
 const testItem2 = {
   _id: '2',
-  name: "Test ingridient 2",
-  __v: 1
+  name: "Test ingredient 2",
+  value: 3
 };
 const testItem3 = {
   _id: '3',
-  name: "Test ingridient 3",
-  __v: 2
+  name: "Test ingredient 3",
+  value: 2
 };
 
 const initStore = {
   items: [],
-//   itemsRequest: false,
-//   itemsFailed: false,
-//   itemsSuccess: false
-itemsPendingStatus: ''
+  itemsPendingStatus: ''
 }
 
 const {
@@ -44,7 +41,7 @@ describe('tests for itemsSlice', () => {
   it('should set the request state', () => {
     expect(itemsSlice.reducer({
       ...initStore,
-      itemsPendingStatus: 'success'
+      itemsPendingStatus: 'loading'
     }, request()))
     .toEqual({
       ...initStore,
@@ -59,7 +56,7 @@ describe('tests for itemsSlice', () => {
     }, failed()))
     .toEqual({
       ...initStore,
-      itemsPendingStatus: 'failed'
+      itemsPendingStatus: 'error'
     })
   })
 
@@ -83,7 +80,7 @@ describe('tests for itemsSlice', () => {
     })
   })
 
-  it('should increase the qty by 1 of item with id 123', () => {
+  it('should increase the qty by 1 of item with id 1', () => {
     expect(itemsSlice.reducer({
       ...initStore,
       items: [
@@ -91,13 +88,13 @@ describe('tests for itemsSlice', () => {
         testItem2,
         testItem3
       ]
-    }, increaseQuantityValue('123')))
+    }, increaseQuantityValue('1')))
     .toEqual({
       ...initStore,
       items: [
         {
           ...testItem,
-          __v : 1
+          value : 1
         },
         testItem2,
         testItem3
@@ -105,7 +102,7 @@ describe('tests for itemsSlice', () => {
     })
   })
 
-  it('should decrease the qty by 1 of item with id 123', () => {
+  it('should decrease the qty by 1 of item with id 2', () => {
     expect(itemsSlice.reducer({
       ...initStore,
       items: [
@@ -113,14 +110,14 @@ describe('tests for itemsSlice', () => {
         testItem2,
         testItem3
       ]
-    }, decreaseQuantityValue('234')))
+    }, decreaseQuantityValue('2')))
     .toEqual({
       ...initStore,
       items: [
         testItem,
         {
           ...testItem2,
-          __v : 2
+          value : 2
         },
         testItem3
       ]
@@ -141,15 +138,15 @@ describe('tests for itemsSlice', () => {
       items: [
         {
           ...testItem,
-          __v : 0
+          value : 0
         },
         {
           ...testItem2,
-          __v : 0
+          value : 0
         },
         {
           ...testItem3,
-          __v : 0
+          value : 0
         }
       ]
     })

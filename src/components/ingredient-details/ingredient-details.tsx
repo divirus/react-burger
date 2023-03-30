@@ -1,4 +1,4 @@
-import { IIngridientsData } from '../../shared/interfaces';
+import { IIngredientsData } from '../../shared/interfaces';
 import styles from './ingredient-details.module.scss';
 
 const nutritionsList = [
@@ -8,7 +8,7 @@ const nutritionsList = [
     {name: 'Углеводы, ккал', prop: 'carbohydrates'},
 ]
 
-export const IngredientDetails = (props: { ingredient: IIngridientsData | undefined }) => {
+export const IngredientDetails = (props: { ingredient: IIngredientsData | undefined }) => {
     const renderProp = (prop: string) => {
         switch(prop) {
             case 'calories':

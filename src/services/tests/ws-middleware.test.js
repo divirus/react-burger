@@ -1,4 +1,4 @@
-import { wsSlice } from "../middleware/ws-middleware";
+import { wsSlice } from "../websocket";
 
 const initStore = {
   wsConnected: false,

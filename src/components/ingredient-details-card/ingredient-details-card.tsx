@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { useDrag } from 'react-dnd';
 import { itemsSlice } from '../../services/recipe/items';
-import { IDetailsCardProps, IIngridientsDataWithKey } from '../../shared/interfaces';
+import { IDetailsCardProps, IIngredientsDataWithKey } from '../../shared/interfaces';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { burgerConstructorSlice } from '../../services/recipe/burger-constructor';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -29,7 +29,7 @@ import { useAppDispatch } from '../../services/hooks';
         collect: monitor => ({
           opacity: monitor.isDragging() ? 0.5 : 1
         }),
-        end(item: IIngridientsDataWithKey, monitor) {
+        end(item: IIngredientsDataWithKey, monitor) {
             if(monitor.didDrop() && item.type !== 'bun') {
                 const uuidq = v4();
                 dispatch(addIngredient({...item, key: uuidq}));

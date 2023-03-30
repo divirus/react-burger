@@ -1,10 +1,10 @@
 import { userSlice } from "../user";
 
 const testName = 'Test Name';
-const testPassword = '123456';
+const testPassword = 'qwerty';
 const testEmail = 'test@mail.com';
 
-const mockPassword = '123456';
+const mockPassword = 'qwerty';
 
 const initStore = {
   user: {

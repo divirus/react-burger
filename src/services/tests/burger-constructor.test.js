@@ -1,45 +1,58 @@
-import burgerConstructorSlice from "../recipe/burger-constructor";
+import { burgerConstructorSlice } from "../recipe/burger-constructor";
 
 const testBun = {
-  _id: 1,
+  _id: '1',
   name: "Test bun",
   price: 100
 };
 
 const testBun2 = {
-  _id: 2,
+  _id: '2',
   name: "Test bun_2",
   price: 200
 };
 
-const testIngridient = {
-  _id: 3,
-  name: "Test ingridient",
+const testIngredient = {
+  _id: '3',
+  name: "Test ingredient",
   price: 300
 };
 
-const testIngridient2 = {
-  _id: 4,
-  name: "Test ingridient_2",
+const testIngredient2 = {
+  _id: '4',
+  name: "Test ingredient_2",
   price: 400
 };
-const testIngridient3 = {
-  _id: 5,
-  name: "Test ingridient_3",
+const testIngredient3 = {
+  _id: '5',
+  name: "Test ingredient_3",
   price: 500
 };
 
 const initStore = {
-  bun: {},
-  ingridients: [],
+  bun: {
+    _id: '',
+    name: '',
+    type: '',
+    proteins: 0,
+    fat: 0,
+    carbohydrates: 0,
+    calories: 0,
+    price: 0,
+    image: '',
+    image_mobile: '',
+    image_large: '',
+    __v: 0
+  },
+  ingredients: [],
   totalPrice: 0
 }
 
 const {
-  addIngridient,
-  moveIngridient,
-  deleteIngridient,
-  clearIngridients,
+  addIngredient,
+  moveIngredient,
+  deleteIngredient,
+  clearIngredients,
   setBun,
   calcTotalPrice
 } = burgerConstructorSlice.actions
@@ -54,28 +67,28 @@ describe('tests for burgerConstructorSlice', () => {
   it('should add the middle item', () => {
     expect(burgerConstructorSlice.reducer(
       initStore,
-      addIngridient(testIngridient)
+      addIngredient(testIngredient)
     )) 
     .toEqual({
       ...initStore,
-      Ingridients: [testIngridient]
+      ingredients: [testIngredient]
     })
   })
 
   it('should add another middle item', () => {
     expect(burgerConstructorSlice.reducer({
         ...initStore,
-        Ingridients: [
-          testIngridient
+        ingredients: [
+          testIngredient
         ]
       },
-      addIngridient(testIngridient2)
+      addIngredient(testIngredient2)
     )) 
     .toEqual({
       ...initStore,
-      Ingridients: [
-        testIngridient,
-        testIngridient2
+      ingredients: [
+        testIngredient,
+        testIngredient2
       ]
     })
   })
@@ -83,19 +96,19 @@ describe('tests for burgerConstructorSlice', () => {
   it('should add third middle item', () => {
     expect(burgerConstructorSlice.reducer({
         ...initStore,
-        Ingridients: [
-          testIngridient,
-          testIngridient2
+        ingredients: [
+          testIngredient,
+          testIngredient2
         ]
       },
-      addIngridient(testIngridient3)
+      addIngredient(testIngredient3)
     )) 
     .toEqual({
       ...initStore,
-      Ingridients: [
-        testIngridient,
-        testIngridient2,
-        testIngridient3
+      ingredients: [
+        testIngredient,
+        testIngredient2,
+        testIngredient3
       ]
     })
   })
@@ -103,20 +116,20 @@ describe('tests for burgerConstructorSlice', () => {
   it('should move first middle item to make it last', () => {
     expect(burgerConstructorSlice.reducer({
         ...initStore,
-        Ingridients: [
-          testIngridient,
-          testIngridient2,
-          testIngridient3
+        ingredients: [
+          testIngredient,
+          testIngredient2,
+          testIngredient3
         ]
       },
-      moveIngridient(0, 2)
+      moveIngredient(0, 2)
     )) 
     .toEqual({
       ...initStore,
-      Ingridients: [
-        testIngridient,
-        testIngridient2,
-        testIngridient3
+      ingredients: [
+        testIngredient,
+        testIngredient2,
+        testIngredient3
       ]
     })
   })
@@ -124,19 +137,19 @@ describe('tests for burgerConstructorSlice', () => {
   it('should remove the second middle item', () => {
     expect(burgerConstructorSlice.reducer({
         ...initStore,
-        Ingridients: [
-          testIngridient,
-          testIngridient2,
-          testIngridient3
+        ingredients: [
+          testIngredient,
+          testIngredient2,
+          testIngredient3
         ]
       },
-      deleteIngridient(1)
+      deleteIngredient(1)
     )) 
     .toEqual({
       ...initStore,
-      Ingridients: [
-        testIngridient,
-        testIngridient3
+      ingredients: [
+        testIngredient,
+        testIngredient3
       ]
     })
   })
@@ -144,13 +157,13 @@ describe('tests for burgerConstructorSlice', () => {
   it('should clear all middle items', () => {
     expect(burgerConstructorSlice.reducer({
         ...initStore,
-        Ingridients: [
-          testIngridient,          
-          testIngridient2,
-          testIngridient3
+        ingredients: [
+          testIngredient,          
+          testIngredient2,
+          testIngredient3
         ]
       },
-      clearIngridients()
+      clearIngredients()
     )) 
     .toEqual(initStore)
   })
@@ -184,7 +197,20 @@ describe('tests for burgerConstructorSlice', () => {
         ...initStore,
         bun: testBun
       },
-      setBun({})
+      setBun({
+        _id: '',
+        name: '',
+        type: '',
+        proteins: 0,
+        fat: 0,
+        carbohydrates: 0,
+        calories: 0,
+        price: 0,
+        image: '',
+        image_mobile: '',
+        image_large: '',
+        __v: 0
+      })
     ))
     .toEqual(initStore)
   })
@@ -193,9 +219,9 @@ describe('tests for burgerConstructorSlice', () => {
     expect(burgerConstructorSlice.reducer({
         ...initStore,
         bun: testBun,
-        Ingridients: [
-          testIngridient,
-          testIngridient2
+        ingredients: [
+          testIngredient,
+          testIngredient2
         ]
       },
       calcTotalPrice()
@@ -203,9 +229,9 @@ describe('tests for burgerConstructorSlice', () => {
     .toEqual({
       ...initStore,
       bun: testBun,
-      Ingridients: [
-        testIngridient,
-        testIngridient2
+      ingredients: [
+        testIngredient,
+        testIngredient2
       ],
       // 2x the bun price
       totalPrice: 900

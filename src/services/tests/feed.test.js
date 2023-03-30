@@ -3,19 +3,19 @@ import { feedSlice } from "../feed";
 const testOrder = {
   _id: 1,
   name: "Test order",
-  updatedAt: "2023-03-29T20:10:35.495Z"
+  updatedAt: "2023-03-28T20:10:35.495Z"
 };
 
 const testOrder2 = {
   _id: 2,
   name: "Test order 2",
-  updatedAt: "2023-03-29T20:11:35.495Z"
+  updatedAt: "2023-03-29T20:15:35.495Z"
 };
 
 const testOrder3 = {
   _id: 3,
   name: "Test order 3",
-  updatedAt: "2023-03-29T20:12:35.495Z"
+  updatedAt: "2023-03-30T20:20:35.495Z"
 };
 
 const testTotal = 100;

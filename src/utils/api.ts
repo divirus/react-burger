@@ -4,7 +4,7 @@ import { getCookie } from "./cookie";
 
 const BASE_URL = 'https://norma.nomoreparties.space/api/'
 const WS_BASE_URL = 'wss://norma.nomoreparties.space/'
-const INGRIDIENTS_API_URL = 'ingredients';
+const INGREDIENTS_API_URL = 'ingredients';
 const ORDERS_API_URL = 'orders';
 
 export const FORGOT_PASSWORD_API_URL = BASE_URL + 'password-reset';
@@ -18,7 +18,7 @@ export const ALL_ORDERS_WS_URL = WS_BASE_URL + 'orders/all';
 export const USER_ORDERS_WS_URL = WS_BASE_URL + 'orders';
 
 export const getIngredientsData = async () => {
-  return await request(BASE_URL + INGRIDIENTS_API_URL);
+  return await request(BASE_URL + INGREDIENTS_API_URL);
 };
 
 export const getOrdersData = async (items: string[]) => {

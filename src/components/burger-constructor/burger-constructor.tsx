@@ -3,7 +3,7 @@ import { useDrop } from 'react-dnd';
 import { useSelector } from 'react-redux';
 import styles from './burger-constructor.module.scss';
 import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IBurgerConstructorSliceState, IIngridientsData, IIngridientsDataWithKey, IUserSliceState } from '../../shared/interfaces';
+import { IBurgerConstructorSliceState, IIngredientsData, IIngredientsDataWithKey, IUserSliceState } from '../../shared/interfaces';
 import { burgerConstructorSlice } from '../../services/recipe/burger-constructor';
 import { itemsSlice } from '../../services/recipe/items';
 import { createOrder } from '../../services/recipe/order';
@@ -36,7 +36,7 @@ function BurgerConstructor() {
         dispatch(calcTotalPrice());
     }, [dispatch, bun, ingredients, calcTotalPrice]);
 
-    const handleBunItemDrop = (newBun: IIngridientsData) => {
+    const handleBunItemDrop = (newBun: IIngredientsData) => {
         dispatch(setBun(newBun));
         // Since the buns are the same, we should have two of the same buns in the recipe
         dispatch(decreaseQuantityValue(bun._id));
@@ -47,14 +47,14 @@ function BurgerConstructor() {
 
     const [, dropTopBunTarget] = useDrop({
         accept: 'bun',
-        drop(newBun: IIngridientsData) {
+        drop(newBun: IIngredientsData) {
             handleBunItemDrop(newBun);
         }
     });
     
     const [, dropBottomBunTarget] = useDrop({
         accept: 'bun',
-        drop(newBun: IIngridientsData) {
+        drop(newBun: IIngredientsData) {
             handleBunItemDrop(newBun);
         }
     });
@@ -86,7 +86,7 @@ function BurgerConstructor() {
                         ingredients?.length > 0 ?
                             <ul className={styles.draggable_list + ' pr-2'} key="ingredients">
                                 {
-                                    ingredients.map((item: IIngridientsDataWithKey, index: number) => (
+                                    ingredients.map((item: IIngredientsDataWithKey, index: number) => (
                                         <DraggableElement 
                                             item={item}
                                             index={index}
