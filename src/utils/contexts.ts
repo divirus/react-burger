@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { IBurgerContext, IIngridientsData } from '../shared/interfaces';
+import { IBurgerContext, IIngredientsData } from '../shared/interfaces';
 
 export const BurgerContext = createContext<IBurgerContext>({
     items: [],
@@ -21,5 +21,5 @@ export const BurgerContext = createContext<IBurgerContext>({
         ingredients: []
     },
     onOrderButtonClick: () => {},
-    onIngredientClick: (clickedItem: IIngridientsData) => {}
+    onIngredientClick: (clickedItem: IIngredientsData) => {}
 });

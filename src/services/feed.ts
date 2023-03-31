@@ -18,15 +18,14 @@ export const stopFeed = () => {
 }
 
 const sortOrdersByDate = (orders: Array<IOrder>): Array<IOrder> => {
-  orders.sort(function(a: IOrder, b: IOrder): number {
+  return orders.sort(function(a: IOrder, b: IOrder): number {
     if (!!a.updatedAt && !!b.updatedAt) {
       const keyA: Date = new Date(a.updatedAt);
       const keyB: Date = new Date(b.updatedAt);
-      return keyB.valueOf() - keyA.valueOf();
+      return keyA.valueOf() - keyB.valueOf();
     }
     else return 0;
   });
-  return orders;
 }
 
 const initialState: IFeedSliceState = {

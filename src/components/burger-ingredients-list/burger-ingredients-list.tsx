@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './burger-ingredients-list.module.scss';
 import IngredientsCategory from '../ingredients-category/ingredients-category';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IIngridientsData, IItemsSliceState } from '../../shared/interfaces';
+import { IIngredientsData, IItemsSliceState } from '../../shared/interfaces';
 import { Link } from 'react-scroll';
 import { useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
@@ -78,7 +78,7 @@ function BurgerIngredientsList() {
                         key={i}
                         id={++i}
                         title={tab.title} 
-                        items={items?.filter((item: IIngridientsData) => item.type === tab.type)}
+                        items={items?.filter((item: IIngredientsData) => item.type === tab.type)}
                         viewRef={refType(tab.type) as unknown as React.RefObject<HTMLElement>} 
                     />
                 ))

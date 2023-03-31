@@ -1,4 +1,4 @@
-export interface IIngridientsData{
+export interface IIngredientsData{
     _id?: string;
     name?: string;
     type?: string;
@@ -13,16 +13,16 @@ export interface IIngridientsData{
     __v?: number;
 }
 
-export interface IIngridientsDataWithKey extends IIngridientsData {
+export interface IIngredientsDataWithKey extends IIngredientsData {
     key?: string;
 }
 
-export interface IDetailsCardProps extends IIngridientsDataWithKey {
+export interface IDetailsCardProps extends IIngredientsDataWithKey {
     value?: number;
   };
 
 export interface IIngredientsDataUseState {
-    items: IIngridientsData[];
+    items: IIngredientsData[];
     loadingState: string | null;
 };
 
@@ -33,7 +33,7 @@ export interface IOrder {
     number?: number,
     name?: string,
     status?: string,
-    ingredients?: Array<IIngridientsData>
+    ingredients?: Array<IIngredientsData>
   }
 
 export interface IOrderDetailedView {
@@ -64,13 +64,13 @@ export interface IOrderDataResponse {
 }
 
 export interface IBurgerContext {
-    items: IIngridientsData[]
+    items: IIngredientsData[]
     orderItems: {
-        bun: IIngridientsData,
-        ingredients: IIngridientsData[]
+        bun: IIngredientsData,
+        ingredients: IIngredientsData[]
     }
     onOrderButtonClick: () => void,
-    onIngredientClick: (clickedItem: IIngridientsData) => void 
+    onIngredientClick: (clickedItem: IIngredientsData) => void 
 }
 
 export interface IUser {
@@ -93,7 +93,7 @@ export interface IItemsSliceState {
 }
 
 export interface IIngredietsSliceState {
-    selectedIngredient: IIngridientsData,
+    selectedIngredient: IIngredientsData,
     isIngredientModalOpen: boolean
 }
 
@@ -106,8 +106,8 @@ export interface IOrderSliceState {
 }
 
 export interface IBurgerConstructorSliceState {
-    bun: IIngridientsDataWithKey,
-    ingredients: IIngridientsDataWithKey[],
+    bun: IIngredientsDataWithKey,
+    ingredients: IIngredientsDataWithKey[],
     totalPrice: number
 }
 

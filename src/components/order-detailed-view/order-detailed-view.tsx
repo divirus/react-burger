@@ -3,7 +3,7 @@ import styles from './order-detailed-view.module.scss';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { formatDateTime } from '../../utils/format-date-time'
 import { FC, useCallback, useEffect, useState } from 'react';
-import { IDetailsCardProps, IIngridientsData, IOrderDetailedView, IState } from "../../shared/interfaces";
+import { IDetailsCardProps, IIngredientsData, IOrderDetailedView, IState } from "../../shared/interfaces";
 
 const OrderDetailedView: FC<IOrderDetailedView> = ({ order, isOrderModal = false }) => {
 
@@ -36,29 +36,29 @@ const OrderDetailedView: FC<IOrderDetailedView> = ({ order, isOrderModal = false
     !!order.createdAt ? formatDateTime(order.createdAt) : ''
   ), [order.createdAt]);
 
-  const orderedIngredients: Array<IIngridientsData> = !!order.ingredients ? (
+  const orderedIngredients: Array<IIngredientsData> = !!order.ingredients ? (
     order.ingredients.map((item_id) => (
       items.find(item => item?._id === item_id)
     ) || {})
   ) : []
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const orderedBun: IIngridientsData = orderedIngredients.find(item => item.type === 'bun') || {};
-  const orderedMiddleItems: Array<IIngridientsData> = orderedIngredients.filter((item) => item.type !== 'bun');
+  const orderedBun: IIngredientsData = orderedIngredients.find(item => item.type === 'bun') || {};
+  const orderedMiddleItems: Array<IIngredientsData> = orderedIngredients.filter((item) => item.type !== 'bun');
     
   const renderIngredientIcons = useCallback(() => {
-    let itemsToRender: Array<IIngridientsData> = orderedMiddleItems;
+    let itemsToRender: Array<IIngredientsData> = orderedMiddleItems;
 
     itemsToRender.splice(0, 0, orderedBun);
 
-    type TCountedItem = IIngridientsData & { count?: number };
+    type TCountedItem = IIngredientsData & { count?: number };
  
     type TUniqueCountedItems = {
       [_id: string]: TCountedItem
     }
 
     const uniqueCountedItems = itemsToRender
-      .map((item: IIngridientsData) => {
+      .map((item: IIngredientsData) => {
         return {count: 1, ...item}
       })
       .reduce<TUniqueCountedItems>((a: any, b: TCountedItem) => {

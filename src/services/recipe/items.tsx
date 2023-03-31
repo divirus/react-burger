@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { Dispatch } from 'react';
-import { IIngridientsData, IItemsSliceState } from '../../shared/interfaces';
+import { IIngredientsData, IItemsSliceState } from '../../shared/interfaces';
 import { getIngredientsData } from "../../utils/api";
 
 export const itemsInitialState: IItemsSliceState = {
@@ -13,7 +13,7 @@ export const getItems = () => {
     dispatch(itemsSlice.actions.request());
 
     getIngredientsData()
-    .then((response: {data: IIngridientsData[]}) => {
+    .then((response: {data: IIngredientsData[]}) => {
         dispatch(itemsSlice.actions.success(response.data));
     })
     .catch((error: Error) => {
